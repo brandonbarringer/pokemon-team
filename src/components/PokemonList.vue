@@ -2,38 +2,43 @@
 	<ul>
 		<li v-for="pokemon in pokemonList">
 			<PokemonName v-bind:name="pokemon.name" />
+			{{pokemon.weight}}
 		</li>
 	</ul>
 </template>
 
 <script>
-	import PokemonName from './PokemonName.vue';
-	import axios from 'axios';
+import PokemonName from './PokemonName.vue';
+import axios from 'axios';
 
-	export default {
-		name: 'PokemonList',
-		components: {
-			PokemonName
-		},
-		data() {
-			return {
-				pokemonList: [],
-				baseList: null,
-			}
-		},
-		mounted() {
+export default {
+	name: 'PokemonList',
+	components: {
+		PokemonName
+	},
+	data() {
+		return {
+			pokemonList: []
+		}
+	},
+	mounted() {
+		this.getData('https://pokeapi.co/api/v2/pokemon', this.pokemonList)
+
+	},
+	methods: {
+		getData: function(url, dataContainer) {
 			axios
-				.get('https://pokeapi.co/api/v2/pokemon')
-				.then(response => {
-			      this.baseList = response.data.results;
-			      this.baseList.forEach(function(item, index) {
-			      	axios.get(item.url).then(results => {
-			      		this.pokemonList.push(results.data);
-			      		console.log(this.pokemonList);
-			      	})
-			      })
-			  	});
-
+			.get(url)
+			.then(response => {
+				let temp;
+				temp = response.data.results;
+				temp.forEach((item)=> {
+					axios.get(item.url).then(results => {
+						dataContainer.push(results.data);
+					})
+				})
+			});
 		}
 	}
+}
 </script>
