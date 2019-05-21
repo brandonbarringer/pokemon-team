@@ -1,80 +1,98 @@
 <template>
-	<ul class="pokemon-list">
-		<li class="pokemon-list__item" v-for="(item, index) in data" v-bind:key="index">
-			<figure class="pokemon-card">
-				<img ref="img" class="pokemon-card__image" alt="">
-				<figcaption class="pokemon-card__data">
-					<p class="pokemon-card__id"></p>
-					<p class="pokemon-card__name">{{item.name}}</p>
-					<ul class="pokemon-card__types">
-						<li class="pokemon-card__type"></li>
-						<li class="pokemon-card__type"></li>
-					</ul>
-					<ul class="pokemon-card__stat-list">
-						<li class="pokemon-card__stat-item">
-							<p class="pokemon-card__stat-title"></p>
-							<p class="pokemon-card__stat"></p>
-						</li>
-						<li class="pokemon-card__stat-item">
-							<p class="pokemon-card__stat-title"></p>
-							<p class="pokemon-card__stat"></p>
-						</li>
-						<li class="pokemon-card__stat-item">
-							<p class="pokemon-card__stat-title"></p>
-							<p class="pokemon-card__stat"></p>
-						</li>
-						<li class="pokemon-card__stat-item">
-							<p class="pokemon-card__stat-title"></p>
-							<p class="pokemon-card__stat"></p>
-						</li>
-						<li class="pokemon-card__stat-item">
-							<p class="pokemon-card__stat-title"></p>
-							<p class="pokemon-card__stat"></p>
-						</li>
-						<li class="pokemon-card__stat-item">
-							<p class="pokemon-card__stat-title"></p>
-							<p class="pokemon-card__stat"></p>
-						</li>
-					</ul>
-				</figcaption>
-			</figure>
+	<ul>
+		<li class="pokemon-card__container" v-for="pokemon in pokemon.list">
+			<div class="pokemon-card">
+				<PokemonImage v-bind:src="pokemon.sprites.front_default" />
+				<PokemonId v-bind:id="'#' + makeThreeDigits(pokemon.id)" />
+				<PokemonName v-bind:name="pokemon.name" />
+				<ul>
+					<li v-for="type in pokemon.types">
+						<PokemonType v-bind:type="type.type.name" />
+					</li>
+				</ul>
+				<div 
+					class="pokemon-card__background"
+					v-bind:style="{ 
+					backgroundImage: 'url(' + pokemon.sprites.front_default + ')'
+ 				}">
+						
+				</div>
+			</div>
 		</li>
+		<hr>
 	</ul>
 </template>
 
 <script>
+import PokemonName from './PokemonName.vue';
+import PokemonId from './PokemonId.vue';
+import PokemonType from './PokemonType.vue';
+import PokemonImage from './PokemonImage.vue';
+import axios from 'axios';
 
-	import axios from 'axios';
-
-	export default {
-		name: 'PokemonCard',
-		components: {
-			PokemonName
-		},
-		// props: ["pokemon"],
-		data() {
-			return {
-				data: null
+export default {
+	name: 'PokemonCard',
+	components: {
+		PokemonName,
+		PokemonId,
+		PokemonType,
+		PokemonImage,
+	},
+	data() {
+		return {
+			pokemon: {
+				list: []
 			}
-		},
-		mounted() {
-			axios
-				.get('https://pokeapi.co/api/v2/pokemon')
-				.then(response => {
-					// console.log(response.data.results)
-					this.data = response.data.results;
-				});
-				// .then(response => (this.name = response));
+		}
+	},
+	mounted() {
+		this.getData('https://pokeapi.co/api/v2/pokemon', this.pokemon.list)
+		console.log(this.pokemon.list)
 
+	},
+	methods: {
+		getData: function(url, dataContainer) {
+			axios
+			.get(url)
+			.then(response => {
+				let temp;
+				temp = response.data.results;
+				temp.forEach((item)=> {
+					axios.get(item.url).then(results => {
+						dataContainer.push(results.data);
+					})
+				})
+			});
+		},
+		makeThreeDigits: function(num) {
+			return ("00" + num).slice(-3);
 		}
 	}
-
+}
 </script>
 
-<style lang="sass" scoped>
-	$color: red
+<style lang="sass">
+	.pokemon-image 
+		width: 100%
 	.pokemon-card
-		background-color: $color
-		&__image
-
+		width: 100%
+		&__background
+			position: absolute
+			top: 0
+			left: 0
+			right: 0
+			bottom: 0
+			z-index: -1
+			background-repeat: no-repeat
+			background-size: 300%
+			background-position: center center
+			filter: blur(50px)
+			-webkit-filter: blur(50px)
+		&__container 
+			max-width: 300px
+			position: relative
+			overflow: hidden
+			display: flex
+			flex-basis: 300px
+			max-width: 300px
 </style>

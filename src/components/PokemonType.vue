@@ -1,12 +1,12 @@
 <template>
 	<span>
-		<p class="pokemon-name">{{name}}</p>
+		<p class="pokemon-type">{{type}}</p>
 	</span>
 </template>
 
 <script>
 	export default {
-		name: 'PokemonName',
-		props: ['name']
+		name: 'PokemonType',
+		props: ['type']
 	}
 </script>

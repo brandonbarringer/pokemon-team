@@ -1,17 +1,17 @@
 <template>
   <div id="app">
-    <PokemonList />
+    <PokemonCard />
   </div>
 </template>
 
 <script>
-  import PokemonList from './components/PokemonList.vue';
+  import PokemonCard from './components/PokemonCard.vue';
   import axios from 'axios';
 
   export default {
     name: 'app',
     components: {
-      PokemonList
+      PokemonCard
     }
   }
 </script>
