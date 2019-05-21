@@ -38,6 +38,9 @@ export default {
 					})
 				})
 			});
+		},
+		makeThreeDigits: function(num) {
+			return ("00" + num).slice(-3);
 		}
 	}
 }
