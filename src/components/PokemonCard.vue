@@ -2,9 +2,9 @@
 	<ul class="pokemon-list">
 		<li class="pokemon-list__item" v-for="pokemon in pokemon.list">
 			<div class="pokemon-card__container">
-				<div class="pokemon-card" @mouseover="hover = true" @mouseleave="hover = false">
-					<PokemonImage v-if="hover == true" class="pokemon-card__image" :path="getImagePathByName(pokemon.name, 'full') " />
-					<PokemonImage v-else class="pokemon-card__image" :path="getImagePathByName(pokemon.name, 'preview') " />
+				<div class="pokemon-card" @mouseover="changeImage($event)" @mouseleave="changeImage($event)">
+					<!-- <PokemonImage v-if="hover == true" class="pokemon-card__image" :path="getImagePathByName(pokemon.name, 'full') " /> -->
+					<PokemonImage ref="mainImg" class="pokemon-card__image" :path="getImagePathByName(pokemon.name, 'preview') " />
 					<div class="pokemon-card__content">
 						<PokemonId class="pokemon-card__id" :id="'#' + makeThreeDigits(pokemon.id)" />
 						<PokemonName class="pokemon-card__name" :name="capFirstLetter(pokemon.name)" />
@@ -68,6 +68,11 @@ export default {
 					})
 				})
 			});
+		},
+		changeImage: function(event) {
+			let img = event.fromElement.querySelector('.pokemon-card__image')
+			let background = img.style.backgroundImage
+			console.log(background)
 		},
 		getImagePathByName: function(name, type) {
 			'/assets/images/pokemon/preview/Abra_preview.gif'
