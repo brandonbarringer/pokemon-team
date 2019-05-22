@@ -2,7 +2,7 @@
 	<ul class="pokemon-list">
 		<li class="pokemon-list__item" v-for="pokemon in pokemon.list">
 			<div class="pokemon-card__container">
-				<div class="pokemon-card" @mouseover="changeImage($event)" @mouseleave="changeImage($event)">
+				<div class="pokemon-card" @mouseenter.stop="changeImageToGif($event)" @mouseleave="changeImageToStatic($event)">
 					<!-- <PokemonImage v-if="hover == true" class="pokemon-card__image" :path="getImagePathByName(pokemon.name, 'full') " /> -->
 					<PokemonImage ref="mainImg" class="pokemon-card__image" :path="getImagePathByName(pokemon.name, 'preview') " />
 					<div class="pokemon-card__content">
@@ -48,7 +48,6 @@ export default {
 			pokemon: {
 				list: []
 			},
-			hover: false,
 		}
 	},
 	mounted() {
@@ -69,10 +68,46 @@ export default {
 				})
 			});
 		},
-		changeImage: function(event) {
-			let img = event.fromElement.querySelector('.pokemon-card__image')
+		changeImageToGif: function(event) {
+			let img = event.path[0].querySelector('.pokemon-card__image')
 			let background = img.style.backgroundImage
-			console.log(background)
+			let pathArr = background.split('/')
+			let name = pathArr[pathArr.length-1].split('_')[0].toLowerCase()
+			this.fadeOut(img, 50, img.style.backgroundImage = 'url(' + this.getImagePathByName(name, 'full') )
+			this.fadeIn(img, 50)
+			
+			
+		},
+		changeImageToStatic: function(event) {
+			let img = event.path[0].querySelector('.pokemon-card__image')
+			let background = img.style.backgroundImage
+			let pathArr = background.split('/')
+			let name = pathArr[pathArr.length-1].split('_')[0].split('.')[0].toLowerCase()
+			img.style.backgroundImage = 'url(' + this.getImagePathByName(name, 'preview')
+			this.fadeIn(img, 50)
+			
+		},
+		fadeOut: function(el, duration, callback) {
+				let op = 1;  // initial opacity
+				const timer = setInterval(function () {
+					if (op <= 0.1) {
+						clearInterval(timer);
+					}
+					el.style.opacity = op;
+					op -= 0.1;
+				}, duration);
+				if(callback) {callback}
+			},
+		fadeIn: function(el, duration, callback) {
+			let op = 0.1;  // initial opacity
+			var timer = setInterval(function () {
+				if (op >= 1){
+					clearInterval(timer);
+				}
+				el.style.opacity = op;
+				op += 0.1;
+			}, duration);
+			if (callback) {callback}
 		},
 		getImagePathByName: function(name, type) {
 			'/assets/images/pokemon/preview/Abra_preview.gif'
