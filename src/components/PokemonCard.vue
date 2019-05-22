@@ -2,7 +2,7 @@
 	<ul class="pokemon-list">
 		<li class="pokemon-list__item" v-for="pokemon in pokemon.list">
 			<div class="pokemon-card__container">
-				<div class="pokemon-card" @mouseover="hover = true">
+				<div class="pokemon-card" @mouseover="hover = true" @mouseleave="hover = false">
 					<PokemonImage v-if="hover == true" class="pokemon-card__image" :path="getImagePathByName(pokemon.name, 'full') " />
 					<PokemonImage v-else class="pokemon-card__image" :path="getImagePathByName(pokemon.name, 'preview') " />
 					<div class="pokemon-card__content">
