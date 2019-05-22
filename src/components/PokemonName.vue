@@ -1,7 +1,5 @@
 <template>
-	<span>
-		<p class="pokemon-name">{{name}}</p>
-	</span>
+		<p>{{name}}</p>
 </template>
 
 <script>

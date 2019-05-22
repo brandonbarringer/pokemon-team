@@ -4,10 +4,9 @@
 
 <script>
 	export default {
-		name: 'PokemonImage',
+		name: 'PokemonShadow',
 		props: ['path']
 	}
 </script>
 <style lang="sass">
-
 </style>

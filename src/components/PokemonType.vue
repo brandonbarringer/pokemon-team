@@ -1,12 +1,13 @@
 <template>
-	<span>
-		<p class="pokemon-type">{{type}}</p>
-	</span>
+		<p v-bind:class="{classType}">{{type}}</p>
 </template>
 
 <script>
 	export default {
 		name: 'PokemonType',
-		props: ['type']
+		props: {
+			type: String,
+			classType: String,
+		}
 	}
 </script>

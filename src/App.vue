@@ -15,3 +15,11 @@
     }
   }
 </script>
+
+<style lang="sass">
+  *
+    margin: 0
+  ul
+    list-style-type: none
+    padding: 0
+</style>

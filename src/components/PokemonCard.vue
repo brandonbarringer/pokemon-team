@@ -1,25 +1,25 @@
 <template>
-	<ul>
-		<li class="pokemon-card__container" v-for="pokemon in pokemon.list">
-			<div class="pokemon-card">
-				<PokemonImage v-bind:src="pokemon.sprites.front_default" />
-				<PokemonId v-bind:id="'#' + makeThreeDigits(pokemon.id)" />
-				<PokemonName v-bind:name="pokemon.name" />
-				<ul>
-					<li v-for="type in pokemon.types">
-						<PokemonType v-bind:type="type.type.name" />
-					</li>
-				</ul>
-				<div 
-					class="pokemon-card__background"
-					v-bind:style="{ 
-					backgroundImage: 'url(' + pokemon.sprites.front_default + ')'
- 				}">
-						
+	<ul class="pokemon-list">
+		<li class="pokemon-list__item" v-for="pokemon in pokemon.list">
+			<div class="pokemon-card__container">
+				<div class="pokemon-card">
+					<PokemonImage class="pokemon-card__image" v-bind:path="getImagePathByName(pokemon.name, 'preview') " />
+					<div class="pokemon-card__content">
+						<PokemonId class="pokemon-card__id" v-bind:id="'#' + makeThreeDigits(pokemon.id)" />
+						<PokemonName class="pokemon-card__name" v-bind:name="capFirstLetter(pokemon.name)" />
+						<ul class="pokemon-card__type-list">
+							<li class="pokemon-card__type-item" v-for="type in pokemon.types">
+								<PokemonType class="pokemon-card__type" v-bind:class="type.type.name" v-bind:type="type.type.name" />
+							</li>
+						</ul>
+					</div>
+					<PokemonImage class="pokemon-card__background" v-bind:path="getImagePathByName(pokemon.name, 'preview') " />
+				</div>
+				<div class="pokemon-card__shadow-container">
+					<PokemonImage class="pokemon-card__shadow" v-bind:path="getImagePathByName(pokemon.name, 'preview') " />
 				</div>
 			</div>
 		</li>
-		<hr>
 	</ul>
 </template>
 
@@ -29,6 +29,7 @@ import PokemonId from './PokemonId.vue';
 import PokemonType from './PokemonType.vue';
 import PokemonImage from './PokemonImage.vue';
 import axios from 'axios';
+
 
 export default {
 	name: 'PokemonCard',
@@ -46,8 +47,7 @@ export default {
 		}
 	},
 	mounted() {
-		this.getData('https://pokeapi.co/api/v2/pokemon', this.pokemon.list)
-		console.log(this.pokemon.list)
+		this.getData('https://pokeapi.co/api/v2/pokemon', this.pokemon.list);
 
 	},
 	methods: {
@@ -64,18 +64,65 @@ export default {
 				})
 			});
 		},
+		getImagePathByName: function(name, type) {
+			'/assets/images/pokemon/preview/Abra_preview.gif'
+			const basePath = window.location.origin + '/assets/images/pokemon/';
+			const fullPath = basePath + 'full/';
+			const previewPath = basePath + 'preview/';
+			let capitalName = this.capFirstLetter(name);
+			let path;
+
+			if(type == 'preview') {
+				path = previewPath + capitalName + '_preview.gif';
+			} else if(type == 'full') {
+				path = fullPath + capitalName + '.gif'
+			}
+			return path;
+		},
 		makeThreeDigits: function(num) {
 			return ("00" + num).slice(-3);
-		}
+		},
+		capFirstLetter : function(string) {
+			return string.charAt(0).toUpperCase() + string.slice(1);
+		} 
 	}
 }
 </script>
 
 <style lang="sass">
-	.pokemon-image 
+	@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700,900&display=swap');
+	
+	.pokemon-list
 		width: 100%
+		display: flex
+		flex-wrap: wrap
+		font-family: 'Roboto'
+		&__item
+			margin:
+				right: 20px
+				left: 20px
+				bottom: 20px
+				top: 20px
+			flex-basis: 275px
+			max-width: 275px
 	.pokemon-card
-		width: 100%
+		max-width: 100%
+		padding: 50px
+		color: rgba(0,0,0,.5)
+		position: relative
+		overflow: hidden
+		border-radius: 5px
+		&__container
+			border-radius: 5px
+			width: 100%
+			position: relative
+		&__image
+			width: 100%
+			height: 150px
+			background:
+				size: contain
+				repeat: no-repeat
+				position: center center
 		&__background
 			position: absolute
 			top: 0
@@ -84,15 +131,102 @@ export default {
 			bottom: 0
 			z-index: -1
 			background-repeat: no-repeat
-			background-size: 300%
+			background-size: 500%
 			background-position: center center
-			filter: blur(50px)
-			-webkit-filter: blur(50px)
-		&__container 
-			max-width: 300px
-			position: relative
+			filter: blur(50px) saturate(1.2) 
+			-webkit-filter: blur(50px) saturate(1.2)
+			opacity: .31
+		&__shadow-container
+			width: 100%
+			height: 50px
 			overflow: hidden
+			position: relative
+		&__shadow
+			position: absolute
+			top: 0
+			left: 15%
+			width: 70%
+			height: 20%
+			background:
+				position: center center
+				repeat: no-repeat
+				size: 1000%
+			z-index: -2
+			filter: blur(19px) brightness(.8)
+			// opacity: .31
+		&__content
+			text-align: center
+		&__type-list
 			display: flex
-			flex-basis: 300px
-			max-width: 300px
+			width: 100%
+			align-items: center
+			justify-content: center
+		&__type-item
+			
+		&__type
+			display: block
+			padding:
+				top: 5px
+				right: 15px
+				left: 15px
+				bottom: 5px
+			text-transform: uppercase
+			font:
+				size: 10px
+			letter-spacing: .06em
+			color: white
+			background-color: rgba(50,50,50,.5)
+			margin:
+				right: 2px
+				left: 2px
+			border-radius: 100px
+			&.bug
+				background-image: linear-gradient(150deg, #57CA85, #194F68 )
+			&.dark
+				background-image: linear-gradient(150deg, #65799b, #5e2564 )
+			&.electric
+				background-image: linear-gradient(150deg, #F8C332, #FB8332 )
+			&.fairy
+				background-image: linear-gradient(150deg, #EA6060, #7117EA )
+			&.fighting
+				background-image: linear-gradient(150deg, #FB8332, #E64C4C )
+			&.fire
+				background-image: linear-gradient(150deg, #FCE38A, #F38181 )
+			&.flying
+				background-image: linear-gradient(150deg, #61DEC7, #8E2EF7 )
+			&.ghost
+				background-image: linear-gradient(150deg, #EFBFD5, #9D61FD )
+			&.grass
+				background-image: linear-gradient(150deg, #43E695, #3BB2B8 )
+			&.ground
+				background-image: linear-gradient(150deg, #FFB87A, #CD466B )
+			&.ice
+				background-image: linear-gradient(150deg, #38B8F2, #843CF6 )
+			&.normal
+				background-image: linear-gradient(150deg, #FC96B2, #794887 )
+			&.poison
+				background-image: linear-gradient(150deg, #EF33F2, #3544DC )
+			&.psychic
+				background-image: linear-gradient(150deg, #FF7676, #F54EA2 )
+			&.rock
+				background-image: linear-gradient(150deg, #C46424, #EA1212 )
+			&.steel
+				background-image: linear-gradient(150deg, #8EDBFB, #389695 )
+			&.water
+				background-image: linear-gradient(150deg, #17EAD9, #6078EA )
+		&__id
+			font:
+				size: 12px
+				weight: 900
+			letter-spacing: .1em
+			margin-bottom: 0px
+		&__name
+			font:
+				size: 21px
+				weight: 900
+			letter-spacing: .05em
+			margin:
+				bottom: 5px
+
+
 </style>
