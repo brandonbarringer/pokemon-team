@@ -3,20 +3,21 @@
 		<li class="pokemon-list__item" v-for="pokemon in pokemon.list">
 			<div class="pokemon-card__container">
 				<div class="pokemon-card">
-					<PokemonImage class="pokemon-card__image" v-bind:path="getImagePathByName(pokemon.name, 'preview') " />
+					<PokemonImage class="pokemon-card__image" :path="getImagePathByName(pokemon.name, 'preview') " />
 					<div class="pokemon-card__content">
-						<PokemonId class="pokemon-card__id" v-bind:id="'#' + makeThreeDigits(pokemon.id)" />
-						<PokemonName class="pokemon-card__name" v-bind:name="capFirstLetter(pokemon.name)" />
+						<PokemonId class="pokemon-card__id" :id="'#' + makeThreeDigits(pokemon.id)" />
+						<PokemonName class="pokemon-card__name" :name="capFirstLetter(pokemon.name)" />
 						<ul class="pokemon-card__type-list">
 							<li class="pokemon-card__type-item" v-for="type in pokemon.types">
-								<PokemonType class="pokemon-card__type" v-bind:class="type.type.name" v-bind:type="type.type.name" />
+								<PokemonType class="pokemon-card__type" :class="type.type.name" :type="type.type.name" />
 							</li>
 						</ul>
+						<PokemonStatList class="pokemon-card__stat-list" :stats="pokemon.stats" />
 					</div>
-					<PokemonImage class="pokemon-card__background" v-bind:path="getImagePathByName(pokemon.name, 'preview') " />
+					<PokemonImage class="pokemon-card__background" :path="getImagePathByName(pokemon.name, 'preview') " />
 				</div>
 				<div class="pokemon-card__shadow-container">
-					<PokemonImage class="pokemon-card__shadow" v-bind:path="getImagePathByName(pokemon.name, 'preview') " />
+					<PokemonImage class="pokemon-card__shadow" :path="getImagePathByName(pokemon.name, 'preview') " />
 				</div>
 			</div>
 		</li>
@@ -28,6 +29,7 @@ import PokemonName from './PokemonName.vue';
 import PokemonId from './PokemonId.vue';
 import PokemonType from './PokemonType.vue';
 import PokemonImage from './PokemonImage.vue';
+import PokemonStatList from './PokemonStatList.vue';
 import axios from 'axios';
 
 
@@ -38,6 +40,7 @@ export default {
 		PokemonId,
 		PokemonType,
 		PokemonImage,
+		PokemonStatList
 	},
 	data() {
 		return {
@@ -123,6 +126,8 @@ export default {
 				size: contain
 				repeat: no-repeat
 				position: center center
+		&__stat-list
+			display: flex
 		&__background
 			position: absolute
 			top: 0
