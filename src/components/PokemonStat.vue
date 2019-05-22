@@ -1,7 +1,7 @@
 <template>
-		<div class="pokemon-card__stat-list">
-			<div>{{label}}</div>
-			<div>{{value}}</div>
+		<div class="pokemon-card__stat-block">
+			<div class="pokemon-card__stat-label">{{label}}</div>
+			<div class="pokemon-card__stat-value">{{value}}</div>
 		</div>
 </template>
 

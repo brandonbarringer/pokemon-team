@@ -2,8 +2,9 @@
 	<ul class="pokemon-list">
 		<li class="pokemon-list__item" v-for="pokemon in pokemon.list">
 			<div class="pokemon-card__container">
-				<div class="pokemon-card">
-					<PokemonImage class="pokemon-card__image" :path="getImagePathByName(pokemon.name, 'preview') " />
+				<div class="pokemon-card" @mouseover="hover = true">
+					<PokemonImage v-if="hover == true" class="pokemon-card__image" :path="getImagePathByName(pokemon.name, 'full') " />
+					<PokemonImage v-else class="pokemon-card__image" :path="getImagePathByName(pokemon.name, 'preview') " />
 					<div class="pokemon-card__content">
 						<PokemonId class="pokemon-card__id" :id="'#' + makeThreeDigits(pokemon.id)" />
 						<PokemonName class="pokemon-card__name" :name="capFirstLetter(pokemon.name)" />
@@ -12,8 +13,8 @@
 								<PokemonType class="pokemon-card__type" :class="type.type.name" :type="type.type.name" />
 							</li>
 						</ul>
-						<PokemonStatList class="pokemon-card__stat-list" :stats="pokemon.stats" />
 					</div>
+					<PokemonStatList class="pokemon-card__stat-list" :stats="pokemon.stats" />
 					<PokemonImage class="pokemon-card__background" :path="getImagePathByName(pokemon.name, 'preview') " />
 				</div>
 				<div class="pokemon-card__shadow-container">
@@ -46,7 +47,8 @@ export default {
 		return {
 			pokemon: {
 				list: []
-			}
+			},
+			hover: false,
 		}
 	},
 	mounted() {
@@ -110,7 +112,6 @@ export default {
 			max-width: 275px
 	.pokemon-card
 		max-width: 100%
-		padding: 50px
 		color: rgba(0,0,0,.5)
 		position: relative
 		overflow: hidden
@@ -122,12 +123,35 @@ export default {
 		&__image
 			width: 100%
 			height: 150px
+			margin:
+				top: 50px
+				bottom: 5px
 			background:
 				size: contain
 				repeat: no-repeat
 				position: center center
 		&__stat-list
 			display: flex
+			background-color: rgba(255,255,255,.3)
+			text-align: center
+			justify-content: space-between
+			margin:
+				top: 10px
+			padding:
+				left: 10px
+				right: 10px
+				top: 10px
+				bottom: 10px
+		&__stat-label
+			font:
+				size: 13px
+				weight: 500
+			opacity: .5
+		&__stat-value
+			font:
+				size: 14px
+				weight: 900
+			opacity: .5
 		&__background
 			position: absolute
 			top: 0
@@ -161,6 +185,9 @@ export default {
 			// opacity: .31
 		&__content
 			text-align: center
+			padding: 
+				right: 50px
+				left: 50px
 		&__type-list
 			display: flex
 			width: 100%
