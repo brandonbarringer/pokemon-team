@@ -208,7 +208,7 @@ export default {
 			background-repeat: no-repeat
 			background-size: 1000%
 			background-position: center center
-			filter: blur(30px) saturate(1.8)
+			filter: blur(30px) saturate(2)
 			opacity: .31
 		&__shadow-container
 			width: 100%

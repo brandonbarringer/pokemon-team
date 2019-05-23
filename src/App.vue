@@ -1,17 +1,20 @@
 <template>
   <div id="app">
-    <PokemonCard />
+    <!-- <PokemonCard /> -->
+    <GrassAnimation />
   </div>
 </template>
 
 <script>
-  import PokemonCard from './components/PokemonCard.vue';
+  // import PokemonCard from './components/PokemonCard.vue';
+  import GrassAnimation from './components/GrassAnimation.vue';
   import axios from 'axios';
 
   export default {
     name: 'app',
     components: {
-      PokemonCard
+      // PokemonCard
+      GrassAnimation
     }
   }
 </script>
