@@ -2,9 +2,9 @@
 	<ul class="pokemon-list">
 		<li class="pokemon-list__item" v-for="pokemon in pokemon.list">
 			<div class="pokemon-card__container">
-				<div class="pokemon-card" @mouseenter.stop="changeImageToGif($event)" @mouseleave="changeImageToStatic($event)">
+				<div class="pokemon-card">
 					<!-- <PokemonImage v-if="hover == true" class="pokemon-card__image" :path="getImagePathByName(pokemon.name, 'full') " /> -->
-					<PokemonImage ref="mainImg" class="pokemon-card__image" :path="getImagePathByName(pokemon.name, 'preview') " />
+					<PokemonImage ref="mainImg" class="pokemon-card__image" :path="getImageById(pokemon.id) " />
 					<div class="pokemon-card__content">
 						<PokemonId class="pokemon-card__id" :id="'#' + makeThreeDigits(pokemon.id)" />
 						<PokemonName class="pokemon-card__name" :name="capFirstLetter(pokemon.name)" />
@@ -15,10 +15,10 @@
 						</ul>
 					</div>
 					<PokemonStatList class="pokemon-card__stat-list" :stats="pokemon.stats" />
-					<PokemonImage class="pokemon-card__background" :path="getImagePathByName(pokemon.name, 'preview') " />
+					<PokemonImage class="pokemon-card__background" :path="getImageById(pokemon.id)" />
 				</div>
 				<div class="pokemon-card__shadow-container">
-					<PokemonImage class="pokemon-card__shadow" :path="getImagePathByName(pokemon.name, 'preview') " />
+					<PokemonImage class="pokemon-card__shadow" :path="getImageById(pokemon.id)" />
 				</div>
 			</div>
 		</li>
@@ -68,61 +68,65 @@ export default {
 				})
 			});
 		},
-		changeImageToGif: function(event) {
-			let img = event.path[0].querySelector('.pokemon-card__image')
-			let background = img.style.backgroundImage
-			let pathArr = background.split('/')
-			let name = pathArr[pathArr.length-1].split('_')[0].toLowerCase()
-			this.fadeOut(img, 50, img.style.backgroundImage = 'url(' + this.getImagePathByName(name, 'full') )
-			this.fadeIn(img, 50)
+		// changeImageToGif: function(event) {
+		// 	let img = event.path[0].querySelector('.pokemon-card__image')
+		// 	let background = img.style.backgroundImage
+		// 	let pathArr = background.split('/')
+		// 	let name = pathArr[pathArr.length-1].split('_')[0].toLowerCase()
+		// 	this.fadeOut(img, 50, img.style.backgroundImage = 'url(' + this.getImagePathByName(name, 'full') )
+		// 	this.fadeIn(img, 50)
 			
 			
-		},
-		changeImageToStatic: function(event) {
-			let img = event.path[0].querySelector('.pokemon-card__image')
-			let background = img.style.backgroundImage
-			let pathArr = background.split('/')
-			let name = pathArr[pathArr.length-1].split('_')[0].split('.')[0].toLowerCase()
-			img.style.backgroundImage = 'url(' + this.getImagePathByName(name, 'preview')
-			this.fadeIn(img, 50)
+		// },
+		// changeImageToStatic: function(event) {
+		// 	let img = event.path[0].querySelector('.pokemon-card__image')
+		// 	let background = img.style.backgroundImage
+		// 	let pathArr = background.split('/')
+		// 	let name = pathArr[pathArr.length-1].split('_')[0].split('.')[0].toLowerCase()
+		// 	img.style.backgroundImage = 'url(' + this.getImagePathByName(name, 'preview')
+		// 	this.fadeIn(img, 50)
 			
-		},
-		fadeOut: function(el, duration, callback) {
-				let op = 1;  // initial opacity
-				const timer = setInterval(function () {
-					if (op <= 0.1) {
-						clearInterval(timer);
-					}
-					el.style.opacity = op;
-					op -= 0.1;
-				}, duration);
-				if(callback) {callback}
-			},
-		fadeIn: function(el, duration, callback) {
-			let op = 0.1;  // initial opacity
-			var timer = setInterval(function () {
-				if (op >= 1){
-					clearInterval(timer);
-				}
-				el.style.opacity = op;
-				op += 0.1;
-			}, duration);
-			if (callback) {callback}
-		},
-		getImagePathByName: function(name, type) {
-			'/assets/images/pokemon/preview/Abra_preview.gif'
-			const basePath = window.location.origin + '/assets/images/pokemon/';
-			const fullPath = basePath + 'full/';
-			const previewPath = basePath + 'preview/';
-			let capitalName = this.capFirstLetter(name);
-			let path;
+		// },
+		// fadeOut: function(el, duration, callback) {
+		// 		let op = 1;  // initial opacity
+		// 		const timer = setInterval(function () {
+		// 			if (op <= 0.1) {
+		// 				clearInterval(timer);
+		// 			}
+		// 			el.style.opacity = op;
+		// 			op -= 0.1;
+		// 		}, duration);
+		// 		if(callback) {callback}
+		// 	},
+		// fadeIn: function(el, duration, callback) {
+		// 	let op = 0.1;  // initial opacity
+		// 	var timer = setInterval(function () {
+		// 		if (op >= 1){
+		// 			clearInterval(timer);
+		// 		}
+		// 		el.style.opacity = op;
+		// 		op += 0.1;
+		// 	}, duration);
+		// 	if (callback) {callback}
+		// },
+		// getImagePathByName: function(name, type) {
+		// 	'/assets/images/pokemon/preview/Abra_preview.gif'
+		// 	const basePath = window.location.origin + '/assets/images/pokemon/';
+		// 	const fullPath = basePath + 'full/';
+		// 	const previewPath = basePath + 'preview/';
+		// 	let capitalName = this.capFirstLetter(name);
+		// 	let path;
 
-			if(type == 'preview') {
-				path = previewPath + capitalName + '_preview.gif';
-			} else if(type == 'full') {
-				path = fullPath + capitalName + '.gif'
-			}
-			return path;
+		// 	if(type == 'preview') {
+		// 		path = previewPath + capitalName + '_preview.gif';
+		// 	} else if(type == 'full') {
+		// 		path = fullPath + capitalName + '.gif'
+		// 	}
+		// 	return path;
+		// },
+		getImageById(id) {
+			const path = window.location.origin + '/assets/images/pokemon/pngs/';
+			return path + this.makeThreeDigits(id) + '.png'
 		},
 		makeThreeDigits: function(num) {
 			return ("00" + num).slice(-3);
@@ -150,6 +154,7 @@ export default {
 				top: 20px
 			flex-basis: 275px
 			max-width: 275px
+			cursor: pointer
 	.pokemon-card
 		max-width: 100%
 		color: rgba(0,0,0,.5)
@@ -162,7 +167,7 @@ export default {
 			position: relative
 		&__image
 			width: 100%
-			height: 150px
+			height: 220px
 			margin:
 				top: 50px
 				bottom: 5px
@@ -170,6 +175,7 @@ export default {
 				size: contain
 				repeat: no-repeat
 				position: center center
+			filter: saturate(1.5)
 		&__stat-list
 			display: flex
 			background-color: rgba(255,255,255,.3)
@@ -178,20 +184,20 @@ export default {
 			margin:
 				top: 10px
 			padding:
-				left: 10px
-				right: 10px
-				top: 10px
-				bottom: 10px
+				left: 15px
+				right: 15px
+				top: 15px
+				bottom: 15px
 		&__stat-label
 			font:
 				size: 13px
 				weight: 500
-			opacity: .5
+			opacity: .7
 		&__stat-value
 			font:
 				size: 14px
 				weight: 900
-			opacity: .5
+			opacity: .7
 		&__background
 			position: absolute
 			top: 0
@@ -200,10 +206,9 @@ export default {
 			bottom: 0
 			z-index: -1
 			background-repeat: no-repeat
-			background-size: 500%
+			background-size: 1000%
 			background-position: center center
-			filter: blur(50px) saturate(1.2) 
-			-webkit-filter: blur(50px) saturate(1.2)
+			filter: blur(30px) saturate(1.8)
 			opacity: .31
 		&__shadow-container
 			width: 100%
@@ -220,9 +225,11 @@ export default {
 				position: center center
 				repeat: no-repeat
 				size: 1000%
+				color: rgba(0,0,0, .5)
 			z-index: -2
-			filter: blur(19px) brightness(.8)
-			// opacity: .31
+			filter: blur(19px)
+			opacity: .8
+			transition: .2s
 		&__content
 			text-align: center
 			padding: 
