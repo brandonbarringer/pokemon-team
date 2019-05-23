@@ -29,6 +29,10 @@
     width: 100%
     height: 100%
   #app
-    width: 100vw
-    height: 100vh
+    width: 50vw
+    height: 50vh
+    position: relative
+    top: 25vh
+    left: 25vw
+    background-color: #eee
 </style>

@@ -35,8 +35,8 @@
 				  
 				  return function() {
 				    const deviation = Math.cos(x / 30) * Math.min(x / 40, 50),
-				      tall = Math.min(x / 5, maxTall),
-				      size = Math.min(x / 50, maxSize);
+				      tall = Math.min(x / 2, maxTall),
+				      size = Math.min(x / 30, maxSize);
 
 				    x += speed;
 				    ctx.save();
@@ -56,7 +56,7 @@
 				  };
 				};
 
-				for (var x = 0; x < 60; x++) {
+				for (var x = 0; x < 30; x++) {
 				  stack.push(anim());
 				}
 
@@ -65,8 +65,35 @@
 
 				drawer();
 			}
-			grassAnim()
+			const grass = function() {
+				const canvas = document.getElementById("grassAnim");
+				const ctx = canvas.getContext("2d");
+				const w = canvas.parentElement.clientWidth;
+				const  h = canvas.parentElement.clientHeight;
+				canvas.width = w;
+				canvas.height = h;
+
+
+				// ctx.translate(w / 2 + position, h);
+				ctx.fillStyle = '#000';
+
+				ctx.beginPath();
+				ctx.moveTo(w/2, h);
+				ctx.lineTo(w/2, h/2);
+				ctx.lineTo(w/3, h);
+				// ctx.quadraticCurveTo(20, 100, 200, 20);
+				ctx.fill();
+				// ctx.stroke();
+
+			}
+			grass()
+			
 		}
 	}
 		
 </script>
+<style>
+	canvas: {
+		background-color: #eee
+	}
+</style>
