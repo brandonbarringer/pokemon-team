@@ -1,0 +1,5 @@
+#!/bin/bash
+for i in {1..809} 
+do 
+	echo https://assets.pokemon.com/assets/cms2/img/pokedex/detail/$i.png >> my_file.txt 
+done
