@@ -3,6 +3,7 @@
 </template>
 
 <script>
+	import helloWorld from '../scripts/utils.js';
 	export default {
 		name: 'GrassAnimation',
 		mounted() {
@@ -87,6 +88,7 @@
 
 			}
 			grass()
+			console.log( helloWorld('hello') )
 			
 		}
 	}
