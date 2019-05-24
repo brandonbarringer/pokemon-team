@@ -22,7 +22,7 @@ const threeDigit = (num) => ("00" + num).slice(-3);
 
 const capital = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
-const createClassRoot = (rootString) => rootString
+const createBEMClassFromRoot = (rootString, className) => rootString + '__' + className
 
 export default {
 	printStuff,
