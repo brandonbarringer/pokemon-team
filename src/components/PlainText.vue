@@ -1,12 +1,12 @@
 <template>
-		<div>{{subhead}}</div>
+		<div>{{text}}</div>
 </template>
 
 <script>
 	export default {
-		name: 'subhead',
+		name: 'PlainText',
 		props: {
-			subhead: String
+			text: String,
 		}
 	}
 </script>

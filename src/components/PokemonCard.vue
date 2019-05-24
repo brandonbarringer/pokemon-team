@@ -3,22 +3,21 @@
 		<li class="pokemon-list__item" v-for="pokemon in pokemon.list">
 			<div class="pokemon-card__container">
 				<div class="pokemon-card">
-					<!-- <PokemonImage v-if="hover == true" class="pokemon-card__image" :path="getImagePathByName(pokemon.name, 'full') " /> -->
-					<PokemonImage ref="mainImg" class="pokemon-card__image" :path="getImageById(pokemon.id) " />
+					<BackgroundImage class="pokemon-card__image" :imagePath="getImageById(pokemon.id) " />
 					<div class="pokemon-card__content">
-						<PokemonId class="pokemon-card__id" :id="'#' + makeThreeDigits(pokemon.id)" />
-						<PokemonName class="pokemon-card__name" :name="capFirstLetter(pokemon.name)" />
+						<PlainText class="pokemon-card__id" :text="'#' + makeThreeDigits(pokemon.id)" />
+						<Title class="pokemon-card__name" :title="capFirstLetter(pokemon.name)" />
 						<ul class="pokemon-card__type-list">
 							<li class="pokemon-card__type-item" v-for="type in pokemon.types">
-								<PokemonType class="pokemon-card__type" :class="type.type.name" :type="type.type.name" />
+								<PlainText class="pokemon-card__type" :class="type.type.name" :text="type.type.name" />
 							</li>
 						</ul>
 					</div>
-					<PokemonStatList class="pokemon-card__stat-list" :stats="pokemon.stats" />
-					<PokemonImage class="pokemon-card__background" :path="getImageById(pokemon.id)" />
+					<StatList class="pokemon-card__stat-list" :stats="pokemon.stats" />
+					<BackgroundImage class="pokemon-card__background" :imagePath="getImageById(pokemon.id)" />
 				</div>
 				<div class="pokemon-card__shadow-container">
-					<PokemonImage class="pokemon-card__shadow" :path="getImageById(pokemon.id)" />
+					<BackgroundImage class="pokemon-card__shadow" :imagePath="getImageById(pokemon.id)" />
 				</div>
 			</div>
 		</li>
@@ -26,33 +25,32 @@
 </template>
 
 <script>
-import PokemonName from './PokemonName.vue';
-import PokemonId from './PokemonId.vue';
-import PokemonType from './PokemonType.vue';
-import PokemonImage from './PokemonImage.vue';
-import PokemonStatList from './PokemonStatList.vue';
+import Title from './Title.vue';
+import PlainText from './PlainText.vue';
+import BackgroundImage from './BackgroundImage.vue';
+import StatList from './StatList.vue';
 import axios from 'axios';
+import Utility from '../scripts/utils.js';
 
 
 export default {
 	name: 'PokemonCard',
 	components: {
-		PokemonName,
-		PokemonId,
-		PokemonType,
-		PokemonImage,
-		PokemonStatList
+		Title,
+		PlainText,
+		BackgroundImage,
+		StatList
 	},
 	data() {
 		return {
 			pokemon: {
-				list: []
+				list: null
 			},
 		}
 	},
 	mounted() {
-		this.getData('https://pokeapi.co/api/v2/pokemon', this.pokemon.list);
-
+		console.log( Utility.getData('https://pokeapi.co/api/v2/pokemon', axios) );
+		// console.log( Utility )
 	},
 	methods: {
 		getData: function(url, dataContainer) {
@@ -68,62 +66,6 @@ export default {
 				})
 			});
 		},
-		// changeImageToGif: function(event) {
-		// 	let img = event.path[0].querySelector('.pokemon-card__image')
-		// 	let background = img.style.backgroundImage
-		// 	let pathArr = background.split('/')
-		// 	let name = pathArr[pathArr.length-1].split('_')[0].toLowerCase()
-		// 	this.fadeOut(img, 50, img.style.backgroundImage = 'url(' + this.getImagePathByName(name, 'full') )
-		// 	this.fadeIn(img, 50)
-			
-			
-		// },
-		// changeImageToStatic: function(event) {
-		// 	let img = event.path[0].querySelector('.pokemon-card__image')
-		// 	let background = img.style.backgroundImage
-		// 	let pathArr = background.split('/')
-		// 	let name = pathArr[pathArr.length-1].split('_')[0].split('.')[0].toLowerCase()
-		// 	img.style.backgroundImage = 'url(' + this.getImagePathByName(name, 'preview')
-		// 	this.fadeIn(img, 50)
-			
-		// },
-		// fadeOut: function(el, duration, callback) {
-		// 		let op = 1;  // initial opacity
-		// 		const timer = setInterval(function () {
-		// 			if (op <= 0.1) {
-		// 				clearInterval(timer);
-		// 			}
-		// 			el.style.opacity = op;
-		// 			op -= 0.1;
-		// 		}, duration);
-		// 		if(callback) {callback}
-		// 	},
-		// fadeIn: function(el, duration, callback) {
-		// 	let op = 0.1;  // initial opacity
-		// 	var timer = setInterval(function () {
-		// 		if (op >= 1){
-		// 			clearInterval(timer);
-		// 		}
-		// 		el.style.opacity = op;
-		// 		op += 0.1;
-		// 	}, duration);
-		// 	if (callback) {callback}
-		// },
-		// getImagePathByName: function(name, type) {
-		// 	'/assets/images/pokemon/preview/Abra_preview.gif'
-		// 	const basePath = window.location.origin + '/assets/images/pokemon/';
-		// 	const fullPath = basePath + 'full/';
-		// 	const previewPath = basePath + 'preview/';
-		// 	let capitalName = this.capFirstLetter(name);
-		// 	let path;
-
-		// 	if(type == 'preview') {
-		// 		path = previewPath + capitalName + '_preview.gif';
-		// 	} else if(type == 'full') {
-		// 		path = fullPath + capitalName + '.gif'
-		// 	}
-		// 	return path;
-		// },
 		getImageById(id) {
 			const path = window.location.origin + '/assets/images/pokemon/pngs/';
 			return path + this.makeThreeDigits(id) + '.png'
