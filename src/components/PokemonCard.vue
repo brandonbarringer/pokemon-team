@@ -1,7 +1,11 @@
 <template>
-	<div class="pokemon-card">
+	<div 
+		class="pokemon-card" 
+		:style="{
+			backgroundImage: 'linear-gradient( to bottom right, ' + putColor[0] + ', ' + putColor[1] + ')'
+		}
+	">
 		<BackgroundImage class="pokemon-card__image" :imagePath="getImageById(id) " />
-		<p>{{color}}</p>
 		<div class="pokemon-card__content">
 			<PlainText class="pokemon-card__id" :text="'#' + Utility.threeDigit(id)" />
 			<Title class="pokemon-card__name" :title="Utility.capital(name)" />
@@ -35,7 +39,7 @@ export default {
 	},
 	props: {
 		name: String,
-		imagePath: String,
+		imageId: [String, Number],
 		id: [String,Number],
 		types: Array,
 		stats: Array,
@@ -56,8 +60,12 @@ export default {
 				'white': ['D6E4EB', 'A6C5D3'],
 				'yellow': ['#F8C332', '#FB8332']
 			},
-			// hasColor: false,
 			Utility: Utility
+		}
+	},
+	computed: {
+		putColor: function() {
+			return this.colorsObj[this.color]
 		}
 	},
 	methods: {
@@ -72,8 +80,3 @@ export default {
 	}
 }
 </script>
-
-<style lang="sass">
-	@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700,900&display=swap');
-	@import '../../public/assets/sass/pokemon-list.sass'
-</style>

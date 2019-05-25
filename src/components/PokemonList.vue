@@ -1,20 +1,20 @@
 <template>
 	<ul class="pokemon-list">
-		<!-- <li class="pokemon-list__item" v-for="item in list">
+		<li class="pokemon-list__item" v-for="item in list">
 			<PokemonCard 
 				:name = "item.name"
-				:imagePath = "item.imagePath"
 				:id = "item.id"
+				:imageId = "item.id"
 				:types = "item.types"
 				:stats = "item.stats"
 				:color = "item.color"
 			/>
-		</li> -->
+		</li>
 	</ul>
 </template>
 
 <script>
-// import PokemonCard from './PokemonCard.vue';
+import PokemonCard from './PokemonCard.vue';
 import Utility from '../scripts/utils.js';
 import axios from 'axios';
 
@@ -22,7 +22,7 @@ import axios from 'axios';
 export default {
 	name: 'PokemonList',
 	components: {
-		// PokemonCard
+		PokemonCard
 	},
 	data() {
 		return {
@@ -32,42 +32,30 @@ export default {
 		}
 	},
 	mounted() {
+		const url = 'https://pokeapi.co/api/v2/pokemon';
+		let tempList = [];
+		let tempColors = []
 		axios
-		.get('https://pokeapi.co/api/v2/pokemon')
-		.then(response => {
-			let pokemonList = [];
-			let pokemonColors = []
-			response.data.results.forEach( (pokemon) => {
+		.get(url)
+		.then(res => {
+			res.data.results.forEach(result => {
 				axios
-				.get(pokemon.url)
-				.then(response => {
-					pokemonList.push(response.data)
+				.get(result.url)
+				.then(res => {
+					let pokemon = res.data
 					axios
-					.get(response.data.species.url)
-					.then(response => {
-						pokemonColors.push(response.data)
+					.get(pokemon.species.url)
+					.then(res => {
+						 pokemon.color = res.data.color.name
+						 tempList.push(pokemon)
+						
 					})
-					return {pokemonList, pokemonColors}
-				}).then(resonse =>{
-					console.log('list', pokemonList)
-					console.log('colors', pokemonColors)
 				})
-				
 			})
-		});
-		// axios
-		// .get('https://pokeapi.co/api/v2/pokemon')
-		// .then(response => {
-		// 	let pokemonList = [];
-		// 	return axios.get(response.data.results[0].url)
-		// }).then( (response) =>{
-		// 	console.log('response', response.data)
-		// });
-		// axios
-		// .get('https://pokeapi.co/api/v2/pokemon')
-		// .then(response => {
-		// 	console.log(response.data.results[0])
-		// });
+		})
+		this.list = tempList
+
+		
 	},
 }
 </script>
