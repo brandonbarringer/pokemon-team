@@ -75,7 +75,6 @@ export default {
 			})
 			this.list = arr;
 		});
-		// this.pokemon.color = this.getPokemonColorById(1)
 		this.Utility.getData('https://pokeapi.co/api/v2/pokemon-species/' + 1, axios)
 			.then(response => {
 				this.pokemon.color = response.data.color.name 

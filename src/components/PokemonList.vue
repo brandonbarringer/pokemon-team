@@ -43,9 +43,7 @@ export default {
 				})
 			})
 			this.list = arr;
-			
 		});
-
 	}
 }
 </script>
