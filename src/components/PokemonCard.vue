@@ -44,9 +44,6 @@ export default {
 	data() {
 		return {
 			list: null,
-			pokemon: {
-				color: null
-			},
 			colorsObj: {
 				'black': ['#65799b', '#5e2564'],
 				'blue': ['#17EAD9', '#6078EA'],
@@ -59,26 +56,9 @@ export default {
 				'white': ['D6E4EB', 'A6C5D3'],
 				'yellow': ['#F8C332', '#FB8332']
 			},
+			// hasColor: false,
 			Utility: Utility
 		}
-	},
-	mounted() {
-		Utility.getData('https://pokeapi.co/api/v2/pokemon', axios)
-		.then(response => {
-			let temp;
-			let arr = [];
-			temp = response.data.results;
-			temp.forEach((item ) => {
-				axios.get(item.url).then(results => {
-					arr.push(results.data);
-				})
-			})
-			this.list = arr;
-		});
-		this.Utility.getData('https://pokeapi.co/api/v2/pokemon-species/' + 1, axios)
-			.then(response => {
-				this.pokemon.color = response.data.color.name 
-			})
 	},
 	methods: {
 		getImageById(id) {
@@ -89,7 +69,6 @@ export default {
 			this.Utility.getData('https://pokeapi.co/api/v2/pokemon-species/' + id, axios)
 			.then(response => response.data.color.name )
 		},
-
 	}
 }
 </script>
