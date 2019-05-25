@@ -7,6 +7,7 @@
 				:id = "item.id"
 				:types = "item.types"
 				:stats = "item.stats"
+				:color = "item.color"
 			/>
 		</li> -->
 	</ul>
