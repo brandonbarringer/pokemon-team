@@ -2,7 +2,7 @@
 	<div 
 		class="pokemon-card" 
 		:style="{
-			backgroundImage: 'linear-gradient( to bottom right, ' + putColor[0] + ', ' + putColor[1] + ')'
+			backgroundImage: putColor
 		}
 	">
 		<BackgroundImage class="pokemon-card__image" :imagePath="getImageById(id) " />
@@ -65,7 +65,11 @@ export default {
 	},
 	computed: {
 		putColor: function() {
-			return this.colorsObj[this.color]
+			let hex1 = this.colorsObj[this.color][0]
+			let hex2 = this.colorsObj[this.color][1]
+			let rgba1 = this.Utility.hexToRgba(hex1, 31)
+			let rgba2 = this.Utility.hexToRgba(hex2, 31)
+			return 'linear-gradient(to bottom right, ' + rgba1 + ', ' + rgba2 + ')'
 		}
 	},
 	methods: {
