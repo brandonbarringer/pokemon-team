@@ -1,6 +1,6 @@
 <template>
 	<ul class="pokemon-list">
-		<li class="pokemon-list__item" v-for="item in list">
+		<li class="pokemon-list__item" v-for="item in sortById(list)" :key="item.id">
 			<PokemonCard 
 				:name = "item.name"
 				:id = "item.id"
@@ -17,6 +17,7 @@
 import PokemonCard from './PokemonCard.vue';
 import Utility from '../scripts/utils.js';
 import axios from 'axios';
+import _ from 'underscore';
 
 
 export default {
@@ -54,9 +55,12 @@ export default {
 			})
 		})
 		this.list = tempList
-
-		
 	},
+	methods: {
+		sortById: function(arr) {
+			return _.sortBy(arr, 'id')
+		}
+	}
 }
 </script>
 
