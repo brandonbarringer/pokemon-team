@@ -58,7 +58,6 @@ export default {
 			.then(res => {
 				let urls = [];
 				let promises;
-				let color;
 
 				_.each(res, item => {
 					tempList.push(item.data)

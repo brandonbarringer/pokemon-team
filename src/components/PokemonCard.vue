@@ -3,8 +3,9 @@
 		class="pokemon-card" 
 		:style="{
 			backgroundImage: putColor
-		}
-	">
+		}"
+		:class="$mq"
+	>
 		<BackgroundImage class="pokemon-card__image" :imagePath="getImageById(id) " />
 		<div class="pokemon-card__content">
 			<PlainText class="pokemon-card__id" :text="'#' + Utility.threeDigit(id)" />
@@ -15,7 +16,7 @@
 				</li>
 			</ul>
 		</div>
-		<StatList class="pokemon-card__stat-list" :stats="stats" />
+		<StatList v-if="$mq === 'md+'" class="pokemon-card__stat-list" :stats="stats" />
 	</div>
 </template>
 
@@ -35,7 +36,7 @@ export default {
 		Title,
 		PlainText,
 		BackgroundImage,
-		StatList
+		StatList,
 	},
 	props: {
 		name: String,

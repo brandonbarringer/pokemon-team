@@ -15,6 +15,7 @@
     "velocity-animate": "^1.5.2",
     "vue": "^2.6.10",
     "vue-color-thief": "^0.0.1",
+    "vue-mq": "^1.0.1",
     "vue2-animate": "https://github.com/asika32764/vue2-animate.git",
     "vue2-transitions": "^0.3.0"
   },
