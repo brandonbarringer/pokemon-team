@@ -1,7 +1,8 @@
 <template>
-	<ul class="pokemon-list">
+	<fade-transition group class="pokemon-list" tag="ul">
 		<li class="pokemon-list__item" v-for="item in sortById(list)" :key="item.id">
-			<PokemonCard 
+			<PokemonCard
+				v-if = "hasData"
 				:name = "item.name"
 				:id = "item.id"
 				:imageId = "item.id"
@@ -10,7 +11,7 @@
 				:color = "item.color"
 			/>
 		</li>
-	</ul>
+	</fade-transition>
 </template>
 
 <script>
@@ -18,18 +19,20 @@ import PokemonCard from './PokemonCard.vue';
 import Utility from '../scripts/utils.js';
 import axios from 'axios';
 import _ from 'underscore';
+import {FadeTransition} from 'vue2-transitions'
 
 
 export default {
 	name: 'PokemonList',
 	components: {
-		PokemonCard
+		PokemonCard,
+		FadeTransition
 	},
 	data() {
 		return {
 			list: null,
-			color: 'a color',
-			Utility: Utility
+			Utility: Utility,
+			hasData: false
 		}
 	},
 	mounted() {
@@ -55,6 +58,7 @@ export default {
 			})
 		})
 		this.list = tempList
+		this.hasData = true
 	},
 	methods: {
 		sortById: function(arr) {
@@ -65,6 +69,7 @@ export default {
 </script>
 
 <style lang="sass">
+
 	@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700,900&display=swap');
 	@import '../../public/assets/sass/pokemon-list.sass'
 

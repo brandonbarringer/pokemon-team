@@ -21,4 +21,6 @@
   ul
     list-style-type: none
     padding: 0
+  [v-cloak] > *
+    display: none
 </style>
