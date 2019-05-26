@@ -74,7 +74,7 @@ export default {
 	},
 	methods: {
 		getImageById(id) {
-			const path = window.location.origin + '/assets/images/pokemon/pngs/';
+			const path = window.location + '/assets/images/pokemon/pngs/';
 			return path + this.Utility.threeDigit(id) + '.png'
 		},
 		getPokemonColorById(id) {
