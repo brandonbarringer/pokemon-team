@@ -1,7 +1,7 @@
 <template>
 		<div class="stat-block">
-			<div class="stat-block__label">{{label}}</div>
-			<div class="stat-block__value">{{value}}</div>
+			<div class="stat-block__label" v-text="label"></div>
+			<div class="stat-block__value" v-text="value"></div>
 		</div>
 </template>
 

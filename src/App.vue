@@ -23,4 +23,6 @@
     padding: 0
   [v-cloak] > *
     display: none
+  #app
+    
 </style>
