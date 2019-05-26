@@ -1,6 +1,6 @@
 <template>
 		<ul class="stat-list">
-			<li class="stat-list__item" v-for="item in statList">
+			<li class="stat-list__item" v-for="(item, index) in statList" :key="index">
 				<StatBlock :label="abbr[item.stat.name]" :value="item.base_stat"/>
 			</li>
 		</ul>

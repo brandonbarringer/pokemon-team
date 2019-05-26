@@ -1,8 +1,7 @@
 <template>
-	<fade-transition group class="pokemon-list" tag="ul">
-		<li class="pokemon-list__item" v-for="item in sortById(list)" :key="item.id">
+	<slide-y-down-transition group class="pokemon-list" tag="ul">
+		<li class="pokemon-list__item" v-for="item in list" :key="item.id">
 			<PokemonCard
-				v-if = "hasData"
 				:name = "item.name"
 				:id = "item.id"
 				:imageId = "item.id"
@@ -11,7 +10,7 @@
 				:color = "item.color"
 			/>
 		</li>
-	</fade-transition>
+	</slide-y-down-transition>
 </template>
 
 <script>
@@ -19,51 +18,100 @@ import PokemonCard from './PokemonCard.vue';
 import Utility from '../scripts/utils.js';
 import axios from 'axios';
 import _ from 'underscore';
-import {FadeTransition} from 'vue2-transitions'
+import {SlideYDownTransition} from 'vue2-transitions'
 
 
 export default {
 	name: 'PokemonList',
 	components: {
 		PokemonCard,
-		FadeTransition
+		SlideYDownTransition
 	},
 	data() {
 		return {
 			list: null,
 			Utility: Utility,
-			hasData: false
+			color: 'green'
 		}
 	},
 	mounted() {
+		
 		const url = 'https://pokeapi.co/api/v2/pokemon';
+
+		// axios
+		// .get(url)
+		// .then(res => {
+		// 	let tempList = [];
+		// 	res.data.results.forEach(result => {
+		// 		axios
+		// 		.get(result.url)
+		// 		.then(res => {
+		// 			let pokemon = res.data
+		// 			axios
+		// 			.get(pokemon.species.url)
+		// 			.then(res => {
+		// 				pokemon.color = res.data.color.name
+		// 				tempList.push(pokemon)
+		// 			})
+		// 		})
+		// 	})
+		// 	return tempList
+		// })
+		// .then(res => {
+		// 	console.log(res)
+		// })
 		let tempList = [];
-		let tempColors = []
+
 		axios
 		.get(url)
 		.then(res => {
-			res.data.results.forEach(result => {
+			let urls = _.pluck(res.data.results,'url');
+			let promises = urls.map(url => axios.get(url))
+			axios
+			.all(promises)
+			.then(res => {
+				let urls = [];
+				let promises;
+				let color;
+
+				_.each(res, item => {
+					tempList.push(item.data)
+					urls.push(item.data.species.url)
+				})
+				// this.list = tempList
+				// this.color = 'green'
+				promises = urls.map(url => axios.get(url))
+				return {tempList, promises}
+			}).then(res => {
 				axios
-				.get(result.url)
+				.all(res.promises)
 				.then(res => {
-					let pokemon = res.data
-					axios
-					.get(pokemon.species.url)
-					.then(res => {
-						 pokemon.color = res.data.color.name
-						 tempList.push(pokemon)
-						
-					})
+					 // console.log('res', res)
+					 // console.log('tempList', tempList)
+					 // for each item in templist
+					 // assign the items color to 
+					 // the item in response that matches its id
+					 _.each(tempList, item => {
+					 	let id = item.id
+					 	// console.log(item.id)
+					 	let color = () => {
+					 		let theColor;
+					 		_.each(res, item => {
+					 			if (item.data.id == id) {
+					 				theColor = item.data.color.name
+					 				return
+					 			}
+					 		})
+					 		return theColor
+					 	}
+					 	item.color = color()
+					 })
+					 this.list = tempList
+					 // console.log(tempList)
 				})
 			})
 		})
-		this.list = tempList
-		this.hasData = true
-	},
-	methods: {
-		sortById: function(arr) {
-			return _.sortBy(arr, 'id')
-		}
+		
 	}
 }
 </script>

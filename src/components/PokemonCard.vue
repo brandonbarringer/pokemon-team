@@ -10,7 +10,7 @@
 			<PlainText class="pokemon-card__id" :text="'#' + Utility.threeDigit(id)" />
 			<Title class="pokemon-card__name" :title="Utility.capital(name)" />
 			<ul class="pokemon-card__type-list">
-				<li class="pokemon-card__type-item" v-for="type in types">
+				<li class="pokemon-card__type-item" v-for="(type, index) in types" :key="index">
 					<PlainText class="pokemon-card__type" :class="type.type.name" :text="type.type.name" />
 				</li>
 			</ul>
