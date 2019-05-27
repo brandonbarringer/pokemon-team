@@ -4,7 +4,6 @@
 		:style="{
 			backgroundImage: putColor
 		}"
-		:class="$mq"
 	>
 		<BackgroundImage class="pokemon-card__image" :imagePath="getImageById(id) " />
 		<div class="pokemon-card__content">
@@ -16,7 +15,9 @@
 				</li>
 			</ul>
 		</div>
-		<StatList v-if="$mq === 'md+'" class="pokemon-card__stat-list" :stats="stats" />
+		<mq-layout mq="lg+">
+			<StatList class="pokemon-card__stat-list" :stats="stats" />
+		</mq-layout>
 	</div>
 </template>
 

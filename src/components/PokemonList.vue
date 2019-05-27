@@ -27,7 +27,6 @@
 	import axios from 'axios';
 	import _ from 'underscore';
 	import velocity from 'velocity-animate'
-// import {SlideYDownTransition} from 'vue2-transitions'
 
 
 export default {
