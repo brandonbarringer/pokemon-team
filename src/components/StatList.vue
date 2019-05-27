@@ -25,7 +25,8 @@
 					"special-attack": "S.Atk",
 					"defense": "Def",
 					"attack": "Atk",
-					"hp": "HP"
+					"hp": "HP",
+					"total": "Total"
 				}
 			}
 		},

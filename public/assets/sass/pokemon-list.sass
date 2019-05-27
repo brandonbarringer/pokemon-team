@@ -30,6 +30,7 @@
 			flex-basis: 275px
 		cursor: pointer
 		flex-grow: 1
+		position: relative
 .stat-block
 	&__label
 		font:
@@ -45,11 +46,17 @@
 	position: relative
 	overflow: hidden
 	border-radius: 5px
+	transform-style: preserve-3d
+	background:
+		size: 1000%
+		color: #fff
+		position: 0% 50%
 	padding:
 		bottom: 20px
 	+size(md)
 		padding:
 			bottom: 0px
+
 	&__container
 		border-radius: 5px
 		width: 100%
@@ -62,7 +69,7 @@
 		background:
 			size: contain
 			repeat: no-repeat
-			position: center center
+			position: 50% 50%
 		filter: saturate(1.5)
 	&__stat-list
 		display: flex
@@ -177,3 +184,16 @@
 		letter-spacing: .02em
 		margin:
 			bottom: 5px
+		&--background
+			opacity: 0
+			font:
+				size: 120px
+				weight: 900
+			letter-spacing: -.05em
+			position: absolute
+			top: 20%
+			// left: -20vw
+			-webkit-background-clip: text
+			-webkit-text-fill-color: transparent
+			transform: rotate(0deg)
+			text-transform: uppercase

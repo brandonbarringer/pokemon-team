@@ -6,9 +6,15 @@
 		v-bind:css="false"
 		v-on:before-enter="beforeEnter"
 		v-on:enter="enter"
-		v-on:leave="leave"
 	>
-		<li class="pokemon-list__item" v-for="(item, index) in list" :key="item.id" v-bind:data-index="index">
+		<li 
+			class="pokemon-list__item" 
+			v-for="(item, index) in list" 
+			:key="item.id" 
+			v-bind:data-index="index"
+			v-on:mouseenter="animateInLeft"
+			v-on:mouseleave="animateOutLeft"
+		>
 			<PokemonCard
 				:name = "item.name"
 				:id = "item.id"
@@ -26,7 +32,7 @@
 	import Utility from '../scripts/utils.js';
 	import axios from 'axios';
 	import _ from 'underscore';
-	import velocity from 'velocity-animate'
+	import anime from 'animejs';
 
 
 export default {
@@ -80,6 +86,18 @@ export default {
 							})
 							return theColor
 						}
+						let calcHolder = 0
+						_.each(item.stats, item => {
+							calcHolder += item.base_stat
+
+						})
+						let total = {
+							base_stat: calcHolder,
+							stat: {
+								name: "total"
+							}
+						}
+						item.stats.push(total)
 						item.color = color()
 					})
 					this.list = tempList
@@ -91,24 +109,82 @@ export default {
 	methods: {
 		beforeEnter: function (el) {
 			el.style.opacity = 0
-			el.style.marginTop = '50vh'
 		},
-		enter: function (el, done) {
-			var delay = el.dataset.index * 50
-			setTimeout(function () {
-				velocity(
-					el, 
-					{ marginTop: 0, opacity: 1 },
-					{ complete: done, easing: 'easeOutQuart' }
-				)}, delay)
+		enter: function (el) {
+			var delay = el.dataset.index * 40
+			setTimeout(function() {
+				anime({
+					targets: el,
+					translateY: ['50vh', 0],
+					opacity: 1,
+					duration: 500,
+					easing: 'easeOutQuart'
+				})
+			}, delay)
+
 		},
-		leave: function (el, done) {
-			var delay = el.dataset.index * 50
-			setTimeout(function () {
-				velocity(el, { 
-					marginTop: '200px',
-					opacity: 0
-				}, { complete: done } ) }, delay)
+		animateInLeft(event) {
+			let el = event.target
+			let name = el.getElementsByClassName('pokemon-card__name--background')
+			let card = el.getElementsByClassName('pokemon-card')
+			let img = el.getElementsByClassName('pokemon-card__image')
+
+			
+			
+			anime({
+				targets: name,
+				opacity: [0,1],
+				translateX: ['-50vh', 0],
+				easing: 'easeOutQuint',
+				duration: 250
+			})
+
+			anime.remove(card)
+			anime({
+				targets: card,
+				backgroundPositionX: '75%',
+				easing: 'easeOutQuint',
+				duration: 250,
+			})
+
+			anime.remove(img)
+			anime({
+				targets: img,
+				scale: 1.1,
+				easing: 'easeOutQuad',
+				duration: 250
+			})
+
+		},
+		animateOutLeft(event) {
+			let el = event.target
+			let name = el.getElementsByClassName('pokemon-card__name--background')
+			let card = el.getElementsByClassName('pokemon-card')
+			let img = el.getElementsByClassName('pokemon-card__image')
+
+			anime.remove(name)
+			anime({
+				targets: name,
+				opacity: 0,
+				translateX: [0, '-50vw'],
+				duration: 500
+			})
+
+			anime.remove(card)
+			anime({
+				targets: card,
+				backgroundPositionX: '0%',
+				easing: 'easeOutQuint',
+				duration: 250
+			})
+
+			anime.remove(img)
+			anime({
+				targets: img,
+				scale: 1,
+				easing: 'easeOutQuint',
+				duration: 250
+			})
 		}
 	}
 }

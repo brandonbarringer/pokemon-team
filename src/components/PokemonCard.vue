@@ -2,9 +2,18 @@
 	<div 
 		class="pokemon-card" 
 		:style="{
-			backgroundImage: putColor
+			backgroundImage: 'linear-gradient(to bottom right, ' + putColor + ', ' + putColor +')'
 		}"
 	>
+		<mq-layout mq="lg+">
+			<Title 
+				class="pokemon-card__name--background" 
+				:title="name" 
+				:style="{
+					backgroundImage: 'linear-gradient(to top left, ' + putColor + ')'
+				}"
+			/>
+		</mq-layout>
 		<BackgroundImage class="pokemon-card__image" :imagePath="getImageById(id) " />
 		<div class="pokemon-card__content">
 			<PlainText class="pokemon-card__id" :text="'#' + Utility.threeDigit(id)" />
@@ -29,6 +38,9 @@ import StatList from './StatList.vue';
 
 import axios from 'axios';
 import Utility from '../scripts/utils.js';
+
+
+
 
 
 export default {
@@ -71,7 +83,7 @@ export default {
 			let hex2 = this.colorsObj[this.color][1]
 			let rgba1 = this.Utility.hexToRgba(hex1, 31)
 			let rgba2 = this.Utility.hexToRgba(hex2, 31)
-			return 'linear-gradient(to bottom right, ' + rgba1 + ', ' + rgba2 + ')'
+			return rgba1 + ', ' + rgba2
 		}
 	},
 	methods: {
@@ -83,6 +95,7 @@ export default {
 			this.Utility.getData('https://pokeapi.co/api/v2/pokemon-species/' + id, axios)
 			.then(response => response.data.color.name )
 		},
+		
 	}
 }
 </script>
