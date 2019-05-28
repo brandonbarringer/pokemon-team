@@ -1,5 +1,5 @@
 <template>
-	<Fade class="pokemon-list" group tag="ul" :stagger="40" :duration="800" easing="easeOutQuint" direction="up" amount="100vh">
+	<Fade class="pokemon-list" group tag="ul" :stagger="40" :duration="800" easing="easeOutExpo" direction="up" amount="20vh">
 		<li 
 			class="pokemon-list__item" 
 			v-for="(item, index) in list" 
@@ -34,7 +34,6 @@ export default {
 	components: {
 		PokemonCard,
 		Fade
-		// SlideYDownTransition
 	},
 	data() {
 		return {
@@ -44,7 +43,7 @@ export default {
 		}
 	},
 	mounted() {
-		const url = 'https://pokeapi.co/api/v2/pokemon';
+		let url = 'https://pokeapi.co/api/v2/pokemon';
 
 		let tempList = [];
 
