@@ -1,12 +1,5 @@
 <template>
-	<transition-group 
-		class="pokemon-list" 
-		tag="ul"
-		name="staggered-fade"
-		v-bind:css="false"
-		v-on:before-enter="beforeEnter"
-		v-on:enter="enter"
-	>
+	<Fade class="pokemon-list" group tag="ul" :stagger="40" :duration="800" easing="easeOutQuint" direction="up" amount="100vh">
 		<li 
 			class="pokemon-list__item" 
 			v-for="(item, index) in list" 
@@ -24,11 +17,12 @@
 				:color = "item.color"
 			/>
 		</li>
-	</transition-group>
+	</Fade>
 </template>
 
 <script>
 	import PokemonCard from './PokemonCard.vue';
+	import Fade from './transitions/Fade.vue'
 	import Utility from '../scripts/utils.js';
 	import axios from 'axios';
 	import _ from 'underscore';
@@ -39,6 +33,7 @@ export default {
 	name: 'PokemonList',
 	components: {
 		PokemonCard,
+		Fade
 		// SlideYDownTransition
 	},
 	data() {
