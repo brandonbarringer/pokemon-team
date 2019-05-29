@@ -1,17 +1,13 @@
 <template>
 	<figure
 		class="pokemon-card" 
-		:style="{
-			backgroundImage: putColor
-		}"
-	>
+		:style="{backgroundImage: putColor }">
+
 		<NonSemanticText 
 			class="pokemon-card__name--background" 
 			:text="name" 
-			:style="{
-				backgroundImage: putColor
-			}"
-		/>
+			:style="{backgroundImage: putColor }"/>
+
 			<BackgroundImage class="pokemon-card__image" :src="getImageById(id) " />
 			<figcaption class="expansion__leave">
 				<div class="pokemon-card__preview">
@@ -46,9 +42,6 @@ import StatList from './StatList.vue';
 import BackgroundImage from './BackgroundImage.vue';
 
 import axios from 'axios';
-import anime from 'animejs';
-
-
 import Utility from '../scripts/utils.js';
 
 export default {
@@ -102,10 +95,6 @@ export default {
 		getPokemonColorById(id) {
 			this.Utility.getData('https://pokeapi.co/api/v2/pokemon-species/' + id, axios)
 			.then(response => response.data.color.name )
-		},
-		imageProgress(instance, image ) {
-			const result = image.isLoaded ? 'loaded' : 'broken';
-			console.log( 'image is ' + result + ' for ' + image.img.src );
 		}
 	}
 }

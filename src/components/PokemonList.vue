@@ -38,8 +38,8 @@ export default {
 		Fade
 	},
 	methods: {
-		animate(el) {
-			this.expanded ? this.collapse(el) : this.expand(el)
+		animate(event) {
+			this.expanded ? this.collapse(event) : this.expand(event)
 		},
 		expand(event) {
 			this.expanded = true
@@ -48,10 +48,10 @@ export default {
 			const toShow = el.getElementsByClassName('expansion__enter')
 			const title = el.getElementsByClassName('pokemon-card__name--background')
 			const ease = 'cubicBezier(0.4, 0.0, 0.2, 1)'
-			const dur = 175
+			const dur = 150
 			const pos = el.getBoundingClientRect()
 			const img = el.getElementsByClassName('pokemon-card__image')
-			console.log(img)
+			console.log(el)
 			el.style.position = 'fixed';
 			el.style.left = pos.x
 			el.style.top = pos.y
