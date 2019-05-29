@@ -12,6 +12,25 @@
     @media (min-width: 1200px)
       @content
 
+.test
+	display: flex
+	flex-wrap: wrap
+	&__item
+		margin:
+			right: 32px
+			left: 32px
+			bottom: 32px
+			top: 32px
+		width: max-content
+		height: 300px
+		flex-basis: 150px
+		border-radius: 5px
+		+size(md)
+			flex-basis: 275px
+		cursor: pointer
+		flex-grow: 1
+		position: relative
+
 
 .pokemon-list
 	display: flex
@@ -31,6 +50,7 @@
 		cursor: pointer
 		flex-grow: 1
 		position: relative
+		& > *
 .stat-block
 	&__label
 		font:
@@ -58,13 +78,23 @@
 	+size(md)
 		padding:
 			bottom: 0px
+		pointer-events: none
+	&__preview
+		text-align: center
+	&__details
+		background:
+			color: #fff
+		height: 0
+		overflow: none
 	&__image
 		width: 100%
-		height: 220px
+		height: 150px
+		+size(md)
+			height: 220px
 		background:
 			size: contain
 			repeat: no-repeat
-			position: center
+			position: center center
 		margin:
 			left: auto
 			top: 0
@@ -95,8 +125,6 @@
 		background-position: center center
 		filter: blur(30px) saturate(2)
 		opacity: .31
-	&__preview
-		text-align: center
 	&__type-list
 		display: flex
 		width: 100%
@@ -187,7 +215,7 @@
 				weight: 900
 			letter-spacing: -.05em
 			position: absolute
-			top: 20%
+			top: 70px
 			// left: -20vw
 			-webkit-background-clip: text
 			-webkit-text-fill-color: transparent

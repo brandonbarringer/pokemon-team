@@ -5,17 +5,15 @@
 			backgroundImage: putColor
 		}"
 	>
-		<mq-layout mq="lg+">
-			<NonSemanticText 
-				class="pokemon-card__name--background" 
-				:text="name" 
-				:style="{
-					backgroundImage: putColor
-				}"
-			/>
-		</mq-layout>
+		<NonSemanticText 
+			class="pokemon-card__name--background" 
+			:text="name" 
+			:style="{
+				backgroundImage: putColor
+			}"
+		/>
 			<BackgroundImage class="pokemon-card__image" :src="getImageById(id) " />
-			<figcaption>
+			<figcaption class="expansion__leave">
 				<div class="pokemon-card__preview">
 					<NonSemanticText v-if="id" class="pokemon-card__id" :text="'#' + Utility.threeDigit(id)" />
 					<Heading class="pokemon-card__name">
@@ -31,6 +29,13 @@
 					<StatList class="pokemon-card__stat-list" :stats="stats" />
 				</mq-layout>
 			</figcaption>
+			<figcaption>
+				<div class="pokemon-card__details expansion__enter">
+					<ul class="test">
+						<li v-for="item in 10" class="test__item" :style="{backgroundImage: putColor}"></li>
+					</ul>
+				</div>
+			</figcaption>
 	</figure>
 </template>
 
@@ -41,6 +46,7 @@ import StatList from './StatList.vue';
 import BackgroundImage from './BackgroundImage.vue';
 
 import axios from 'axios';
+import anime from 'animejs';
 
 
 import Utility from '../scripts/utils.js';
