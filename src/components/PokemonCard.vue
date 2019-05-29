@@ -1,55 +1,57 @@
 <template>
-	<div 
+	<figure
 		class="pokemon-card" 
 		:style="{
-			backgroundImage: 'linear-gradient(to bottom right, ' + putColor + ', ' + putColor +')'
+			backgroundImage: putColor
 		}"
 	>
 		<mq-layout mq="lg+">
-			<Title 
+			<NonSemanticText 
 				class="pokemon-card__name--background" 
-				:title="name" 
+				:text="name" 
 				:style="{
-					backgroundImage: 'linear-gradient(to top left, ' + putColor + ')'
+					backgroundImage: putColor
 				}"
 			/>
 		</mq-layout>
-		<BackgroundImage class="pokemon-card__image" :imagePath="getImageById(id) " />
-		<div class="pokemon-card__content">
-			<PlainText class="pokemon-card__id" :text="'#' + Utility.threeDigit(id)" />
-			<Title class="pokemon-card__name" :title="Utility.capital(name)" />
-			<ul class="pokemon-card__type-list">
-				<li class="pokemon-card__type-item" v-for="(type, index) in types" :key="index">
-					<PlainText class="pokemon-card__type" :class="type.type.name" :text="type.type.name" />
-				</li>
-			</ul>
-		</div>
-		<mq-layout mq="lg+">
-			<StatList class="pokemon-card__stat-list" :stats="stats" />
-		</mq-layout>
-	</div>
+			<BackgroundImage class="pokemon-card__image" :src="getImageById(id) " />
+			<figcaption>
+				<div class="pokemon-card__preview">
+					<NonSemanticText v-if="id" class="pokemon-card__id" :text="'#' + Utility.threeDigit(id)" />
+					<Heading class="pokemon-card__name">
+						<h2>{{Utility.capital(name)}}</h2>
+					</Heading>
+					<ul class="pokemon-card__type-list">
+						<li class="pokemon-card__type-item" v-for="type in types" :key="type.type.name">
+							<NonSemanticText class="pokemon-card__type" :class="type.type.name" :text="type.type.name" />
+						</li>
+					</ul>
+				</div>
+				<mq-layout mq="lg+" v-if="stats">
+					<StatList class="pokemon-card__stat-list" :stats="stats" />
+				</mq-layout>
+			</figcaption>
+	</figure>
 </template>
 
 <script>
-import Title from './Title.vue';
-import PlainText from './PlainText.vue';
-import BackgroundImage from './BackgroundImage.vue';
+import Heading from './Heading.vue';
+import NonSemanticText from './NonSemanticText.vue';
 import StatList from './StatList.vue';
+import BackgroundImage from './BackgroundImage.vue';
 
 import axios from 'axios';
+
+
 import Utility from '../scripts/utils.js';
-
-
-
-
 
 export default {
 	name: 'PokemonCard',
 	components: {
-		Title,
-		PlainText,
-		BackgroundImage,
+		Heading,
+		NonSemanticText,
 		StatList,
+		BackgroundImage
 	},
 	props: {
 		name: String,
@@ -83,7 +85,7 @@ export default {
 			let hex2 = this.colorsObj[this.color][1]
 			let rgba1 = this.Utility.hexToRgba(hex1, 31)
 			let rgba2 = this.Utility.hexToRgba(hex2, 31)
-			return rgba1 + ', ' + rgba2
+			return Utility.dynamicGradient('linear-gradient', 'to bottom right', [rgba1, rgba2, rgba1, rgba2])
 		}
 	},
 	methods: {
@@ -95,7 +97,10 @@ export default {
 			this.Utility.getData('https://pokeapi.co/api/v2/pokemon-species/' + id, axios)
 			.then(response => response.data.color.name )
 		},
-		
+		imageProgress(instance, image ) {
+			const result = image.isLoaded ? 'loaded' : 'broken';
+			console.log( 'image is ' + result + ' for ' + image.img.src );
+		}
 	}
 }
 </script>

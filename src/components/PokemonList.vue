@@ -1,7 +1,8 @@
 <template>
-	<Fade class="pokemon-list" group tag="ul" :stagger="40" :duration="800" easing="easeOutExpo" direction="up" amount="20vh">
+	<Fade class="pokemon-list" group tag="ul" :stagger="50" :duration="500" easing="cubicBezier(0.4, 0.0, 0.2, 1)" direction="up" amount="50vh">
 		<li 
 			class="pokemon-list__item" 
+			:style="{order: item.id}"
 			v-for="(item, index) in list" 
 			:key="item.id" 
 			v-bind:data-index="index"
@@ -101,30 +102,13 @@ export default {
 		
 	},
 	methods: {
-		beforeEnter: function (el) {
-			el.style.opacity = 0
-		},
-		enter: function (el) {
-			var delay = el.dataset.index * 40
-			setTimeout(function() {
-				anime({
-					targets: el,
-					translateY: ['50vh', 0],
-					opacity: 1,
-					duration: 500,
-					easing: 'easeOutQuart'
-				})
-			}, delay)
-
-		},
 		animateInLeft(event) {
-			let el = event.target
-			let name = el.getElementsByClassName('pokemon-card__name--background')
-			let card = el.getElementsByClassName('pokemon-card')
-			let img = el.getElementsByClassName('pokemon-card__image')
-
+			const el = event.target;
+			const name = el.getElementsByClassName('pokemon-card__name--background');
+			const card = el.getElementsByClassName('pokemon-card');
+			const img = el.getElementsByClassName('pokemon-card__image');
 			
-			
+			anime.remove(name)
 			anime({
 				targets: name,
 				opacity: [0,1],
@@ -145,7 +129,7 @@ export default {
 			anime({
 				targets: img,
 				scale: 1.1,
-				easing: 'easeOutQuad',
+				easing: 'easeOutQuint',
 				duration: 250
 			})
 
@@ -161,6 +145,7 @@ export default {
 				targets: name,
 				opacity: 0,
 				translateX: [0, '-50vw'],
+				easing: 'easeOutQuint',
 				duration: 500
 			})
 

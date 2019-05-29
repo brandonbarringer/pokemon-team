@@ -1,12 +1,20 @@
-<template>
-		<div :style="{backgroundImage: 'url(' + imagePath + ')'}"></div>
+<template functional>
+		<div 
+			:class="[data.class, data.staticClass]" 
+			:style="{backgroundImage: 'url(' + props.src + ')'}">
+		
+			<slot></slot>		
+		</div>
 </template>
 
 <script>
 	export default {
 		name: 'BackgroundImage',
 		props: {
-			imagePath: String
+			src: {
+				type: String,
+				required: true
+			}
 		}
 	}
 </script>

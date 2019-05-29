@@ -16,13 +16,6 @@
 </script>
 
 <style lang="sass">
-  *
-    margin: 0
-  ul
-    list-style-type: none
-    padding: 0
-  [v-cloak] > *
-    display: none
-  #app
+ @import 'public/assets/sass/reset.sass'
     
 </style>

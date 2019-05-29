@@ -4,8 +4,7 @@
 		:tag="tag"
 		v-bind="$attrs"
 		v-on="hooks">
-
-		<slot></slot>
+		<slot v-on:load="onLoaded" v-show="loaded"></slot>
 	</component>
 </template>
 
@@ -14,7 +13,6 @@
 	export default {
 		name: 'Fade',
 		inheritAttrs: false,
-		
 		props: {
 			group: Boolean,
 			stagger: {
@@ -44,7 +42,8 @@
 		},
 		data() {
 			return {
-				count: 0
+				count: 0,
+				loaded: false
 			}
 		},
 		computed: {
@@ -57,17 +56,21 @@
 					beforeLeave: this.beforeLeave,
 					enter: this.enter,
 					leave: this.leave,
+					onLoaded: this.onLoaded,
 
 					...this.$listeners
 				}
 			},
 		},
 		methods: {
+			onLoaded: function(instance, image) {
+				this.loaded = true
+			},
 			beforeEnter: function(el) {
 				el.style.opacity = 0
+				el.style.pointerEvents = 'none'
 			},
-			enter: function(el) {
-
+			enter: function(el, done) {
 				const translateY = () => {
 					switch(this.direction) {
 						case 'up':
@@ -88,7 +91,7 @@
 							return '0'
 					}
 				}
-
+				anime.remove(el)
 				anime({
 					targets: el,
 					translateY: translateY(),
@@ -99,6 +102,8 @@
 					delay: this.stagger * this.$data.count
 				})
 				this.$data.count ++
+				el.style.pointerEvents = 'auto'
+				done();
 			},
 			beforeLeave: function(el) {
 				console.log(el)

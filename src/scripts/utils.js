@@ -1,5 +1,4 @@
 
-const printStuff = (str) => str 
 
 const getData = (url, dataGetter) => dataGetter.get(url)
 
@@ -17,10 +16,16 @@ const hexToRgba = (hexString, opacity) =>  {
     return result;
 }
 
+const dynamicGradient = (type, angle, colorsArr) => {
+	let colors = typeof colorArray === 'array' ? colors.toString() : colorsArr;
+	const gradient = type + '(' + angle + ',' + colors + ')'
+	return gradient.toString()
+}
+
 export default {
-	printStuff,
 	getData,
 	threeDigit,
 	capital,
-	hexToRgba
+	hexToRgba,
+	dynamicGradient
 }

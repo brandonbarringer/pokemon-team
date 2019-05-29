@@ -1,17 +1,26 @@
 <template>
 		<div class="stat-block">
-			<div class="stat-block__label" v-text="label"></div>
-			<div class="stat-block__value" v-text="value"></div>
+			<NonSemanticText class="stat-block__label" :text="label" />
+			<NonSemanticText class="stat-block__value" :text="value" />
 		</div>
 </template>
 
 <script>
+	import NonSemanticText from './NonSemanticText.vue'
 	export default {
 		name: 'StatBlock',
+		components: {
+			NonSemanticText
+		},
 		props: {
-			label: String,
-			value: Number,
-
+			label: {
+				type: String,
+				required: true
+			},
+			value: {
+				type: Number,
+				required: true
+			},
 		}
 	}
 </script>
