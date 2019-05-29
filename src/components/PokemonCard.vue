@@ -28,7 +28,7 @@
 			<figcaption>
 				<div class="pokemon-card__details expansion__enter">
 					<ul class="test">
-						<li v-for="item in 10" class="test__item" :style="{backgroundImage: putColor}"></li>
+						<li v-for="item in 10" class="test__item expansion__enter--child" :style="{backgroundImage: putColor}"></li>
 					</ul>
 				</div>
 			</figcaption>

@@ -46,12 +46,13 @@ export default {
 			const el = event.target
 			const toLeave = el.getElementsByClassName('expansion__leave')
 			const toShow = el.getElementsByClassName('expansion__enter')
+			const showChildren = toShow[0].getElementsByClassName('expansion__enter--child')
 			const title = el.getElementsByClassName('pokemon-card__name--background')
 			const ease = 'cubicBezier(0.4, 0.0, 0.2, 1)'
 			const dur = 150
 			const pos = el.getBoundingClientRect()
 			const img = el.getElementsByClassName('pokemon-card__image')
-			console.log(el)
+			console.log(toShow)
 			el.style.position = 'fixed';
 			el.style.left = pos.x
 			el.style.top = pos.y
@@ -67,6 +68,15 @@ export default {
 				width: '100%',
 				easing: ease,
 				duration: dur
+			})
+
+			anime.remove(showChildren)
+			anime({
+				targets: showChildren,
+				opacity: [0,1],
+				easing: ease,
+				duration: dur/2,
+				delay: dur/2
 			})
 
 			anime.remove(title)
@@ -85,7 +95,7 @@ export default {
 				opacity: [0,1],
 				height: '100vh',
 				easing: ease,
-				duration: dur
+				duration: dur,
 			})
 
 			anime.remove(img)
