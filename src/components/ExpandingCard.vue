@@ -30,7 +30,7 @@
   import anime from 'animejs';
 
   export default {
-    name: 'app',
+    name: 'ExpandingCard',
     components: {
       // BackgroundImage,
       // Heading
