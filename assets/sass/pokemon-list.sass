@@ -1,0 +1,225 @@
+=size($size)
+  @if $size == sm
+    @media (max-width: 576px)
+      @content
+  @else if $size == md
+    @media (min-width: 768px)
+      @content
+  @else if $size == lg
+    @media (min-width: 992px)
+      @content
+  @else if $size == xl
+    @media (min-width: 1200px)
+      @content
+
+.test
+	display: flex
+	flex-wrap: wrap
+	&__item
+		margin:
+			right: 32px
+			left: 32px
+			bottom: 32px
+			top: 32px
+		width: max-content
+		height: 300px
+		flex-basis: 320px
+		border-radius: 5px
+		+size(md)
+			flex-basis: 275px
+		cursor: pointer
+		flex-grow: 1
+		position: relative
+
+
+.pokemon-list
+	display: flex
+	flex-wrap: wrap
+	font-family: 'Roboto'
+	justify-content: center
+	&__item
+		margin:
+			right: 4px
+			left: 4px
+			bottom: 4px
+			top: 4px
+		width: max-content
+		flex-basis: 150px
+		+size(md)
+			flex-basis: 275px
+		cursor: pointer
+		flex-grow: 1
+		position: relative
+		-webkit-tap-highlight-color: transparent
+		& > *
+			pointer-events: none
+.stat-block
+	&__label
+		font:
+			size: 13px
+			weight: 500
+		margin:
+			bottom: 4px
+	&__value
+		font:
+			size: 15px
+			weight: 900
+.pokemon-card
+	max-width: 100%
+	color: rgba(0,0,0,.5)
+	position: relative
+	overflow: hidden
+	border-radius: 5px
+	transform-style: preserve-3d
+	background:
+		size: 1000%
+		color: #fff
+		position: 0% 50%
+	padding:
+		bottom: 20px
+	+size(md)
+		padding:
+			bottom: 0px
+		pointer-events: none
+	&__preview
+		text-align: center
+	&__details
+		background:
+			color: #fff
+		height: 0
+		overflow: none
+	&__image
+		width: 100%
+		height: 150px
+		+size(md)
+			height: 220px
+		background:
+			size: contain
+			repeat: no-repeat
+			position: center center
+		margin:
+			left: auto
+			top: 0
+			right: auto
+			bottom: 0
+		filter: saturate(1.5)
+	&__stat-list
+		display: flex
+		background-color: rgba(255,255,255,.3)
+		text-align: center
+		justify-content: space-between
+		margin:
+			top: 10px
+		padding:
+			left: 15px
+			right: 15px
+			top: 15px
+			bottom: 15px
+	&__background
+		position: absolute
+		top: 0
+		left: 0
+		right: 0
+		bottom: 0
+		z-index: -1
+		background-repeat: no-repeat
+		background-size: 1000%
+		background-position: center center
+		filter: blur(30px) saturate(2)
+		opacity: .31
+	&__type-list
+		display: flex
+		width: 100%
+		align-items: center
+		justify-content: center
+	&__type
+		display: block
+		text-transform: uppercase
+		line-height: 1
+		+size(md)
+			font:
+				size: 10px
+			padding:
+				top: 4px
+				right: 12px
+				left: 12px
+				bottom: 4px
+		padding:
+			top: 4px
+			right: 8px
+			left: 8px
+			bottom: 4px
+		font:
+			size: 8px
+			weight: 500
+		letter-spacing: .07em
+		color: white
+		background-color: rgba(50,50,50,.5)
+		margin:
+			right: 2px
+			left: 2px
+		border-radius: 100px
+		&.bug
+			background-image: linear-gradient(150deg, #57CA85, #194F68 )
+		&.dark
+			background-image: linear-gradient(150deg, #65799b, #5e2564 )
+		&.electric
+			background-image: linear-gradient(150deg, #F8C332, #FB8332 )
+		&.fairy
+			background-image: linear-gradient(150deg, #EA6060, #7117EA )
+		&.fighting
+			background-image: linear-gradient(150deg, #FB8332, #E64C4C )
+		&.fire
+			background-image: linear-gradient(150deg, #FCE38A, #F38181 )
+		&.flying
+			background-image: linear-gradient(150deg, #61DEC7, #8E2EF7 )
+		&.ghost
+			background-image: linear-gradient(150deg, #EFBFD5, #9D61FD )
+		&.grass
+			background-image: linear-gradient(150deg, #43E695, #3BB2B8 )
+		&.ground
+			background-image: linear-gradient(150deg, #FFB87A, #CD466B )
+		&.ice
+			background-image: linear-gradient(150deg, #38B8F2, #843CF6 )
+		&.normal
+			background-image: linear-gradient(150deg, #FC96B2, #794887 )
+		&.poison
+			background-image: linear-gradient(150deg, #EF33F2, #3544DC )
+		&.psychic
+			background-image: linear-gradient(150deg, #FF7676, #F54EA2 )
+		&.rock
+			background-image: linear-gradient(150deg, #C46424, #EA1212 )
+		&.steel
+			background-image: linear-gradient(150deg, #8EDBFB, #389695 )
+		&.water
+			background-image: linear-gradient(150deg, #17EAD9, #6078EA )
+	&__id
+		font:
+			size: 12px
+			weight: 900
+		letter-spacing: .1em
+		margin-bottom: 0px
+	&__name
+		+size(md)
+			font:
+				size: 21px
+				letter-spacing: .05em
+		font:
+			size: 16px
+			weight: 900
+		letter-spacing: .02em
+		margin:
+			bottom: 5px
+		&--background
+			opacity: 0
+			font:
+				size: 120px
+				weight: 900
+			letter-spacing: -.05em
+			position: absolute
+			top: 70px
+			// left: -20vw
+			-webkit-background-clip: text
+			-webkit-text-fill-color: transparent
+			transform: rotate(0deg)
+			text-transform: uppercase
