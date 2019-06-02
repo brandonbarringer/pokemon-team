@@ -6,38 +6,27 @@ import _ from 'underscore'
 const baseUrl = 'https://pokeapi.co/api/v2/pokemon/'
 
 export default {
-	getPokemonByName(obj) {
-		const names =  _.pluck(obj,'name');
-		const promises = names.map(name => axios.get(baseUrl + name))
-
+	getPokemon(obj) {
+		let promises
+		switch(true) {
+			case obj[0].hasOwnProperty('name'):
+				promises = _.pluck(obj,'name').map(identifier => axios.get(baseUrl + identifier))
+				break;
+			case obj[0].hasOwnProperty('id'):
+				promises = _.pluck(obj,'id').map(identifier => axios.get(baseUrl + identifier))
+				break;
+			case obj[0].hasOwnProperty('url'):
+				promises = _.pluck(obj,'url').map(identifier => axios.get(identifier))
+				break;
+			default: throw new Error('Argument must contain an object with a name, url, or id')
+		}
 		return axios
 				.all(promises)
 				.then(pokemon => {
 					return pokemon
 				})
 
-	},
-	getPokemonById(obj) {
-		const ids =  _.pluck(obj,'id');
-		const promises = ids.map(id => axios.get(baseUrl + id))
-
-		return axios
-				.all(promises)
-				.then(pokemon => {
-					return pokemon
-				})
-
-	},
-	getPokemonByUrl(obj) {
-		const urls =  _.pluck(obj,'url');
-		const promises = urls.map(url => axios.get(url))
-
-		return axios
-				.all(promises)
-				.then(pokemon => {
-					return pokemon
-				})
-
+		
 	},
 	getPokedex(limit, offset) {
 		return axios

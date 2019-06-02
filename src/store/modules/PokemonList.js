@@ -21,24 +21,8 @@ export default {
 	},
 
 	actions: {
-		getPokemonByName({commit}, names) {
-			return PokeApi.getPokemonByName(names)
-			.then(pokemon => {
-				commit('setList', pokemon)
-			})
-			.catch(error => console.log(error))
-
-		},
-		getPokemonById({commit}, ids) {
-			return PokeApi.getPokemonById(ids)
-			.then(pokemon => {
-				commit('setList', pokemon)
-			})
-			.catch(error => console.log(error))
-
-		},
-		getPokemonByUrl({commit}, urls) {
-			return PokeApi.getPokemonByUrl(urls)
+		getPokemon({commit}, identifier) {
+			return PokeApi.getPokemon(identifier)
 			.then(pokemon => {
 				commit('setList', pokemon)
 			})
@@ -49,7 +33,7 @@ export default {
 			context.commit('setPage', query)
 			return PokeApi.getPokedex(query.limit, query.offset)
 				.then((response, dispatch) => {
-					context.dispatch('getPokemonByName', response)
+					context.dispatch('getPokemon', response)
 				})
 				.catch(error => {
 					console.log(error)
