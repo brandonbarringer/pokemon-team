@@ -21,26 +21,26 @@ export default {
 	},
 
 	actions: {
-		getPokemonByName(context, names) {
+		getPokemonByName({commit}, names) {
 			return PokeApi.getPokemonByName(names)
 			.then(pokemon => {
-				context.commit('setList', pokemon)
+				commit('setList', pokemon)
 			})
 			.catch(error => console.log(error))
 
 		},
-		getPokemonById(context, ids) {
+		getPokemonById({commit}, ids) {
 			return PokeApi.getPokemonById(ids)
 			.then(pokemon => {
-				context.commit('setList', pokemon)
+				commit('setList', pokemon)
 			})
 			.catch(error => console.log(error))
 
 		},
-		getPokemonByUrl(context, urls) {
+		getPokemonByUrl({commit}, urls) {
 			return PokeApi.getPokemonByUrl(urls)
 			.then(pokemon => {
-				context.commit('setList', pokemon)
+				commit('setList', pokemon)
 			})
 			.catch(error => console.log(error))
 
