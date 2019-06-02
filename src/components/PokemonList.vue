@@ -1,7 +1,8 @@
 <template>
 	<section class="pokemon-list">
+		<button @click="getNext">Next Page</button>
 		<ul>
-			<li v-for="(pokemon, index) in list" :key="index">{{pokemon}}</li>
+			<li v-for="(pokemon, index) in list" :key="index">{{pokemon.data.name}}</li>
 		</ul>
 	</section>
 </template>
@@ -17,10 +18,12 @@
 		}),
 
 		created() {
-			this.$store.dispatch('PokemonList/GET_LIST')
-			.then(() => {
-				console.log('got pokemon list')
-			})
+			this.$store.dispatch('PokemonList/getPokedex', {limit: 20, offset: 0})
+		},
+		methods: {
+			getNext() {
+				this.$store.dispatch('PokemonList/getNextPage')
+			}
 		}
 	}
 
