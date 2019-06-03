@@ -47,11 +47,23 @@ export default {
 			let query = state.currentPage
 			dispatch('getPokedex', {limit: query.limit, offset: query.offset + query.limit})
 		},
-		getAll({dispatch, state}) {
-			let query = state.currentPage
-			if (state.currentPage.offset > 120) return
-			dispatch('getNextPage')
-			console.log(state.currentPage.offset)
+		// getAll({dispatch, state}) {
+		// 	let query = state.currentPage
+		// 	if (state.currentPage.offset > 120) return
+		// 	dispatch('getNextPage')
+		// 	console.log(state.currentPage.offset)
+
+		// }
+		getAll({commit}) {
+			let data = []
+			for (var i = 1; i < 200; i++) {
+				data.push({
+					id: i
+				})
+			}
+			return PokeApi.getPokemon(data).then(pokemon => {
+				commit('addToList', pokemon)
+			})
 
 		}
 	}

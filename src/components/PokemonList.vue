@@ -19,11 +19,12 @@
 		}),
 
 		created() {
-			this.$store.dispatch('PokemonList/getPokedex', {limit: 20, offset: 0})
+			this.getAll()
+			// this.$store.dispatch('PokemonList/getPokedex', {limit: 20, offset: 0})
 			// this.$store.dispatch('PokemonList/getPokedex', {limit: 40, offset: 0})
 		},
 		updated() {
-			this.$nextTick(this.getAll())
+			// this.$nextTick(this.getAll())
 		},
 		methods: {
 			getNext() {
