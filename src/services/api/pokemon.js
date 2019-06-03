@@ -34,18 +34,5 @@ export default {
 			.then(results => {
 				return results.data.results
 			})
-	}
-	// getPokemonColor(nameOrURL) {
-	// 	let url = nameOrURL.url ? nameOrURL : nameToUrl(nameOrURL.name);
-	// 	function nameToUrl(name) {
-	// 		return 'https://pokeapi.co/api/v2/pokemon/' + name
-	// 	}
-	// 	return axios
-	// 			.get(url)
-	// 			.then(response => {
-	// 				return response.data
-	// 			})
-	// }
-
-	
+	}	
 }

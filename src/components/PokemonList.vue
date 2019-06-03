@@ -9,20 +9,28 @@
 
 <script>
 	import {mapState} from 'vuex'
+	import _ from 'underscore'
 
 	export default {
 		name: 'PokemonList',
 
 		computed: mapState({
-			list: state => state.PokemonList.list
+			list: state => _.sortBy(state.PokemonList.list, 'id')
 		}),
 
 		created() {
 			this.$store.dispatch('PokemonList/getPokedex', {limit: 20, offset: 0})
+			// this.$store.dispatch('PokemonList/getPokedex', {limit: 40, offset: 0})
+		},
+		mounted() {
+			this.$nextTick(this.getAll())
 		},
 		methods: {
 			getNext() {
 				this.$store.dispatch('PokemonList/getNextPage')
+			},
+			getAll() {
+				this.$store.dispatch('PokemonList/getAll')
 			}
 		}
 	}
