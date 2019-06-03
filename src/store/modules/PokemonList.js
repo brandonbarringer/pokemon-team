@@ -27,7 +27,6 @@ export default {
 		getPokemon({commit}, identifier) {
 			return PokeApi.getPokemon(identifier)
 				.then(pokemon => {
-					console.log(pokemon)
 					commit('addToList', pokemon)
 				})
 			.catch(error => console.log(error))
@@ -50,12 +49,10 @@ export default {
 		},
 		getAll({dispatch, state}) {
 			let query = state.currentPage
-			do {
-				dispatch('getNextPage')
+			if (state.currentPage.offset > 120) return
+			dispatch('getNextPage')
+			console.log(state.currentPage.offset)
 
-				console.log(state.currentPage.offset)
-
-			} while(state.currentPage.offset < 120)
 		}
 	}
 }

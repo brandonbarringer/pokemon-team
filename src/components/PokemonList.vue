@@ -22,7 +22,7 @@
 			this.$store.dispatch('PokemonList/getPokedex', {limit: 20, offset: 0})
 			// this.$store.dispatch('PokemonList/getPokedex', {limit: 40, offset: 0})
 		},
-		mounted() {
+		updated() {
 			this.$nextTick(this.getAll())
 		},
 		methods: {
