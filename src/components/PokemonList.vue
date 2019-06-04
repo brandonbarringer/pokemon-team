@@ -1,8 +1,16 @@
 <template>
 	<section class="pokemon-list">
-		<button @click="getNext">Next Page</button>
 		<ul>
-			<li v-for="(pokemon, index) in list" :key="index">{{pokemon.data.name}}</li>
+			<li v-for="pokemon in list" :key="pokemon.id">
+				<span>{{pokemon.name}}</span>
+				<ul>
+					<li v-for="stat in pokemon.stats" :key="stat.stat.name">
+						<span class="label">{{stat.stat.name}}: </span>
+						<span class="value">{{stat.base_stat}}</span>
+					</li>
+				</ul>
+			</li>
+			
 		</ul>
 	</section>
 </template>
@@ -14,26 +22,21 @@
 	export default {
 		name: 'PokemonList',
 
-		computed: mapState({
-			list: state => _.sortBy(state.PokemonList.list, 'id')
-		}),
+		data() {
+			return {
+				total: null
+			}
+		},
 
-		created() {
-			this.getAll()
-			// this.$store.dispatch('PokemonList/getPokedex', {limit: 20, offset: 0})
-			// this.$store.dispatch('PokemonList/getPokedex', {limit: 40, offset: 0})
-		},
-		updated() {
-			// this.$nextTick(this.getAll())
-		},
+		computed: mapState({
+			list: state => state.PokemonList.listData
+		}),
 		methods: {
-			getNext() {
-				this.$store.dispatch('PokemonList/getNextPage')
-			},
-			getAll() {
-				this.$store.dispatch('PokemonList/getAll')
+			calcStatTotal(stats) {
+				return stats.reduce((partial_sum, a) => partial_sum + a,0)
 			}
 		}
+
 	}
 
 </script>
