@@ -10,7 +10,6 @@
 					</li>
 				</ul>
 			</li>
-			
 		</ul>
 	</section>
 </template>
@@ -21,12 +20,6 @@
 
 	export default {
 		name: 'PokemonList',
-
-		data() {
-			return {
-				total: null
-			}
-		},
 
 		computed: mapState({
 			list: state => state.PokemonList.listData
