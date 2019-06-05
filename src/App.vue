@@ -1,16 +1,16 @@
 <template>
 	<div id="app">
-		<PokemonList />
+		<PokemonStatBlock />
 	</div>
 </template>
 
 <script>
-	import PokemonList from './components/PokemonList.vue';
+	import PokemonStatBlock from './components/PokemonStatBlock.vue';
 
 	export default {
 		name: 'app',
 		components: {
-			PokemonList
+			PokemonStatBlock
 		},
 	}
 </script>

@@ -1,27 +1,23 @@
 //PokemonList Store Module
 
 import PokeApi from '@/services/api/pokemon'
-import listData from '@/data/pokemon.json'
+import data from '@/data/pokemon.json'
 
 export default {
 	namespaced: true,
 	strict: true,
 
 	state: {
-		list: [],
-		currentPage: null,
-		listData: listData
+		data: data,
+		activePokemon: null
 	},
 
 	mutations: {
 		setList(state, payload) {
 			state.list = payload
 		},
-		addToList(state, payload) {
-			state.list = state.list.concat(Object.freeze(payload))
-		},
-		setPage(state, payload) {
-			state.currentPage = payload
+		setActivePokemon(state, payload) {
+			state.activePokemon = payload
 		}
 	},
 
@@ -32,6 +28,10 @@ export default {
 					commit('addToList', pokemon)
 				})
 			.catch(error => console.log(error))
+		},
+		setActivePokemon({commit, state}, identifier) {
+			let id = state.data[identifier-1]
+			commit('setActivePokemon', id)
 		}
 	}
 }

@@ -16,20 +16,13 @@
 
 <script>
 	import {mapState} from 'vuex'
-	import _ from 'underscore'
 
 	export default {
 		name: 'PokemonList',
 
 		computed: mapState({
-			list: state => state.PokemonList.listData
-		}),
-		methods: {
-			calcStatTotal(stats) {
-				return stats.reduce((partial_sum, a) => partial_sum + a,0)
-			}
-		}
-
+			list: state => state.PokemonList.data
+		})
 	}
 
 </script>
