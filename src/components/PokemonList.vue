@@ -1,15 +1,15 @@
 <template>
 	<section class="pokemon-list">
 		<ul class="filters">
-			<li><input type="submit" @click="filter = $event.target.name" name="name" value="Name" /></li>
-			<li><input type="submit" @click="filter = $event.target.name" name="id" value="ID" /></li>
-			<li><input type="submit" @click="filter = $event.target.name" name="total" value="Total" /></li>
-			<li><input type="submit" @click="filter = $event.target.name" name="speed" value="Speed" /></li>
-			<li><input type="submit" @click="filter = $event.target.name" name="attack" value="Attack" /></li>
-			<li><input type="submit" @click="filter = $event.target.name" name="defense" value="Defense" /></li>
-			<li><input type="submit" @click="filter = $event.target.name" name="special-attack" value="Special Attack" /></li>
-			<li><input type="submit" @click="filter = $event.target.name" name="special-defense" value="Special Defense" /></li>
-			<li><input type="submit" @click="filter = $event.target.name" name="hp" value="HP" /></li>
+			<li><button @click="filterList" name="name">Name</button></li>
+			<li><button @click="filterList" name="id">ID</button></li>
+			<li><button @click="filterList" name="total">Total</button></li>
+			<li><button @click="filterList" name="speed">Speed</button></li>
+			<li><button @click="filterList" name="attack">Attack</button></li>
+			<li><button @click="filterList" name="defense">Defense</button></li>
+			<li><button @click="filterList" name="special-attack">Special Attack</button></li>
+			<li><button @click="filterList" name="special-defense">Special Defense</button></li>
+			<li><button @click="filterList" name="hp">HP</button></li>
 		</ul>
 		<ul>
 			<li v-for="pokemon in filteredList" :key="pokemon.id">
@@ -34,10 +34,11 @@
 
 		computed: mapState({
 			list: state => state.PokemonList.data,
-			filteredList: function(event)  {
-				let filter = this.filter
-				console.log(event)
-				return _.sortBy(this.list, filter)
+			filteredList: function()  {
+				const filteredList = _.sortBy(this.list, (obj)=>{
+					return obj[this.filter] || obj['id']
+				})
+				return filteredList
 			} 
 		}),
 		data() {
@@ -46,8 +47,8 @@
 			}
 		},
 		methods: {
-			click(event) {
-				console.log(event)
+			filterList(event) {
+				this.filter = event.target.name;
 			}
 		}
 
