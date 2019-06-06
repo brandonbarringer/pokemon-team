@@ -1,15 +1,15 @@
 <template>
 	<section class="pokemon-list">
 		<ul class="filters">
-			<li><button v-model="filter" value="name">Name</button></li>
-			<li><button v-model="filter" value="id">ID</button></li>
-			<li><button v-model="filter" value="">Total</button></li>
-			<li><button v-model="filter" value="">Speed</button></li>
-			<li><button v-model="filter" value="">Attack</button></li>
-			<li><button v-model="filter" value="">Defense</button></li>
-			<li><button v-model="filter" value="">Special Attack</button></li>
-			<li><button v-model="filter" value="">Special Defense</button></li>
-			<li><button v-model="filter" value="">HP</button></li>
+			<li><input type="submit" @click="filter = $event.target.name" name="name" value="Name" /></li>
+			<li><input type="submit" @click="filter = $event.target.name" name="id" value="ID" /></li>
+			<li><input type="submit" @click="filter = $event.target.name" name="total" value="Total" /></li>
+			<li><input type="submit" @click="filter = $event.target.name" name="speed" value="Speed" /></li>
+			<li><input type="submit" @click="filter = $event.target.name" name="attack" value="Attack" /></li>
+			<li><input type="submit" @click="filter = $event.target.name" name="defense" value="Defense" /></li>
+			<li><input type="submit" @click="filter = $event.target.name" name="special-attack" value="Special Attack" /></li>
+			<li><input type="submit" @click="filter = $event.target.name" name="special-defense" value="Special Defense" /></li>
+			<li><input type="submit" @click="filter = $event.target.name" name="hp" value="HP" /></li>
 		</ul>
 		<ul>
 			<li v-for="pokemon in filteredList" :key="pokemon.id">
@@ -46,7 +46,9 @@
 			}
 		},
 		methods: {
-			
+			click(event) {
+				console.log(event)
+			}
 		}
 
 	}
