@@ -36,19 +36,28 @@
 			list: state => state.PokemonList.data,
 			filteredList: function()  {
 				const filteredList = _.sortBy(this.list, (obj)=>{
-					return obj[this.filter] || obj['id']
+					return obj[this.filter.name] || obj['id']
 				})
-				return filteredList
+				let finalData = this.filter.order === 'asc' ? filteredList : filteredList.reverse()
+				return finalData
 			} 
 		}),
 		data() {
 			return {
-				filter: 'name',
+				filter: {
+					name: 'name',
+					order: 'asc'
+				}
 			}
 		},
 		methods: {
 			filterList(event) {
-				this.filter = event.target.name;
+				let order = event.target.classList.contains('asc') ? 'desc' : 'asc'
+				event.target.classList.toggle('asc')
+				this.filter = {
+					name: event.target.name,
+					order: order
+				}
 			}
 		}
 
