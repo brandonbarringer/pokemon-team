@@ -7,7 +7,12 @@
 -->
 <template>
 	<section class="pokemon-list">
-		<vue-fuse :keys="keys" :list="filteredList" :defaultAll="false"></vue-fuse>
+		<vue-fuse 
+			:keys="keys" 
+			:list="filteredList" 
+			:defaultAll="false"
+	        @fuseResultsUpdated="results($event)"
+		></vue-fuse>
 		<ul class="filters">
 			<li><button @click="filterList" class="asc" name="name">Name</button></li>
 			<li><button @click="filterList" name="id">ID</button></li>
@@ -19,10 +24,18 @@
 			<li><button @click="filterList" name="special-defense">Special Defense</button></li>
 			<li><button @click="filterList" name="hp">HP</button></li>
 		</ul>
-		<ul v-if="results">
-			<li>searched</li>
+		<ul v-if="result.length > 0">
+			<li v-for="(pokemon, index) in result" :key="index">
+				<span>#{{pokemon.id}} - {{pokemon.name}}</span>
+				<ul>
+					<li v-for="stat in pokemon.stats" :key="stat.stat.name">
+						<span class="label">{{stat.stat.name}}: </span>
+						<span class="value">{{stat.base_stat}}</span>
+					</li>
+				</ul>
+			</li>
 		</ul>
-		<ul>
+		<ul v-else>
 			<li v-for="pokemon in filteredList" :key="pokemon.id">
 				<span>#{{pokemon.id}} - {{pokemon.name}}</span>
 				<ul>
@@ -70,7 +83,7 @@
 					order: 'asc'
 				},
 				keys:['name', 'id'],
-				results: []
+				result: []
 			}
 		},
 		methods: {
@@ -81,7 +94,10 @@
 					name: event.target.name,
 					order: order
 				}
-			}
+			},
+			results (results) {
+		        this.result = results
+		    },
 		}
 
 	}
