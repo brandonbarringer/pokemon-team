@@ -1,7 +1,7 @@
 <template>
 	<section class="pokemon-list">
 		<ul class="filters">
-			<li><button @click="filterList" name="name">Name</button></li>
+			<li><button @click="filterList" class="asc" name="name">Name</button></li>
 			<li><button @click="filterList" name="id">ID</button></li>
 			<li><button @click="filterList" name="total">Total</button></li>
 			<li><button @click="filterList" name="speed">Speed</button></li>
