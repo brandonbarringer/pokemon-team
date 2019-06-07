@@ -16,7 +16,7 @@
 		></vue-fuse>
 		<ul class="filters">
 			<li><button @click="filterList" class="asc" name="name">Name</button></li>
-			<li><button @click="filterList" name="id">ID</button></li>
+			<li><button @click="filterList" class="asc" name="id">ID</button></li>
 			<li><button @click="filterList" name="total">Total</button></li>
 			<li><button @click="filterList" name="speed">Speed</button></li>
 			<li><button @click="filterList" name="attack">Attack</button></li>
@@ -26,10 +26,10 @@
 			<li><button @click="filterList" name="hp">HP</button></li>
 		</ul>
 		<ul>
-			<li v-for="(pokemon, index) in filteredList" :key="index">
+			<li v-for="pokemon in filteredList" :key="pokemon.id">
 				<span>#{{pokemon.id}} - {{pokemon.name}}</span>
 				<ul>
-					<li v-for="type in pokemon.types">{{type.type.name}}</li>
+					<li v-for="type in pokemon.types">Type: {{type.type.name}}</li>
 				</ul>
 				<ul>
 					<li v-for="stat in pokemon.stats" :key="stat.stat.name">
@@ -39,20 +39,6 @@
 				</ul>
 			</li>
 		</ul>
-		<!-- <ul v-else>
-			<li v-for="pokemon in filteredList" :key="pokemon.id">
-				<span>#{{pokemon.id}} - {{pokemon.name}}</span>
-				<ul>
-					<li v-for="type in pokemon.types">{{type.type.name}}</li>
-				</ul>
-				<ul>
-					<li v-for="stat in pokemon.stats" :key="stat.stat.name">
-						<span class="label">{{stat.stat.name}}: </span>
-						<span class="value">{{stat.base_stat}}</span>
-					</li>
-				</ul>
-			</li>
-		</ul> -->
 	</section>
 </template>
 
@@ -73,20 +59,20 @@
 							value = index
 						}
 					})
-					return value
+					return value;
 				}
 				const filteredList = _.sortBy(this.result, (obj) => {
 					let index = getIndexOfParent(obj, this.filter.name)
 					return obj[this.filter.name] || obj.stats[index].base_stat
 				});
 				let finalData = this.filter.order === 'asc' ? filteredList : filteredList.reverse();
-				return finalData
+				return finalData;
 			}
 		}),
 		data() {
 			return {
 				filter: {
-					name: 'name',
+					name: 'id',
 					order: 'asc'
 				},
 				keys:['name', 'types.type.name'],
@@ -95,15 +81,15 @@
 		},
 		methods: {
 			filterList(event) {
-				let order = event.target.classList.contains('asc') ? 'desc' : 'asc'
-				event.target.classList.toggle('asc')
+				let order = event.target.classList.contains('asc') ? 'desc' : 'asc';
+				event.target.classList.toggle('asc');
 				this.filter = {
 					name: event.target.name,
 					order: order
-				}
+				};
 			},
 			results (results) {
-		        this.result = results
+		        this.result = results;
 		    },
 		}
 
