@@ -35,12 +35,22 @@
 		computed: mapState({
 			list: state => state.PokemonList.data,
 			filteredList: function()  {
-				const filteredList = _.sortBy(this.list, (obj)=>{
-					return obj[this.filter.name] || obj['id']
-				})
-				let finalData = this.filter.order === 'asc' ? filteredList : filteredList.reverse()
+				const getIndexOfParent = (obj, stringToMatch) => {
+					let value;
+					obj.stats.forEach((obj, index) => {
+						if( obj.stat.name === stringToMatch ) {
+							value = index
+						}
+					})
+					return value
+				}
+				const filteredList = _.sortBy(this.list, (obj) => {
+					let index = getIndexOfParent(obj, this.filter.name)
+					return obj[this.filter.name] || obj.stats[index].base_stat
+				});
+				let finalData = this.filter.order === 'asc' ? filteredList : filteredList.reverse();
 				return finalData
-			} 
+			}
 		}),
 		data() {
 			return {
