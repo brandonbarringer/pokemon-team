@@ -1,5 +1,13 @@
+<!--
+	@todo
+		Refactor:
+			filters template
+			FilteredList function
+			FilterList function
+-->
 <template>
 	<section class="pokemon-list">
+		<vue-fuse :keys="keys" :list="filteredList" :defaultAll="false"></vue-fuse>
 		<ul class="filters">
 			<li><button @click="filterList" class="asc" name="name">Name</button></li>
 			<li><button @click="filterList" name="id">ID</button></li>
@@ -10,6 +18,9 @@
 			<li><button @click="filterList" name="special-attack">Special Attack</button></li>
 			<li><button @click="filterList" name="special-defense">Special Defense</button></li>
 			<li><button @click="filterList" name="hp">HP</button></li>
+		</ul>
+		<ul v-if="results">
+			<li>searched</li>
 		</ul>
 		<ul>
 			<li v-for="pokemon in filteredList" :key="pokemon.id">
@@ -57,7 +68,9 @@
 				filter: {
 					name: 'name',
 					order: 'asc'
-				}
+				},
+				keys:['name', 'id'],
+				results: []
 			}
 		},
 		methods: {
