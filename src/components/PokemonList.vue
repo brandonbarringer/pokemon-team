@@ -29,7 +29,7 @@
 			<li v-for="pokemon in filteredList" :key="pokemon.id">
 				<span>#{{pokemon.id}} - {{pokemon.name}}</span>
 				<ul>
-					<li v-for="type in pokemon.types">Type: {{type.type.name}}</li>
+					<li v-for="type in pokemon.types" :key="type.type.name">Type: {{type.type.name}}</li>
 				</ul>
 				<ul>
 					<li v-for="stat in pokemon.stats" :key="stat.stat.name">
