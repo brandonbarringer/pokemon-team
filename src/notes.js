@@ -11,19 +11,17 @@ PokemonStat block must use data which has calculated stats
 		PokemonBaseStatList:
 			Card:
 				Image
-				Name
-				Types
-				ID
-				BaseStats
+				✓ Name
+				✓ Types
+				✓ ID
+				✓ BaseStats
 			Search:
-				Name
-				ID
-			Filter:
-				Type
+				✓ Name
+				✓ Type
 			Sort:
-				Stat
-				ID
-				Name
+				✓ Stat
+				✓ ID
+				✓ Name
 
 ***PokemonDetail.vue***
 	data: pokemonDetail.json
@@ -32,6 +30,9 @@ PokemonStat block must use data which has calculated stats
 		Navigation:
 			Add to Team / Remove from Team
 			Go Back
+		Abilities:
+			name
+			short description
 		StatBlock:
 			name
 			CalcStats + total

@@ -1,18 +1,18 @@
 <!--
-	@todo
-		Refactor:
-			filters template
-			FilteredList function
-			FilterList function
+@todo
+	Refactor:
+		filters template
+		FilteredList function
+		FilterList function
 -->
 <template>
 	<section class="pokemon-list">
 		<vue-fuse
-			:keys="keys"
-			:list="list"
-			:defaultAll="true"
-			:threshold="0.0"
-	        @fuseResultsUpdated="results($event)"
+		:keys="keys"
+		:list="list"
+		:defaultAll="true"
+		:threshold="0.0"
+		@fuseResultsUpdated="results($event)"
 		></vue-fuse>
 		<ul class="filters">
 			<li><button @click="filterList" class="asc" name="name">Name</button></li>
@@ -60,7 +60,7 @@
 						}
 					})
 					return value;
-				}
+				};
 				const filteredList = _.sortBy(this.result, (obj) => {
 					let index = getIndexOfParent(obj, this.filter.name)
 					return obj[this.filter.name] || obj.stats[index].base_stat
@@ -88,9 +88,9 @@
 					order: order
 				};
 			},
-			results (results) {
-		        this.result = results;
-		    },
+			results(results) {
+				this.result = results;
+			}
 		}
 
 	}
@@ -98,8 +98,8 @@
 </script>
 
 <style>
-	.filters {
-		display: flex;
-		list-style-type: none;
-	}
+.filters {
+	display: flex;
+	list-style-type: none;
+}
 </style>
