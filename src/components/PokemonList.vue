@@ -27,6 +27,9 @@
 		</ul>
 		<ul>
 			<li v-for="pokemon in filteredList" :key="pokemon.id">
+				<clazy-load :src="getImagePathByID(pokemon.id) + '.png'" alt="">
+					<img :src="getImagePathByID(pokemon.id) + '.png'" alt="">
+				</clazy-load>
 				<span>#{{pokemon.id}} - {{pokemon.name}}</span>
 				<ul>
 					<li v-for="type in pokemon.types" :key="type.type.name">Type: {{type.type.name}}</li>
@@ -76,7 +79,8 @@
 					order: 'asc'
 				},
 				keys:['name', 'types.type.name'],
-				result: []
+				result: [],
+				publicPath: process.env.BASE_URL
 			}
 		},
 		methods: {
@@ -90,6 +94,12 @@
 			},
 			results(results) {
 				this.result = results;
+			},
+			threeDigit(num) {
+				return ("00" + num).slice(-3);
+			},
+			getImagePathByID(id) {
+				return window.location +  this.$pokemon.imagePath + this.threeDigit(id)
 			}
 		}
 
@@ -97,9 +107,9 @@
 
 </script>
 
-<style>
-.filters {
-	display: flex;
-	list-style-type: none;
-}
+<style lang="sass">
+@import '../../public/assets/sass/sprites.sass';
+.filters
+	display: flex
+	list-style-type: none
 </style>

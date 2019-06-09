@@ -1,0 +1,15 @@
+.pokemon-image
+	width: 475px
+	height: 215px
+	background:
+		image: url('../../public/assets/images/pokemon/sprites/sprite.gif')
+		size: 100%
+
+@for $i from 1 through 809
+	.pokemon-#{$i}
+		background:
+			position:
+				x: 0
+				y: 215px*$i
+
+
