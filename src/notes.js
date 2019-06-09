@@ -10,7 +10,7 @@ PokemonStat block must use data which has calculated stats
 	components:
 		PokemonBaseStatList:
 			Card:
-				Image
+				✓ Image
 				✓ Name
 				✓ Types
 				✓ ID
