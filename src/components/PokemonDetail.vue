@@ -7,7 +7,7 @@
 		</ul>
 		<h2>Stats:</h2>
 		<ul>
-			<li v-for="stat in pokemon.stats">{{stat.stat.name}}</li>
+			<li v-for="stat in pokemon.stats">{{stat.stat.name}}: {{calcStat(stat)}}</li>
 		</ul>
 		<h2>Abilites</h2>
 		<ul>
@@ -30,6 +30,7 @@
 
 <script>
 	import {mapState} from 'vuex';
+	import calc from '@/utils/calc'
 
 	export default {
 		name: 'pokemon-detail',
@@ -46,6 +47,20 @@
 			// fetches pokemon data based on route name
 			this.$store.dispatch('PokemonDetail/setActivePokemon', [{name:this.name}])
 		},
+		methods: {
+			calcStat(statObj) {
+				// if the stat name is not hp
+				if(statObj.stat.name !== 'hp') {
+					// calcuate the stat based of the stat calculation
+					// base-stat, IV:0, EV:0, LV:100, Nature:neutral
+					return calc.stat(statObj.base_stat, 0, 0, 100, 1)
+				} else {
+					// if it is hp, use the hp calculation
+					// base-stat, IV:0, EV:0, LV:100
+					return calc.hp(statObj.base_stat, 0, 0, 100)
+				}
+			}
+		}
 	}
 </script>
 
