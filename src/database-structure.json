@@ -1,39 +1,75 @@
-[
-	{
-		"name": null,
-		"id": null,
-		"order": null,
-		"stats": [
-			{
-				"name": null,
-				"base": null
-			}
-		],
-		"abilities": [
-			{
-				"name": null,
-				"description": null
-			}
-		],
-		"moves": [
-			{
-				"name": null,
-				"description": null
-			}
-		],
-		"types": [
-			{
-				"name": null,
-				"damage": {
-					"0": [null],
-					"25": [null],
-					"50": [null],
-					"100": [null],
-					"200": [null],
-					"400": [null]
+{
+	"pokemon": {
+		"bulbasaur": {
+			"id": null,
+			"order": null,
+			"baseStats": {
+				"speed": null,
+				"attack": null,
+				"defense": null,
+				"specialAttack": null,
+				"specialDefense": null,
+				"hp": null
+			},
+			"abilities": [
+				{
+					"name": null,
+					"description": null
 				}
+			],
+			"moves": [
+				{
+					"name": null,
+					"description": null,
+					"damageClass": null,
+					"type": null,
+					"power": null,
+					"accuracy": null,
+					"effectChance": null,
+					"category": null,
+					"pp": null,
+					"priority": null
+				}
+			],
+			"types": [
+				{
+					"name": null,
+					"damage": {
+						"0": [],
+						"25": [],
+						"50": [],
+						"100": [],
+						"200": [],
+						"400": []
+					}
 
-			}
-		]
-	}
-]
+				}
+			]
+		}
+	},
+	"users": [
+		{
+			"name": null,
+			"id": null,
+			"teams": [
+				{
+					"name": null,
+					"pokemon": [
+						{
+							"name": null,
+							"nature": null,
+							"level": null,
+							"stats": {
+								"speed": {
+									"ev": null,
+									"iv": null
+								}
+							},
+							"moves": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
