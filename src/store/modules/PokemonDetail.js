@@ -20,7 +20,7 @@ export default {
 		setActivePokemon({commit, state}, identifier) {
 			return PokeApi.getPokemon(identifier)
 				.then(pokemon => {
-					commit('setActivePokemon', pokemon)
+					commit('setActivePokemon', pokemon[0].data)
 				})
 		}
 	}

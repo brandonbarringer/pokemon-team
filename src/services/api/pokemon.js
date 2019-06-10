@@ -8,7 +8,6 @@ const baseUrl = 'https://pokeapi.co/api/v2/pokemon/'
 export default {
 	getPokemon(obj) {
 		let promises
-		console.log(obj)
 		switch(true) {
 			case obj[0].hasOwnProperty('name'):
 				promises = _.pluck(obj,'name').map(identifier => axios.get(baseUrl + identifier))

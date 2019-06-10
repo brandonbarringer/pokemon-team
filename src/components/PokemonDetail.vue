@@ -1,6 +1,30 @@
 <template>
 	<section class="pokemon-detail">
-		{{pokemon}}
+		<h1>{{pokemon.name}}</h1>
+		<h2>Types:</h2>
+		<ul>
+			<li v-for="type in pokemon.types">{{type.type.name}}</li>
+		</ul>
+		<h2>Stats:</h2>
+		<ul>
+			<li v-for="stat in pokemon.stats">{{stat.stat.name}}</li>
+		</ul>
+		<h2>Abilites</h2>
+		<ul>
+			<li v-for="ability in pokemon.abilities">
+				<div>{{ability.ability.name}}</div>
+				<div>{{ability.ability.url}}</div>
+			</li>
+		</ul>
+		<h2>Moves:</h2>
+		<ul>
+			<li v-for="move in pokemon.moves">
+				<div>{{move.move.name}}</div>
+				<div>{{move.move.url}}</div>
+			</li>
+		</ul>
+
+
 	</section>
 </template>
 
@@ -11,19 +35,17 @@
 		name: 'pokemon-detail',
 		data() {
 			return {
-				name: this.$route.params.name,
-				// activePokemon: null
+				name: this.$route.params.name
 			}
 		},
 		computed: mapState({
 			// grab pokemon data from storage
-			pokemon: state => state.PokemonDetail.activePokemon
+			pokemon: state => state.PokemonDetail.activePokemon,
 		}),
 		created() {
 			// fetches pokemon data based on route name
 			this.$store.dispatch('PokemonDetail/setActivePokemon', [{name:this.name}])
-		}
-
+		},
 	}
 </script>
 
