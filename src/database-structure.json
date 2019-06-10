@@ -1,0 +1,39 @@
+[
+	{
+		"name": null,
+		"id": null,
+		"order": null,
+		"stats": [
+			{
+				"name": null,
+				"base": null
+			}
+		],
+		"abilities": [
+			{
+				"name": null,
+				"description": null
+			}
+		],
+		"moves": [
+			{
+				"name": null,
+				"description": null
+			}
+		],
+		"types": [
+			{
+				"name": null,
+				"damage": {
+					"0": [null],
+					"25": [null],
+					"50": [null],
+					"100": [null],
+					"200": [null],
+					"400": [null]
+				}
+
+			}
+		]
+	}
+]
