@@ -3,6 +3,8 @@
 /*
 
 PokemonStat block must use data which has calculated stats
+test sql db https://github.com/cmmartti/pokemon-database
+convert data to firebase
 
 ***PokemonList.vue***
 	data: pokemonList.json
