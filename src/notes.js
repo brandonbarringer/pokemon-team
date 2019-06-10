@@ -1,4 +1,4 @@
-//Notes
+// Notes
 
 /*
 
@@ -6,7 +6,6 @@ PokemonStat block must use data which has calculated stats
 
 ***PokemonList.vue***
 	data: pokemonList.json
-
 	components:
 		PokemonBaseStatList:
 			Card:
@@ -25,7 +24,6 @@ PokemonStat block must use data which has calculated stats
 
 ***PokemonDetail.vue***
 	data: pokemonDetail.json
-
 	components:
 		Navigation:
 			Add to Team / Remove from Team
@@ -71,7 +69,6 @@ PokemonStat block must use data which has calculated stats
 
 ***PokemonTeamList.vue***
 	data: user.teams
-
 	components:
 		TeamCard:
 			TeamName

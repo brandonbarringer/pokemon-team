@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import PokemonList from './components/PokemonList.vue'
+import PokemonDetail from './components/PokemonDetail.vue'
 
 Vue.use(Router)
 
@@ -12,6 +14,16 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/pokemon/:name',
+      name: 'pokemon-detail',
+      component: PokemonDetail
+    },
+    {
+      path: '/dex',
+      name: 'pokemon-list',
+      component: PokemonList
     },
     {
       path: '/about',

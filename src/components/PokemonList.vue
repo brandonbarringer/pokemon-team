@@ -123,7 +123,7 @@
 			},
 			getImagePathByID(id) {
 				// http://example.com/ + /images/ + 001
-				return window.location +  this.$pokemon.imagePath + this.threeDigit(id)
+				return window.location.origin +  this.$pokemon.imagePath + this.threeDigit(id)
 			}
 		}
 

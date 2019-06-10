@@ -7,7 +7,7 @@ import VueClazyload from 'vue-clazy-load'
 
 Vue.config.productionTip = false
 
-Vue.prototype.$pokemon = {imagePath: 'assets/images/pokemon/pngs/'}
+Vue.prototype.$pokemon = {imagePath: '/assets/images/pokemon/pngs/'}
 
 Vue.use(VueFuse)
 Vue.use(VueClazyload)

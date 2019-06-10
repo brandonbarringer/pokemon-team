@@ -1,16 +1,14 @@
 <template>
 	<div id="app">
-		<PokemonList />
+		<router-view></router-view>
 	</div>
 </template>
 
 <script>
-	import PokemonList from './components/PokemonList.vue';
 
 	export default {
 		name: 'app',
 		components: {
-			PokemonList
 		},
 	}
 </script>
