@@ -14,12 +14,14 @@
 			"abilities": [
 				{
 					"name": null,
+					"id": null,
 					"description": null
 				}
 			],
 			"moves": [
 				{
 					"name": null,
+					"id": null,
 					"description": null,
 					"damageClass": null,
 					"type": null,
@@ -34,6 +36,7 @@
 			"types": [
 				{
 					"name": null,
+					"id": null,
 					"damage": {
 						"0": [],
 						"25": [],
@@ -49,7 +52,8 @@
 	},
 	"users": [
 		{
-			"name": null,
+			"email": null,
+			"password": null,
 			"id": null,
 			"teams": [
 				{

@@ -3,22 +3,22 @@
 		<h1>{{pokemon.name}}</h1>
 		<h2>Types:</h2>
 		<ul>
-			<li v-for="type in pokemon.types">{{type.type.name}}</li>
+			<li v-for="type in pokemon.types" :key="type.type.name">{{type.type.name}}</li>
 		</ul>
 		<h2>Stats:</h2>
 		<ul>
-			<li v-for="stat in pokemon.stats">{{stat.stat.name}}: {{calcStat(stat)}}</li>
+			<li v-for="stat in pokemon.stats" :key="stat.stat.name">{{stat.stat.name}}: {{calcStat(stat)}}</li>
 		</ul>
 		<h2>Abilites</h2>
 		<ul>
-			<li v-for="ability in pokemon.abilities">
+			<li v-for="ability in pokemon.abilities" :key="ability.ability.name">
 				<div>{{ability.ability.name}}</div>
 				<div>{{ability.ability.url}}</div>
 			</li>
 		</ul>
 		<h2>Moves:</h2>
 		<ul>
-			<li v-for="move in pokemon.moves">
+			<li v-for="move in pokemon.moves" :key="move.move.name">
 				<div>{{move.move.name}}</div>
 				<div>{{move.move.url}}</div>
 			</li>
