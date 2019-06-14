@@ -6,6 +6,14 @@ PokemonStat block must use data which has calculated stats
 test sql db https://github.com/cmmartti/pokemon-database
 convert data to firebase
 
+Move "moves" to own collection
+get moves where users = pokemon-name
+moves: {
+	move: {
+		users: ['pokemon1', 'pokemon2']
+	}
+}
+
 ***PokemonList.vue***
 	data: pokemonList.json
 	components:

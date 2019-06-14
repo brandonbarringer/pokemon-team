@@ -12,7 +12,7 @@ Vue.use(Vuex)
 const debug = process.env.NODE_ENV !== 'production'
 const db = fb.firestore();
 
-const pokemon = db.collection('pokemon').doc('bulbasaur')
+const pokemon = db.collection('pokemon')
 
 const state = {
 	list: []
@@ -27,8 +27,10 @@ const mutations = {
 const actions = {
 	getNamesAndStats({commit}) {
 		pokemon.get()
-		.then(item => {
-			console.log(item)
+		.then(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				console.log(doc.data())
+			})
 		})
 	}
 }
