@@ -7,7 +7,7 @@ test sql db https://github.com/cmmartti/pokemon-database
 convert data to firebase
 
 Move "moves" to own collection
-get moves where users = pokemon-name
+get moves where users array contains pokemon-name
 moves: {
 	move: {
 		users: ['pokemon1', 'pokemon2']

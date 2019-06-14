@@ -26,12 +26,12 @@ const mutations = {
 
 const actions = {
 	getNamesAndStats({commit}) {
-		pokemon.get()
-		.then(querySnapshot => {
-			querySnapshot.forEach(doc => {
-				console.log(doc.data())
-			})
-		})
+		// pokemon.get()
+		// .then(querySnapshot => {
+		// 	querySnapshot.forEach(doc => {
+		// 		doc.data()
+		// 	})
+		// })
 	}
 }
 
