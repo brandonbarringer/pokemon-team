@@ -29,12 +29,13 @@
 			}
 		},
 		methods: {
-			logout: function() {
+			logout() {
 				firebase.auth().signOut()
 				.then(() => {
 					this.$router.replace('login')
 				})
 			}
+
 		},
 		created() {
 			// fetches pokemon data based on route name

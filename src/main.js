@@ -8,7 +8,12 @@ import {fb} from '@/vendor/firebase'
 
 Vue.config.productionTip = false
 
-Vue.prototype.$pokemon = {imagePath: '/assets/images/pokemon/pngs/'}
+Vue.prototype.$pokemon = {
+	imagePath: '/assets/images/pokemon/pngs/',
+	addToTeam: (id) => {
+		console.log(id)
+	}
+};
 
 Vue.use(VueFuse)
 Vue.use(VueClazyload)

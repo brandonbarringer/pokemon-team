@@ -12,7 +12,7 @@ Vue.use(Vuex)
 const debug = process.env.NODE_ENV !== 'production'
 const db = fb.firestore();
 
-const pokemon = db.collection('pokemon')
+// const pokemon = db.collection('pokemon')
 
 const state = {
 	list: []

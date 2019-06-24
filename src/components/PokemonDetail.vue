@@ -1,6 +1,7 @@
 <template>
 	<section class="pokemon-detail">
 		<h1>{{pokemon.name}}</h1>
+		<button @click="addToTeam(pokemon.id)">Add To Team</button>
 		<h2>Types:</h2>
 		<ul>
 			<li v-for="type in pokemon.types" :key="type.type.name">{{type.type.name}}</li>
@@ -51,7 +52,7 @@
 			calcStat(statObj) {
 				// if the stat name is not hp
 				if(statObj.stat.name !== 'hp') {
-					// calcuate the stat based of the stat calculation
+					// calculate the stat based of the stat calculation
 					// base-stat, IV:0, EV:0, LV:100, Nature:neutral
 					return calc.stat(statObj.base_stat, 0, 0, 100, 1)
 				} else {
@@ -59,6 +60,10 @@
 					// base-stat, IV:0, EV:0, LV:100
 					return calc.hp(statObj.base_stat, 0, 0, 100)
 				}
+			},
+			addToTeam(id) {
+				// main.js
+				return this.$pokemon.addToTeam(id)
 			}
 		}
 	}

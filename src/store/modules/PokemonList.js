@@ -1,7 +1,7 @@
 //PokemonList Store Module
 
 import PokeApi from '@/services/api/pokemon'
-import data from '@/data/pokemon.json'
+import data from '@/data/pokemon.min.json'
 
 export default {
 	namespaced: true,
@@ -30,7 +30,7 @@ export default {
 			.catch(error => console.log(error))
 		},
 		setActivePokemon({commit, state}, identifier) {
-			let id = state.data[identifier-1]
+			let id = state.data[identifier - 1]
 			commit('setActivePokemon', id)
 		}
 	}

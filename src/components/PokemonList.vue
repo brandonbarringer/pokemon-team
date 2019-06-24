@@ -9,7 +9,7 @@
 	<section class="pokemon-list">
 		<vue-fuse
 		:keys="keys"
-		:list="list"
+		:list="listArr"
 		:defaultAll="true"
 		:threshold="0.0"
 		@fuseResultsUpdated="results($event)"
@@ -17,29 +17,33 @@
 		<ul class="filters">
 			<li><button @click="filterList" class="asc" name="name">Name</button></li>
 			<li><button @click="filterList" class="asc" name="id">ID</button></li>
-			<li><button @click="filterList" name="total">Total</button></li>
-			<li><button @click="filterList" name="speed">Speed</button></li>
-			<li><button @click="filterList" name="attack">Attack</button></li>
-			<li><button @click="filterList" name="defense">Defense</button></li>
-			<li><button @click="filterList" name="special-attack">Special Attack</button></li>
-			<li><button @click="filterList" name="special-defense">Special Defense</button></li>
-			<li><button @click="filterList" name="hp">HP</button></li>
+			<li><button @click="filterList" data-type="stat" class="asc" name="total">Total</button></li>
+			<li><button @click="filterList" data-type="stat" class="asc" name="speed">Speed</button></li>
+			<li><button @click="filterList" data-type="stat" class="asc" name="attack">Attack</button></li>
+			<li><button @click="filterList" data-type="stat" class="asc" name="defense">Defense</button></li>
+			<li><button @click="filterList" data-type="stat" class="asc" name="special-attack">Special Attack</button></li>
+			<li><button @click="filterList" data-type="stat" class="asc" name="special-defense">Special Defense</button></li>
+			<li><button @click="filterList" data-type="stat" class="asc" name="hp">HP</button></li>
 		</ul>
 		<ul>
-			<li v-for="pokemon in filteredList" :key="pokemon.id">
+			<li v-for="pokemon in result" :key="pokemon.id">
 				<clazy-load :src="getImagePathByID(pokemon.id) + '.png'" alt="">
 					<img :src="getImagePathByID(pokemon.id) + '.png'" alt="">
 				</clazy-load>
 				<span>#{{pokemon.id}} - {{pokemon.name}}</span>
 				<ul>
-					<li v-for="type in pokemon.types" :key="type.type.name">Type: {{type.type.name}}</li>
+					<li v-for="(type, key) in pokemon.types" :key="key">Type: {{type}}</li>
 				</ul>
 				<ul>
-					<li v-for="stat in pokemon.stats" :key="stat.stat.name">
-						<span class="label">{{stat.stat.name}}: </span>
-						<span class="value">{{stat.base_stat}}</span>
+					<li v-for="(stat, key) in pokemon.stats" :key="key">
+						<span class="label">{{key}}: </span>
+						<span class="value">{{stat}}</span>
 					</li>
 				</ul>
+				<button @click="addToTeam(pokemon.id)">Add to Team</button>
+				<router-link :to="'/pokemon/' + pokemon.name">
+					<button>Details</button>
+				</router-link>
 			</li>
 		</ul>
 	</section>
@@ -56,39 +60,33 @@
 			// grab pokemon list from storage
 			list: state => state.PokemonList.data,
 			filteredList: function()  {
-				const getIndexOfParent = (obj, stringToMatch) => {
-					// emtpy placeholder
-					let value;
-					// for each stat obj in the containing stats object
-					obj.stats.forEach((obj, index) => {
-						// if the stat name matches the string we provide
-						if( obj.stat.name === stringToMatch ) {
-							// set the placeholder to the index of
-							// where we found the match
-							value = index
-						}
-					})
-					// return the index
-					return value;
-				};
-				const filteredList = _.sortBy(this.result, (obj) => {
-					let index = getIndexOfParent(obj, this.filter.name)
-					// sort the collection by the key that matches the filter (ie not a stat)
-					// or by the stat that matches the filter
-					return obj[this.filter.name] || obj.stats[index].base_stat
-				});
-				// if the order is set to asc return sorted list in its original order (asc)
-				// if not, return the list in its reverse order (desc)
-				let finalData = this.filter.order === 'asc' ? filteredList : filteredList.reverse();
-				return finalData;
+				const order = this.filter.order;
+				const name = this.filter.name;
+				let list;
+				const type = this.filter.type;
+				// console.log(this.result.length)
+				if (type == 'stat') {
+					list =_.sortBy(this.list, (obj) => obj.stats[name]);
+				} else {
+					list = _.sortBy(this.list, name);
+				}
+				return order === 'asc' ? list : list.reverse()
+			},
+			// converts list to array to be searched by fuse
+			listArr: function() {
+				const arr = Object.keys(this.filteredList).map(key => {
+					return this.filteredList[key]
+				})
+				return arr
 			}
 		}),
 		data() {
 			return {
 				// filtering on first load
 				filter: {
-					name: 'id',
-					order: 'asc'
+					name: 'order',
+					order: 'asc',
+					type: null,
 				},
 				// keys that can be searched with vue fuse
 				keys:['name', 'types.type.name'],
@@ -102,13 +100,19 @@
 				// if the filter has a class of .asc
 				// set the order to desc or visa versa
 				let order = event.target.classList.contains('asc') ? 'desc' : 'asc';
+				let type = event.target.dataset.type || null
 				event.target.classList.toggle('asc');
 				this.filter = {
 					// sets the name of the filter to
 					// the name of the input clicked
 					name: event.target.name,
-					order: order
+					order: order,
+					type: type
 				};
+			},
+			addToTeam(id) {
+				// main.js
+				return this.$pokemon.addToTeam(id)
 			},
 			results(results) {
 				// sets the result to the results
@@ -131,8 +135,23 @@
 
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 .filters
 	display: flex
 	list-style-type: none
+	flex-wrap: wrap
+
+	button
+		display: flex
+		&:after
+			width: 20px
+			height: 20px
+			display: block
+			top: -3px
+			position: relative
+			content: '⏶'
+		&.asc
+			&:after
+				content: '⏷'
+
 </style>
