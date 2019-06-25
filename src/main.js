@@ -14,6 +14,9 @@ Vue.prototype.$pokemon = {
 		console.log(id)
 	}
 };
+Vue.prototype.$user = {
+	id: null
+}
 
 Vue.use(VueFuse)
 Vue.use(VueClazyload)

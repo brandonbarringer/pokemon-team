@@ -15,31 +15,20 @@
 	</section>
 </template>
 <script>
-	import firebase from 'firebase'
-	import 'firebase/auth'
+	import {mapState} from 'vuex';
+
 	export default {
 		name: 'userTeam',
-		// computed: mapState({
-		// 	// grab pokemon data from storage
-		// 	pokemon: state => state.list,
-		// }),
-		data() {
-			return {
-				teams: null,
-			}
-		},
+		computed: mapState({
+			// grab pokemon data from storage
+			teams: state => state.UserTeam.teams,
+		}),
 		methods: {
-			logout() {
-				firebase.auth().signOut()
-				.then(() => {
-					this.$router.replace('login')
-				})
-			}
 
 		},
 		created() {
 			// fetches pokemon data based on route name
-			this.$store.dispatch('getNamesAndStats')
+			// this.$store.dispatch('getNamesAndStats')
 		},
 
 	}
