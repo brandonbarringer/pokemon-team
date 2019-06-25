@@ -21,7 +21,7 @@
 	export default {
 		name: 'PokemonStatBlock',
 		computed: mapState({
-			data: state => state.PokemonList.activePokemon
+			data: state => state.activePokemon
 		}),
 		data() {
 			return {
@@ -45,7 +45,7 @@
 			}
 		},
 		mounted() {
-			this.$store.dispatch('PokemonList/setActivePokemon', 1)
+			this.$store.dispatch('setActivePokemon', 1)
 		}
 	}
 

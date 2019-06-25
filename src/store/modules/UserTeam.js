@@ -7,21 +7,27 @@ export default {
 
 	state: {
 		teams: null,
-		user() {
-			return fb.auth().onAuthStateChanged((user) => {
-				return user.uid
-			}
+		user: null,
+	},
+
+	getters: {
+		getUser: state => {
+			return state.user
 		}
 	},
 
 	mutations: {
-		setActivePokemon(state, payload) {
-			state.activePokemon = payload
+		setUser: (state, payload) => { 
+			state.user = payload; 
+		},
+		removeUser: state => {
+			state.user = null
 		}
 	},
 
 	actions: {
-		addPokemonToTeam({commit}, id) {},
-		getUserTeam({commit}, uid) {},
+		setUser: ({commit}, userData) => {
+			commit('setUser', userData);
+		}
 	}
 }

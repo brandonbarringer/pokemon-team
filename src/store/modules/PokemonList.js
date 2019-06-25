@@ -13,23 +13,23 @@ export default {
 	},
 
 	mutations: {
-		setList(state, payload) {
+		setList: (state, payload) => {
 			state.list = payload
 		},
-		setActivePokemon(state, payload) {
+		setActivePokemon: (state, payload) => {
 			state.activePokemon = payload
 		}
 	},
 
 	actions: {
-		getPokemon({commit}, identifier) {
+		getPokemon: ({commit}, identifier) => {
 			return PokeApi.getPokemon(identifier)
 				.then(pokemon => {
 					commit('addToList', pokemon)
 				})
 			.catch(error => console.log(error))
 		},
-		setActivePokemon({commit, state}, identifier) {
+		setActivePokemon: ({commit, state}, identifier) => {
 			let id = state.data[identifier - 1]
 			commit('setActivePokemon', id)
 		}

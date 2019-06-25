@@ -11,13 +11,13 @@ export default {
 	},
 
 	mutations: {
-		setActivePokemon(state, payload) {
+		setActivePokemon: (state, payload) => {
 			state.activePokemon = payload
 		}
 	},
 
 	actions: {
-		setActivePokemon({commit}, identifier) {
+		setActivePokemon: ({commit}, identifier) => {
 			return PokeApi.getPokemon(identifier)
 				.then(pokemon => {
 					commit('setActivePokemon', pokemon[0].data)

@@ -16,19 +16,20 @@
 </template>
 <script>
 	import {mapState} from 'vuex';
+	import {fb} from '@/vendor/firebase';
 
 	export default {
 		name: 'userTeam',
 		computed: mapState({
-			// grab pokemon data from storage
-			teams: state => state.UserTeam.teams,
+			// grab user teams arr from storage
+			teams: state => state.teams,
 		}),
 		methods: {
 
 		},
 		created() {
-			// fetches pokemon data based on route name
-			// this.$store.dispatch('getNamesAndStats')
+			// gets user id
+			this.$store.dispatch('setUser', fb.auth().currentUser.uid)
 		},
 
 	}

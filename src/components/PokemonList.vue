@@ -58,7 +58,7 @@
 
 		computed: mapState({
 			// grab pokemon list from storage
-			list: state => state.PokemonList.data,
+			list: state => state.data,
 			filteredList: function()  {
 				const order = this.filter.order;
 				const name = this.filter.name;

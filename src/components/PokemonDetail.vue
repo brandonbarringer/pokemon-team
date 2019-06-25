@@ -42,11 +42,11 @@
 		},
 		computed: mapState({
 			// grab pokemon data from storage
-			pokemon: state => state.PokemonDetail.activePokemon,
+			pokemon: state => state.activePokemon,
 		}),
 		created() {
 			// fetches pokemon data based on route name
-			this.$store.dispatch('PokemonDetail/setActivePokemon', [{name:this.name}])
+			this.$store.dispatch('setActivePokemon', [{name:this.name}])
 		},
 		methods: {
 			calcStat(statObj) {
