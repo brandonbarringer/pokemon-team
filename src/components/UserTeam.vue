@@ -15,24 +15,22 @@
 	</section>
 </template>
 <script>
-	import {mapState} from 'vuex';
-	import {fb} from '@/vendor/firebase';
-
 	export default {
 		name: 'userTeam',
 		computed: {
 			teams() {
-				return this.$store.getters.getTeams
+				return this.$store.getters.getTeams;
 			}
 		},
 		methods: {
 			logout: function() {
-				this.$store.dispatch('signOut')
+				const payload = {
+					router: this.$router
+				};
+				this.$store.dispatch('signOut', payload);
 			}
 		},
 		created() {
-			// gets user id
-			this.$store.dispatch('setUser', fb.auth().currentUser.uid)
 		},
 
 	}

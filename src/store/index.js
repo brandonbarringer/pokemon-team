@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {fb} from '@/vendor/firebase'
+import firebase from '@/vendor/firebase'
 import PokeApi from '@/services/api/pokemon'
 import data from '@/data/pokemon.min.json'
 
@@ -12,10 +12,9 @@ https://medium.com/javascript-in-plain-english/how-to-implement-a-showcase-web-a
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
-const db = fb.firestore();
 
 const state = {
-	data: data,
+	dex: data,
 	activePokemon: null,
 	teams: null,
 	user: null,
@@ -23,13 +22,13 @@ const state = {
 
 const mutations = {
 	setActivePokemon: (state, payload) => {
-		state.activePokemon = state.data[payload]
+		state.activePokemon = state.dex[payload];
 	},
 	setUser: (state, payload) => {
 		state.user = payload;
 	},
 	removeUser: state => {
-		state.user = null
+		state.user = null;
 	}
 };
 
@@ -44,56 +43,62 @@ const getters = {
 		return state.teams;
 	},
 	getUser: state => {
-		return state.user
+		return state.user;
 	},
 	getDex: state => {
-		return state.data
+		return state.dex;
 	}
 
 };
 
 const actions = {
 	setActivePokemon: ({commit}, identifier) => {
-		commit('setActivePokemon', identifier)
+		commit('setActivePokemon', identifier);
 	},
 	setUser: ({commit}, userData) => {
 		commit('setUser', userData);
 	},
-	signIn: ({commit}, method) => {
-		// commit('signIn', data)
-	},
-	signOut: ({commit}, data) => {
-		fb.auth().signOut()
-		.then(response => {
-			commit('removeUser');
-			this.$router.replace('/');
-		})
-		.catch(err => {
-			console.log(err.message)
-		})
-		// commit('signOut', data)
-	},
-	signUpWithEmail: ({commit, dispatch}, credentials) => {
-		fb.auth().createUserWithEmailAndPassword(credentials.email, credentials.password)
+	signInWithEmail: ({dispatch}, payload) => {
+		firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
 		.then(response => {
 			dispatch('setUser', response.user.uid);
-			this.$router.replace('team');
+			payload.router.replace('team');
 		})
 		.catch(err => {
 			console.error(err.message);
-		})
+		});
 	},
-	signInWithGoogle: ({commit, dispatch}, credentials) => {
-		const provider = new fb.auth.GoogleAuthProvider();
-
-		fb.auth().signInWithPopup(provider)
+	signOut: ({commit}, payload) => {
+		firebase.fb.auth().signOut()
 		.then(response => {
-			dispatch('setUser', response.user.uid);
-			this.$router.replace('team');
+			commit('removeUser');
+			payload.router.replace('/');
 		})
 		.catch(err => {
-			console.log('error: ', err.message)
+			console.log(err.message);
+		});
+	},
+	signUpWithEmail: ({dispatch}, payload) => {
+		firebase.firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
+		.then(response => {
+			dispatch('setUser', response.user.uid);
+			payload.router.replace('team');
 		})
+		.catch(err => {
+			console.error(err.message);
+		});
+	},
+	signInWithGoogle: ({dispatch}, payload) => {
+		const provider = new firebase.firebase.auth.GoogleAuthProvider();
+
+		firebase.firebase.auth().signInWithPopup(provider)
+		.then(response => {
+			dispatch('setUser', response.user.uid);
+			payload.router.replace('team');
+		})
+		.catch(err => {
+			console.error(err.message);
+		});
 	},
 };
 

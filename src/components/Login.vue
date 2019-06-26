@@ -3,8 +3,10 @@ Tutorial: https://medium.com/@anas.mammeri/vue-2-firebase-how-to-build-a-vue-app
  -->
 <template>
 	<div>
-		<input v-model="email" type="email" class="username" placeholder="username">
-		<input v-model="password" type="password" class="password" placeholder="password">
+		<form>
+			<input v-model="email" type="email" class="username" placeholder="username">
+			<input v-model="password" type="password" class="password" placeholder="password">
+		</form>
 		<button @click="login" class="submit">Login</button>
 		<p> Or Sign In with Google</p>
 		<button @click="googleLogin">Google Sign in</button>
@@ -24,26 +26,19 @@ Tutorial: https://medium.com/@anas.mammeri/vue-2-firebase-how-to-build-a-vue-app
 		},
 		methods: {
 			login(event) {
-				firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-				.then(
-					user => {
-						this.$router.replace('team')
-					},
-					err => {
-						console.log('error: ', err.message)
-					}
-				)
+				event.preventDefault();
+				const payload = {
+					email: this.email,
+					password: this.password,
+					router: this.$router
+				};
+				this.$store.dispatch('signUpWithEmail', payload);
 			},
 			googleLogin() {
-				const provider = new firebase.auth.GoogleAuthProvider();
-
-				firebase.auth().signInWithPopup(provider)
-				.then(result => {
-					this.$router.replace('team');
-				})
-				.catch(err => {
-					console.log('error: ', err.message)
-				})
+				const payload = {
+					router: this.$router
+				};
+				this.$store.dispatch('signInWithGoogle', payload);
 			}
 		}
 	}

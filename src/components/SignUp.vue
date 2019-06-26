@@ -27,14 +27,18 @@ https://medium.com/@anas.mammerivue-2-firebase-how-to-build-a-vue-app-with-fireb
 		methods: {
 			signUp(event) {
 				event.preventDefault();
-				const credentials = {
+				const payload = {
 					email: this.email,
-					password: this.password
+					password: this.password,
+					router: this.$router
 				};
-				this.$store.dispatch('signUpWithEmail', credentials);
+				this.$store.dispatch('signUpWithEmail', payload);
 			},
 			googleSignup() {
-				this.$store.dispatch('signInWithGoogle')
+				const payload = {
+					router: this.$router
+				}
+				this.$store.dispatch('signInWithGoogle', payload)
 			}
 		}
 	}

@@ -6,4 +6,7 @@ import config from '@/config.js'
 
 
 // init firebase with configs from src/config.js
-export const fb = firebase.initializeApp(config.config)
+export default { 
+	fb : firebase.initializeApp(config.config),
+	firebase: firebase
+}

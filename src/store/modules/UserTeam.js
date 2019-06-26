@@ -1,5 +1,5 @@
 //UserTeam Store Module
-import {fb} from '@/vendor/firebase'
+import firebase from '@/vendor/firebase'
 
 export default {
 	namespaced: true,
@@ -21,7 +21,7 @@ export default {
 			state.user = payload; 
 		},
 		removeUser: state => {
-			state.user = null
+			state.user = null;
 		}
 	},
 
