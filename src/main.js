@@ -21,7 +21,8 @@ Vue.use(VueClazyload)
 let app = null;
 
 // Initialize app only when firebase is initialized
-firebase.fb.auth().onAuthStateChanged(() => {
+// if the user is remembered, set the user
+firebase.fb.auth().onAuthStateChanged((user) => {
 	if(!app) {
 		app = new Vue({
 		  router,
@@ -29,4 +30,5 @@ firebase.fb.auth().onAuthStateChanged(() => {
 		  render: h => h(App)
 		}).$mount('#app')
 	}
+	app.$store.dispatch('setUser', user.uid)
 })

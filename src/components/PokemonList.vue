@@ -66,7 +66,6 @@
 				const name = this.filter.name;
 				let list;
 				const type = this.filter.type;
-				// console.log(this.result.length)
 				if (type == 'stat') {
 					list =_.sortBy(this.list, (obj) => obj.stats[name]);
 				} else {

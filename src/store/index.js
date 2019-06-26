@@ -17,7 +17,10 @@ const state = {
 	dex: data,
 	activePokemon: null,
 	teams: null,
-	user: null,
+	user: {
+		id: null,
+		teams: []
+	},
 };
 
 const mutations = {
@@ -25,10 +28,23 @@ const mutations = {
 		state.activePokemon = state.dex[payload];
 	},
 	setUser: (state, payload) => {
-		state.user = payload;
+		state.user.id = payload;
 	},
 	removeUser: state => {
-		state.user = null;
+		state.user = {
+			id: null,
+			teams: [],
+		};
+	},
+	addToTeam: (state, payload) => {
+		const id = payload.teamId;
+		const pokemon = payload.pokemonId
+		// const teams = state.user.teams;
+		// const team = _.where(teams, {id: id})[0]
+		// team.
+	},
+	createNewTeam: (state, name) => {
+		state.user.teams[state.user.teams.length] = {id: state.user.teams.length +1, name: name, pokemon: []}
 	}
 };
 
@@ -100,6 +116,13 @@ const actions = {
 			console.error(err.message);
 		});
 	},
+	addToTeam: ({commit}, payload) => {
+		commit('addToTeam', payload)
+	},
+	createNewTeam: ({commit}, payload) => {
+		commit('createNewTeam', payload.name)
+		payload.router.replace('dex')
+	}
 };
 
 export default new Vuex.Store({

@@ -8,9 +8,11 @@
 		</ul>
 		<div v-else>
 			<h2>You don't have a team yet.</h2>
-			<router-link to="/dex">
+			<!-- <router-link to="/dex">
 				<button>Create a Team</button>
-			</router-link>
+			</router-link> -->
+			<button @click="createTeam">Create a Team</button>
+
 		</div>
 	</section>
 </template>
@@ -23,11 +25,18 @@
 			}
 		},
 		methods: {
-			logout: function() {
+			logout() {
 				const payload = {
 					router: this.$router
 				};
 				this.$store.dispatch('signOut', payload);
+			},
+			createTeam() {
+				let payload = {
+					name: prompt('Enter Team Name:', 'Team Name'),
+					router: this.$router
+				}
+				this.$store.dispatch('createNewTeam', payload)
 			}
 		},
 		created() {

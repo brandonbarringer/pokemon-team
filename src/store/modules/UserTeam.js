@@ -7,7 +7,7 @@ export default {
 
 	state: {
 		teams: null,
-		user: null,
+		user: {},
 	},
 
 	getters: {
