@@ -112,8 +112,7 @@
 				};
 			},
 			addToTeam(id) {
-				// main.js
-				return this.$pokemon.addToTeam(id)
+				this.$store.dispatch('addToTeam', id)
 			},
 			results(results) {
 				// sets the result to the results

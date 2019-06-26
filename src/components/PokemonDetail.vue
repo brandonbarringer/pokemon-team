@@ -76,8 +76,7 @@
 				}
 			},
 			addToTeam(id) {
-				// main.js
-				return this.$pokemon.addToTeam(id)
+				this.$store.dispatch('addToTeam', id)
 			}
 		}
 	}

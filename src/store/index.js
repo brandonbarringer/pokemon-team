@@ -19,7 +19,7 @@ const state = {
 	activeTeam: null,
 	user: {
 		id: null,
-		teams: []
+		teams: {}
 	},
 };
 
@@ -37,14 +37,11 @@ const mutations = {
 		};
 	},
 	addToTeam: (state, payload) => {
-		const id = payload.teamId;
-		const pokemon = payload.pokemonId
-		// const teams = state.user.teams;
-		// const team = _.where(teams, {id: id})[0]
-		// team.
+		const team = state.activeTeam;
+		state.user.teams[team].pokemon.push(payload)
 	},
 	createNewTeam: (state, name) => {
-		state.user.teams[state.user.teams.length] = {id: state.user.teams.length +1, name: name, pokemon: []}
+		state.user.teams[name] = {id: Object.keys(state.user.teams).length +1, name: name, pokemon: []}
 	},
 	setActiveTeam: (state, name) => {
 		state.activeTeam = name;
@@ -123,15 +120,15 @@ const actions = {
 		});
 	},
 	addToTeam: ({commit}, payload) => {
-		commit('addToTeam', payload)
+		commit('addToTeam', payload);
 	},
 	createNewTeam: ({dispatch, commit}, payload) => {
-		commit('createNewTeam', payload.name)
-		dispatch('setActiveTeam', payload.name)
+		commit('createNewTeam', payload.name);
+		dispatch('setActiveTeam', payload.name);
 		payload.router.replace('dex')
 	},
 	setActiveTeam: ({commit}, payload) => {
-		commit('setActiveTeam', payload)
+		commit('setActiveTeam', payload);
 	}
 };
 
