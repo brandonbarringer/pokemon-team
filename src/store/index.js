@@ -16,7 +16,7 @@ const debug = process.env.NODE_ENV !== 'production'
 const state = {
 	dex: data,
 	activePokemon: null,
-	teams: null,
+	activeTeam: null,
 	user: {
 		id: null,
 		teams: []
@@ -45,6 +45,9 @@ const mutations = {
 	},
 	createNewTeam: (state, name) => {
 		state.user.teams[state.user.teams.length] = {id: state.user.teams.length +1, name: name, pokemon: []}
+	},
+	setActiveTeam: (state, name) => {
+		state.activeTeam = name;
 	}
 };
 
@@ -54,6 +57,9 @@ const getters = {
 	},
 	getActivePokemon: state => {
 		return state.activePokemon;
+	},
+	getActiveTeam: state => {
+		return state.activeTeam
 	},
 	getTeams: state => {
 		return state.teams;
@@ -119,9 +125,13 @@ const actions = {
 	addToTeam: ({commit}, payload) => {
 		commit('addToTeam', payload)
 	},
-	createNewTeam: ({commit}, payload) => {
+	createNewTeam: ({dispatch, commit}, payload) => {
 		commit('createNewTeam', payload.name)
+		dispatch('setActiveTeam', payload.name)
 		payload.router.replace('dex')
+	},
+	setActiveTeam: ({commit}, payload) => {
+		commit('setActiveTeam', payload)
 	}
 };
 
