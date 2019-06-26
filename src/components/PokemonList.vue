@@ -145,13 +145,13 @@
 		display: flex
 		&:after
 			width: 20px
-			height: 20px
+			height: 10px
 			display: block
-			top: -3px
+			top: 0
 			position: relative
-			content: '⏶'
+			content: '\25b2'
 		&.asc
 			&:after
-				content: '⏷'
+				content: '\25bc'
 
 </style>

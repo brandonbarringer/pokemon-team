@@ -12,6 +12,7 @@ https://medium.com/javascript-in-plain-english/how-to-implement-a-showcase-web-a
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
+const database = firebase.fb.firestore();
 
 const state = {
 	dex: data,
@@ -33,7 +34,7 @@ const mutations = {
 	removeUser: state => {
 		state.user = {
 			id: null,
-			teams: [],
+			teams: {},
 		};
 	},
 	addToTeam: (state, payload) => {
