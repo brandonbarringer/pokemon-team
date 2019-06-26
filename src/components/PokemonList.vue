@@ -56,10 +56,12 @@
 	export default {
 		name: 'PokemonList',
 
-		computed: mapState({
+		computed: {
 			// grab pokemon list from storage
-			list: state => state.data,
-			filteredList: function()  {
+			list() {
+				return this.$store.getters.getDex;
+			},
+			filteredList()  {
 				const order = this.filter.order;
 				const name = this.filter.name;
 				let list;
@@ -73,13 +75,13 @@
 				return order === 'asc' ? list : list.reverse()
 			},
 			// converts list to array to be searched by fuse
-			listArr: function() {
+			listArr() {
 				const arr = Object.keys(this.filteredList).map(key => {
 					return this.filteredList[key]
 				})
 				return arr
 			}
-		}),
+		},
 		data() {
 			return {
 				// filtering on first load

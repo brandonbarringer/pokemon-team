@@ -23,10 +23,10 @@ const state = {
 
 const mutations = {
 	setActivePokemon: (state, payload) => {
-		state.activePokemon = payload
+		state.activePokemon = state.data[payload]
 	},
-	setUser: (state, payload) => { 
-		state.user = payload; 
+	setUser: (state, payload) => {
+		state.user = payload;
 	},
 	removeUser: state => {
 		state.user = null
@@ -46,27 +46,54 @@ const getters = {
 	getUser: state => {
 		return state.user
 	},
+	getDex: state => {
+		return state.data
+	}
 
 };
 
 const actions = {
 	setActivePokemon: ({commit}, identifier) => {
-		return PokeApi.getPokemon(identifier)
-			.then(pokemon => {
-				commit('setActivePokemon', pokemon[0].data)
-			})
+		commit('setActivePokemon', identifier)
 	},
 	setUser: ({commit}, userData) => {
 		commit('setUser', userData);
 	},
-	signIn: ({commit}, method) => {		
+	signIn: ({commit}, method) => {
 		// commit('signIn', data)
 	},
 	signOut: ({commit}, data) => {
+		fb.auth().signOut()
+		.then(response => {
+			commit('removeUser');
+			this.$router.replace('/');
+		})
+		.catch(err => {
+			console.log(err.message)
+		})
 		// commit('signOut', data)
 	},
-	signUp: ({commit}, method) => {
-		// commit('signUp', data)
+	signUpWithEmail: ({commit, dispatch}, credentials) => {
+		fb.auth().createUserWithEmailAndPassword(credentials.email, credentials.password)
+		.then(response => {
+			dispatch('setUser', response.user.uid);
+			this.$router.replace('team');
+		})
+		.catch(err => {
+			console.error(err.message);
+		})
+	},
+	signInWithGoogle: ({commit, dispatch}, credentials) => {
+		const provider = new fb.auth.GoogleAuthProvider();
+
+		fb.auth().signInWithPopup(provider)
+		.then(response => {
+			dispatch('setUser', response.user.uid);
+			this.$router.replace('team');
+		})
+		.catch(err => {
+			console.log('error: ', err.message)
+		})
 	},
 };
 

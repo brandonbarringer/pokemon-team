@@ -20,12 +20,15 @@
 
 	export default {
 		name: 'userTeam',
-		computed: mapState({
-			// grab user teams arr from storage
-			teams: state => state.teams,
-		}),
+		computed: {
+			teams() {
+				return this.$store.getters.getTeams
+			}
+		},
 		methods: {
-
+			logout: function() {
+				this.$store.dispatch('signOut')
+			}
 		},
 		created() {
 			// gets user id

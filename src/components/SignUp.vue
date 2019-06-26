@@ -1,10 +1,14 @@
 <!--
-Tutorial: https://medium.com/@anas.mammeri/vue-2-firebase-how-to-build-a-vue-app-with-firebase-authentication-system-in-15-minutes-fdce6f289c3c
+Tutorial:
+
+https://medium.com/@anas.mammerivue-2-firebase-how-to-build-a-vue-app-with-firebase-authentication-system-in-15-minutes-fdce6f289c3c
  -->
 <template>
 	<div>
-		<input v-model="email" type="email" class="username" placeholder="username">
-		<input v-model="password" type="password" class="password" placeholder="password">
+		<form>
+			<input v-model="email" type="email" class="username" placeholder="username">
+			<input v-model="password" type="password" class="password" placeholder="password">
+		</form>
 		<button @click="signUp" class="submit">Sign Up</button>
 		<p> Or Sign In with Google</p>
 		<button @click="googleSignup">Google Sign in</button>
@@ -12,8 +16,6 @@ Tutorial: https://medium.com/@anas.mammeri/vue-2-firebase-how-to-build-a-vue-app
 	</div>
 </template>
 <script>
-	import firebase from 'firebase'
-	import 'firebase/auth'
 	export default {
 		name: 'SignUp',
 		data() {
@@ -24,27 +26,15 @@ Tutorial: https://medium.com/@anas.mammeri/vue-2-firebase-how-to-build-a-vue-app
 		},
 		methods: {
 			signUp(event) {
-				event.preventDefault()
-				firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-				.then(
-					user => {
-						this.$router.replace('team')
-				},
-					err => {
-						console.log('error: ', err)
-					}
-				)
+				event.preventDefault();
+				const credentials = {
+					email: this.email,
+					password: this.password
+				};
+				this.$store.dispatch('signUpWithEmail', credentials);
 			},
 			googleSignup() {
-				const provider = new firebase.auth.GoogleAuthProvider();
-
-				firebase.auth().signInWithPopup(provider)
-				.then(result => {
-					this.$router.replace('team');
-				})
-				.catch(err => {
-					console.log('error: ', err.message)
-				})
+				this.$store.dispatch('signInWithGoogle')
 			}
 		}
 	}
