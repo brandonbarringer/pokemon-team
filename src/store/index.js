@@ -29,6 +29,10 @@ const mutations = {
 		state.activePokemon = state.dex[payload];
 	},
 	setUser: (state, payload) => {
+		// database.collection('users').doc(uid).get()
+		// .then(doc => {
+		// 	// set state to doc
+		// })
 		state.user.id = payload;
 	},
 	removeUser: state => {
@@ -42,7 +46,10 @@ const mutations = {
 		state.user.teams[team].pokemon.push(payload)
 	},
 	createNewTeam: (state, name) => {
-		state.user.teams[name] = {id: Object.keys(state.user.teams).length +1, name: name, pokemon: []}
+		const data = {id: Object.keys(state.user.teams).length +1, name: name, pokemon: []}
+		state.user.teams[name] = data
+		database.collection('users').doc(state.user.id).set(data)
+
 	},
 	setActiveTeam: (state, name) => {
 		state.activeTeam = name;
@@ -75,8 +82,23 @@ const actions = {
 	setActivePokemon: ({commit}, identifier) => {
 		commit('setActivePokemon', identifier);
 	},
-	setUser: ({commit}, userData) => {
-		commit('setUser', userData);
+	createNewUser: ({commit}, uid) => {
+		database.collection('users').doc(uid).set({id: uid})
+	},
+	setUser: ({commit}, uid) => {
+		// checks if user exists,
+		// if not create new user,
+		// else set the user information
+		// database.collection('users').doc(uid).get()
+		// .then(doc => {
+		// 	if (!doc.exists) {
+		// 		dispatch('createNewUser', uid)
+		// 	} else {
+		// 		commit('setUser', uid);
+		// 	}
+		// })
+		commit('setUser', uid);
+
 	},
 	signInWithEmail: ({dispatch}, payload) => {
 		firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
@@ -123,7 +145,12 @@ const actions = {
 	addToTeam: ({commit}, payload) => {
 		commit('addToTeam', payload);
 	},
-	createNewTeam: ({dispatch, commit}, payload) => {
+	createNewTeam: ({dispatch, commit, state}, payload) => {
+		// const user = database.collection(users).doc(state.user.id)
+		// const teamExists = user.get().then(doc => {
+
+		// })
+		// if (payload.name )
 		commit('createNewTeam', payload.name);
 		dispatch('setActiveTeam', payload.name);
 		payload.router.replace('dex')
