@@ -30,5 +30,8 @@ firebase.fb.auth().onAuthStateChanged((user) => {
 		  render: h => h(App)
 		}).$mount('#app')
 	}
-	if(user) app.$store.dispatch('setUser', user.uid)
+	if(user) {
+		console.log('set user')
+		app.$store.dispatch('setUser', user.uid)
+	}
 })

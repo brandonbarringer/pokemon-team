@@ -25,12 +25,8 @@ const mutations = {
 	setActivePokemon: (state, payload) => {
 		state.activePokemon = state.dex[payload];
 	},
-	setUser: (state, payload) => {
-		database.collection('users').doc(payload).get()
-		.then(doc => {
-			// set state to doc
-			state.user = doc.data();
-		})
+	setUserData: (state, payload) => {
+		state.user = payload
 	},
 	removeUser: state => {
 		state.user = null
@@ -43,7 +39,6 @@ const mutations = {
 		const data = {id: Object.keys(state.user.teams).length +1, name: name, pokemon: []}
 		state.user.teams[name] = data
 		database.collection('users').doc(state.user.id).set(data)
-
 	},
 	setActiveTeam: (state, name) => {
 		state.activeTeam = name;
@@ -79,7 +74,15 @@ const actions = {
 	createNewUser: ({commit}, uid) => {
 		database.collection('users').doc(uid).set({id: uid})
 	},
-	setUser: ({commit}, uid) => {
+	getUserData: ({commit}, uid) => {
+		database.collection('users').doc(uid).get()
+		.then(doc => {
+			// set state to doc
+			let data = doc.data()
+			commit('setUserData', data);
+		})
+	},
+	setUser: ({dispatch}, uid) => {
 		// checks if user exists,
 		// if not create new user,
 		// else set the user information
@@ -88,7 +91,7 @@ const actions = {
 			if (!doc.exists) {
 				dispatch('createNewUser', uid)
 			} else {
-				commit('setUser', uid);
+				dispatch('getUserData', uid)
 			}
 		})
 	},
