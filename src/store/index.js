@@ -18,10 +18,7 @@ const state = {
 	dex: data,
 	activePokemon: null,
 	activeTeam: null,
-	user: {
-		id: null,
-		teams: {}
-	},
+	user: null,
 };
 
 const mutations = {
@@ -29,17 +26,14 @@ const mutations = {
 		state.activePokemon = state.dex[payload];
 	},
 	setUser: (state, payload) => {
-		// database.collection('users').doc(uid).get()
-		// .then(doc => {
-		// 	// set state to doc
-		// })
-		state.user.id = payload;
+		database.collection('users').doc(payload).get()
+		.then(doc => {
+			// set state to doc
+			state.user = doc.data();
+		})
 	},
 	removeUser: state => {
-		state.user = {
-			id: null,
-			teams: {},
-		};
+		state.user = null
 	},
 	addToTeam: (state, payload) => {
 		const team = state.activeTeam;
@@ -89,16 +83,14 @@ const actions = {
 		// checks if user exists,
 		// if not create new user,
 		// else set the user information
-		// database.collection('users').doc(uid).get()
-		// .then(doc => {
-		// 	if (!doc.exists) {
-		// 		dispatch('createNewUser', uid)
-		// 	} else {
-		// 		commit('setUser', uid);
-		// 	}
-		// })
-		commit('setUser', uid);
-
+		database.collection('users').doc(uid).get()
+		.then(doc => {
+			if (!doc.exists) {
+				dispatch('createNewUser', uid)
+			} else {
+				commit('setUser', uid);
+			}
+		})
 	},
 	signInWithEmail: ({dispatch}, payload) => {
 		firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
