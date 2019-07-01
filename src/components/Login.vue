@@ -27,18 +27,14 @@ Tutorial: https://medium.com/@anas.mammeri/vue-2-firebase-how-to-build-a-vue-app
 		methods: {
 			login(event) {
 				event.preventDefault();
-				const payload = {
+				const config = {
 					email: this.email,
-					password: this.password,
-					router: this.$router
+					password: this.password
 				};
-				this.$store.dispatch('signUpWithEmail', payload);
+				this.$store.dispatch('signInEmailPassword', config);
 			},
 			googleLogin() {
-				const payload = {
-					router: this.$router
-				};
-				this.$store.dispatch('signInWithGoogle', payload);
+				this.$store.dispatch('signInGoogle');
 			}
 		}
 	}
@@ -48,6 +44,5 @@ Tutorial: https://medium.com/@anas.mammeri/vue-2-firebase-how-to-build-a-vue-app
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		height: 80vh;
 	}
 </style>

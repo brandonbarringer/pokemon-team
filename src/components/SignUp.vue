@@ -27,18 +27,14 @@ https://medium.com/@anas.mammerivue-2-firebase-how-to-build-a-vue-app-with-fireb
 		methods: {
 			signUp(event) {
 				event.preventDefault();
-				const payload = {
+				const config = {
 					email: this.email,
-					password: this.password,
-					router: this.$router
+					password: this.password
 				};
-				this.$store.dispatch('signUpWithEmail', payload);
+				this.$store.dispatch('signUpEmailPassword', config);
 			},
 			googleSignup() {
-				const payload = {
-					router: this.$router
-				}
-				this.$store.dispatch('signInWithGoogle', payload)
+				this.$store.dispatch('signUpGoogle')
 			}
 		}
 	}
@@ -48,6 +44,5 @@ https://medium.com/@anas.mammerivue-2-firebase-how-to-build-a-vue-app-with-fireb
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		height: 80vh;
 	}
 </style>

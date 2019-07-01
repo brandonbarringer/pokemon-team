@@ -32,11 +32,7 @@
 				this.$store.dispatch('signOut', payload);
 			},
 			createTeam() {
-				let payload = {
-					name: prompt('Enter Team Name:', 'Team Name'),
-					router: this.$router
-				}
-				this.$store.dispatch('createNewTeam', payload)
+				this.$store.dispatch('createNewTeam', prompt('Enter Team Name:', 'Team Name'))
 			}
 		},
 		created() {
