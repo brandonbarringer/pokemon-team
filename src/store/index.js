@@ -79,7 +79,6 @@ const actions = {
 	signInEmailPassowrd: async ({dispatch}, config) => {
 		const auth = await firebase.firebase.auth().signInWithEmailAndPassword(config.email, config.password);
 		dispatch('onUserAuth', auth.user.uid);
-		dispatch('getUserData', auth.user.uid)
 	},
 	signUpEmailPassword: async ({dispatch}, config) => {
 		const auth = await firebase.firebase.auth().createUserWithEmailAndPassword(config.email, config.password);
@@ -90,7 +89,6 @@ const actions = {
 		const provider = new firebase.firebase.auth.GoogleAuthProvider();
 		const auth = await firebase.firebase.auth().signInWithPopup(provider);
 		dispatch('onUserAuth', auth.user.uid);
-		dispatch('getUserData', auth.user.uid)
 	},
 	signUpGoogle: async ({dispatch}) => {
 		const provider = new firebase.firebase.auth.GoogleAuthProvider();
@@ -142,15 +140,16 @@ const actions = {
 		const weHaveData = await dataExists(teamsCollection);
 		const nameIsUnique = async (name) => {
 			const teamDocs = await teamsCollection.get();
-			const teams = teamDocs.data();
-			console.log(teams)
-			const teamNames = Object.Keys(teams);
+			const teams = [];
+			let teamNames;
+			teamDocs.forEach(doc => {
+				teams.push(doc.data())
+			})
+			teamNames = teams.map(obj => obj.id)
 			return teamNames.includes(name);
 		}
-		console.log(weHaveData)
-
 		if (weHaveData) {
-			if (await nameIsUnique(name)) {
+			if (await !nameIsUnique(name)) {
 				teamsCollection.doc(name).set({id: name})
 				.then(() => {
 					commit('setActiveTeam', name)
