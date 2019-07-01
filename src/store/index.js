@@ -145,11 +145,11 @@ const actions = {
 			teamDocs.forEach(doc => {
 				teams.push(doc.data())
 			})
-			teamNames = teams.map(obj => obj.id)
-			return teamNames.includes(name);
+			teamNames = teams.map(obj => obj.id);
+			return teamNames.includes(name) ? false : true;
 		}
 		if (weHaveData) {
-			if (await !nameIsUnique(name)) {
+			if (await nameIsUnique(name)) {
 				teamsCollection.doc(name).set({id: name})
 				.then(() => {
 					commit('setActiveTeam', name)
