@@ -56,10 +56,6 @@ const mutations = {
 	removeUser: state => {
 		state.activeUser = null;
 	},
-	addToTeam: (state, payload) => {
-		const team = state.activeTeam;
-		state.user.teams[team].pokemon.push(payload);
-	},
 	setActiveTeam: (state, name) => {
 		state.activeTeam = name;
 	},
@@ -147,7 +143,6 @@ const actions = {
 		db.doc.team.set(payload).then(() => {
 			dispatch('getUserTeams');
 		});
-		commit('addToTeam', payload);
 	},
 	createNewTeam: async ({commit, state}, name) => {
 		const teamsCollection = db.collection.teams;
@@ -161,7 +156,7 @@ const actions = {
 			});
 			teamNames = teams.map(obj => obj.id);
 			return teamNames.includes(name) ? false : true;
-		}
+		};
 		if (await nameIsUnique(name)) {
 			teamsCollection.doc(name).set({id: name})
 			.then(() => {
