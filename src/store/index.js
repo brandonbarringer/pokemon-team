@@ -1,18 +1,13 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import firebase from '@/vendor/firebase'
-import PokeApi from '@/services/api/pokemon'
-import data from '@/data/pokemon.min.json'
-import router from '@/router.js'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import firebase from '@/vendor/firebase';
+import PokeApi from '@/services/api/pokemon';
+import data from '@/data/pokemon.min.json';
+import router from '@/router.js';
 
-/* @TODO
-Combine modules into this file. They are not needed
-https://medium.com/javascript-in-plain-english/how-to-implement-a-showcase-web-app-in-vue-js-with-firebase-and-register-functionality-part-1-992089d17828
-*/
+Vue.use(Vuex);
 
-Vue.use(Vuex)
-
-const debug = process.env.NODE_ENV !== 'production'
+const debug = process.env.NODE_ENV !== 'production';
 const database = firebase.fb.firestore();
 
 const state = {
@@ -23,36 +18,53 @@ const state = {
 	userTeams: null,
 };
 
+const db = {
+	collection: {
+		users: database.collection('users'),
+		get teams() {
+			return db.doc.user.collection('teams');
+		},
+		get pokemon() {
+			return db.doc.team.collection('pokemon');
+		}
+	},
+	doc: {
+		get user() {
+			return db.collection.users.doc(state.activeUser);
+		},
+		get team() {
+			return db.collection.teams.doc(state.activeTeam);
+		},
+		get pokemon() {
+			return db.collection.pokemon.doc(state.activePokemon);
+		}
+	}
+};
+
 const dataExists = async (dataRef) => {
 	const data = await dataRef.get();
-
 	return data.exists || data.docs.length > 0 ? true : false;
-}
+};
 
 const mutations = {
 	setActivePokemon: (state, payload) => {
 		state.activePokemon = state.dex[payload];
 	},
 	setUserTeams: (state, payload) => {
-		state.userTeams = payload
+		state.userTeams = payload;
 	},
 	removeUser: state => {
-		state.activeUser = null
+		state.activeUser = null;
 	},
 	addToTeam: (state, payload) => {
 		const team = state.activeTeam;
-		state.user.teams[team].pokemon.push(payload)
-	},
-	createNewTeam: (state, name) => {
-		const data = {id: Object.keys(state.user.teams).length +1, name: name, pokemon: []}
-		state.user.teams[name] = data
-		database.collection('users').doc(state.user.id).set(data)
+		state.user.teams[team].pokemon.push(payload);
 	},
 	setActiveTeam: (state, name) => {
 		state.activeTeam = name;
 	},
 	setActiveUser: (state, id) => {
-		state.activeUser = id
+		state.activeUser = id;
 	}
 };
 
@@ -72,7 +84,6 @@ const getters = {
 	getDex: state => {
 		return state.dex;
 	}
-
 };
 
 const actions = {
@@ -105,20 +116,20 @@ const actions = {
 		commit('setActivePokemon', identifier);
 	},
 	createNewUser: (uid) => {
-		database.collection('users').doc(uid).set({id: uid})
+		db.doc.user.set({id: uid});
 	},
 	getUserTeams: async ({commit}, uid) => {
-		const teamsCollection = database.collection('users').doc(uid).collection('teams');
+		const teamsCollection = db.collection.teams;
 		const weHaveData = await dataExists(teamsCollection);
 		let teamDocs;
-		let teams = []
+		let teams = [];
 
 		if (weHaveData) {
 			teamDocs = await teamsCollection.get();
 			teamDocs.forEach(doc => {
 				teams.push(doc.data())
-			})
-			commit('setUserTeams', teams)
+			});
+			commit('setUserTeams', teams);
 		}
 
 	},
@@ -132,68 +143,34 @@ const actions = {
 			console.log(err.message);
 		});
 	},
-	addToTeam: ({commit}, payload) => {
+	addToTeam: ({dispatch}, payload) => {
+		db.doc.team.set(payload).then(() => {
+			dispatch('getUserTeams');
+		});
 		commit('addToTeam', payload);
 	},
 	createNewTeam: async ({commit, state}, name) => {
-		const teamsCollection = database.collection('users').doc(state.activeUser).collection('teams');
+		const teamsCollection = db.collection.teams;
 		const weHaveData = await dataExists(teamsCollection);
 		const nameIsUnique = async (name) => {
 			const teamDocs = await teamsCollection.get();
 			const teams = [];
 			let teamNames;
 			teamDocs.forEach(doc => {
-				teams.push(doc.data())
-			})
+				teams.push(doc.data());
+			});
 			teamNames = teams.map(obj => obj.id);
 			return teamNames.includes(name) ? false : true;
 		}
-		if (weHaveData) {
-			if (await nameIsUnique(name)) {
-				teamsCollection.doc(name).set({id: name})
-				.then(() => {
-					commit('setActiveTeam', name)
-					router.replace('/dex')
-				})
-			} else {
-				alert(name + " is already in use. Please choose a unique name")
-			}
-
-		} else {
+		if (await nameIsUnique(name)) {
 			teamsCollection.doc(name).set({id: name})
 			.then(() => {
-				commit('setActiveTeam', name)
-				router.replace('/dex')
-			})
-
+				commit('setActiveTeam', name);
+				router.replace('/dex');
+			});
+		} else {
+			alert(name + " is already in use. Please choose a unique name");
 		}
-
-
-		/*
-		users: {
-			userID: {
-				id: id,
-				teams: {
-					teamName: {
-						id: teamName,
-						pokemon: {
-							pokemonName: {
-								lv: null,
-								speed: {
-									iv: null,
-									ev: null,
-								},
-								...
-								shiny: Boolean,
-								moves: [],
-								item: name
-							}
-						}
-					}
-				}
-			}
-		}
-		*/
 	},
 	setActiveTeam: ({commit}, payload) => {
 		commit('setActiveTeam', payload);

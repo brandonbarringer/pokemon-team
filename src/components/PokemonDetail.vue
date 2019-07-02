@@ -76,7 +76,40 @@
 				}
 			},
 			addToTeam(id) {
-				this.$store.dispatch('addToTeam', id)
+				const pokeInfo = {
+					name: id,
+					lv: null,
+					slot: 0,
+					speed: {
+						iv: 0,
+						ev: 0,
+					},
+					hp: {
+						iv: 0,
+						ev: 0,
+					},
+					attack: {
+						iv: 0,
+						ev: 0,
+					},
+					defense: {
+						iv: 0,
+						ev: 0,
+					},
+					'special-attack': {
+						iv: 0,
+						ev: 0,
+					},
+					'special-defense': {
+						iv: 0,
+						ev: 0,
+					},
+					shiny: false,
+					moves: ['move 1', 'move 2', 'move 3', 'move 4'],
+					item: 'some item',
+					ability: 'some ability'
+				};
+				this.$store.dispatch('addToTeam', pokeInfo);
 			}
 		}
 	}
