@@ -2,18 +2,14 @@
 	<section class="teams">
 		<button @click="logout">Logout</button>
 		<ul v-if="teams">
-			<li v-for"team in teams">
+			<li v-for="team in teams">
 				{{team}}
 			</li>
 		</ul>
 		<div v-else>
-			<h2>You don't have a team yet.</h2>
-			<!-- <router-link to="/dex">
-				<button>Create a Team</button>
-			</router-link> -->
-			<button @click="createTeam">Create a Team</button>
-
+			<h2>You don't have a team yet.</h2>	
 		</div>
+		<button @click="createTeam">Create a Team</button>
 	</section>
 </template>
 <script>

@@ -25,32 +25,44 @@
 			<!-- <li v-for="(stat, key) in pokemon.stats" :key="key">{{key}}: {{calcStat(stat, key)}}</li> -->
 			<li>
 				<p>Speed: {{calcStat(pokemon.stats.speed, 'speed')}}</p>
+				<label for="ev">EV</label>
 				<input :value="speed.ev || 0" type="number" placeholder="EV">
+				<label for="iv">IV</label>
 				<input :value="speed.iv || 0" type="number" placeholder="IV">
 			</li>
 			<li>
 				<p>Special Defense: {{calcStat(pokemon.stats['special-defense'], 'special-defense')}}</p>
+				<label for="ev">EV</label>
 				<input :value="specialDefense.ev || 0" type="number" placeholder="EV">
+				<label for="iv">IV</label>
 				<input :value="specialDefense.iv || 0" type="number" placeholder="IV">
 			</li>
 			<li>
 				<p>Special Attack: {{calcStat(pokemon.stats['special-attack'], 'special-attack')}}</p>
+				<label for="ev">EV</label>
 				<input :value="specialAttack.ev || 0" type="number" placeholder="EV">
+				<label for="iv">IV</label>
 				<input :value="specialAttack.iv || 0" type="number" placeholder="IV">
 			</li>
 			<li>
 				<p>Attack: {{calcStat(pokemon.stats.attack, 'attack')}}</p>
+				<label for="ev">EV</label>
 				<input :value="attack.ev || 0" type="number" placeholder="EV">
+				<label for="iv">IV</label>
 				<input :value="attack.iv || 0 " type="number" placeholder="IV">
 			</li>
 			<li>
 				<p>Defense: {{calcStat(pokemon.stats.defense, 'defense')}}</p>
+				<label for="ev">EV</label>
 				<input :value="defense.ev || 0" type="number" placeholder="EV">
+				<label for="iv">IV</label>
 				<input :value="defense.iv || 0" type="number" placeholder="IV">
 			</li>
 			<li>
 				<p>HP: {{calcStat(pokemon.stats.hp, 'hp')}}</p>
+				<label for="ev">EV</label>
 				<input :value="hp.ev || 0" type="number" placeholder="EV">
+				<label for="iv">IV</label>
 				<input :value="hp.iv || 0" type="number" placeholder="IV">
 			</li>
 			<li>

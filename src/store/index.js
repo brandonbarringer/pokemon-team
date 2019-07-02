@@ -75,7 +75,7 @@ const getters = {
 		return state.activeTeam
 	},
 	getTeams: state => {
-		return state.teams;
+		return state.userTeams;
 	},
 	getDex: state => {
 		return state.dex;
@@ -104,9 +104,13 @@ const actions = {
 		dispatch('createNewUser', auth.user.uid);
 	},
 	onUserAuth: ({commit, dispatch}, id) => {
+		const reroutes = ['/sign-up', '/login'];
+
 		commit('setActiveUser', id);
 		dispatch('getUserTeams', id);
-		router.replace('team');
+		if (reroutes.includes(router.history.current.path)) {
+			router.replace('/team');
+		}
 	},
 	setActivePokemon: ({commit}, identifier) => {
 		commit('setActivePokemon', identifier);
@@ -129,11 +133,11 @@ const actions = {
 		}
 
 	},
-	signOut: ({commit}, payload) => {
+	signOut: ({commit}) => {
 		firebase.fb.auth().signOut()
 		.then(() => {
 			commit('removeUser');
-			payload.router.replace('/');
+			router.replace('/');
 		})
 		.catch(err => {
 			console.log(err.message);
