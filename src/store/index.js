@@ -144,7 +144,7 @@ const actions = {
 		});
 	},
 	addToTeam: ({dispatch}, payload) => {
-		db.doc.team.set(payload).then(() => {
+		db.collection.pokemon.doc(payload.name).set(payload).then(() => {
 			dispatch('getUserTeams');
 		});
 	},

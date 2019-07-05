@@ -7,7 +7,7 @@
 			</li>
 		</ul>
 		<div v-else>
-			<h2>You don't have a team yet.</h2>	
+			<h2>You don't have a team yet.</h2>
 		</div>
 		<button @click="createTeam">Create a Team</button>
 	</section>

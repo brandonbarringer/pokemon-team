@@ -95,6 +95,7 @@
 		data() {
 			return {
 				name: this.$route.params.name,
+				nature: null,
 				total: null,
 				speed: {
 					iv: null,
@@ -134,16 +135,9 @@
 		},
 		methods: {
 			calcStat(stat, name) {
-				// if the stat name is not hp
-				if(name !== 'hp') {
-					// calculate the stat based of the stat calculation
-					// base-stat, IV:0, EV:0, LV:100, Nature:neutral
-					return calc.stat(stat, 0, 0, 100, 1)
-				} else {
-					// if it is hp, use the hp calculation
-					// base-stat, IV:0, EV:0, LV:100
-					return calc.hp(stat, 0, 0, 100)
-				}
+				// base-stat, IV:0, EV:0, LV:100, Nature:neutral
+				// base-stat, IV:0, EV:0, LV:100
+				return name !== 'hp' ? calc.stat(stat, 0, 0, 100, 1) : calc.hp(stat, 0, 0, 100)
 			},
 			addToTeam(id) {
 				const pokeInfo = {
@@ -154,6 +148,7 @@
 					hp: this.hp,
 					attack: this.attack,
 					defense: this.defense,
+					nature: this.nature,
 					'special-attack': this.specialAttack,
 					'special-defense': this.specialDefense,
 					total: this.total,
