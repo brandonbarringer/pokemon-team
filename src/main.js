@@ -25,9 +25,9 @@ let app = null;
 firebase.fb.auth().onAuthStateChanged((user) => {
 	if(!app) {
 		app = new Vue({
-		  router,
-		  store,
-		  render: h => h(App)
+			router,
+			store,
+			render: h => h(App)
 		}).$mount('#app')
 	}
 	if(user) {

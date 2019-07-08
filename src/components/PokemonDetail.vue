@@ -14,8 +14,8 @@
 					<li v-for="(amount, types) in damage">
 						{{types}}
 						<ul>
-						 	<li v-for="type in amount">{{type}}</li>
-						 </ul>
+							<li v-for="type in amount">{{type}}</li>
+						</ul>
 					</li>
 				</ul>
 			</li>
@@ -24,49 +24,49 @@
 		<ul>
 			<!-- <li v-for="(stat, key) in pokemon.stats" :key="key">{{key}}: {{calcStat(stat, key)}}</li> -->
 			<li>
-				<p>Speed: {{calcStat(pokemon.stats.speed, 'speed')}}</p>
+				<p>Speed: {{calcStat(pokemon.stats.speed, speed.iv, speed.ev, 'speed')}}</p>
 				<label for="ev">EV</label>
-				<input :value="speed.ev || 0" type="number" placeholder="EV">
+				<input v-model.number="speed.ev" type="number" placeholder="EV">
 				<label for="iv">IV</label>
-				<input :value="speed.iv || 0" type="number" placeholder="IV">
+				<input v-model.number="speed.iv" type="number" placeholder="IV">
 			</li>
 			<li>
-				<p>Special Defense: {{calcStat(pokemon.stats['special-defense'], 'special-defense')}}</p>
+				<p>Special Defense: {{calcStat(pokemon.stats['special-defense'], specialDefense.iv, specialDefense.ev, 'special-defense')}}</p>
 				<label for="ev">EV</label>
-				<input :value="specialDefense.ev || 0" type="number" placeholder="EV">
+				<input v-model.number="specialDefense.ev" type="number" placeholder="EV">
 				<label for="iv">IV</label>
-				<input :value="specialDefense.iv || 0" type="number" placeholder="IV">
+				<input v-model.number="specialDefense.iv" type="number" placeholder="IV">
 			</li>
 			<li>
-				<p>Special Attack: {{calcStat(pokemon.stats['special-attack'], 'special-attack')}}</p>
+				<p>Special Attack: {{calcStat(pokemon.stats['special-attack'], specialAttack.iv, specialAttack.ev, 'special-attack')}}</p>
 				<label for="ev">EV</label>
-				<input :value="specialAttack.ev || 0" type="number" placeholder="EV">
+				<input v-model.number="specialAttack.ev" type="number" placeholder="EV">
 				<label for="iv">IV</label>
-				<input :value="specialAttack.iv || 0" type="number" placeholder="IV">
+				<input v-model.number="specialAttack.iv" type="number" placeholder="IV">
 			</li>
 			<li>
-				<p>Attack: {{calcStat(pokemon.stats.attack, 'attack')}}</p>
+				<p>Attack: {{calcStat(pokemon.stats.attack, attack.iv, attack.ev, 'attack')}}</p>
 				<label for="ev">EV</label>
-				<input :value="attack.ev || 0" type="number" placeholder="EV">
+				<input v-model.number="attack.ev" type="number" placeholder="EV">
 				<label for="iv">IV</label>
-				<input :value="attack.iv || 0 " type="number" placeholder="IV">
+				<input v-model.number="attack.iv " type="number" placeholder="IV">
 			</li>
 			<li>
-				<p>Defense: {{calcStat(pokemon.stats.defense, 'defense')}}</p>
+				<p>Defense: {{calcStat(pokemon.stats.defense, defense.iv, defense.ev, 'defense')}}</p>
 				<label for="ev">EV</label>
-				<input :value="defense.ev || 0" type="number" placeholder="EV">
+				<input v-model.number="defense.ev" type="number" placeholder="EV">
 				<label for="iv">IV</label>
-				<input :value="defense.iv || 0" type="number" placeholder="IV">
+				<input v-model.number="defense.iv" type="number" placeholder="IV">
 			</li>
 			<li>
-				<p>HP: {{calcStat(pokemon.stats.hp, 'hp')}}</p>
+				<p>HP: {{calcStat(pokemon.stats.hp, hp.iv, hp.ev, 'hp')}}</p>
 				<label for="ev">EV</label>
-				<input :value="hp.ev || 0" type="number" placeholder="EV">
+				<input v-model.number="hp.ev" type="number" placeholder="EV">
 				<label for="iv">IV</label>
-				<input :value="hp.iv || 0" type="number" placeholder="IV">
+				<input v-model.number="hp.iv" type="number" placeholder="IV">
 			</li>
 			<li>
-				<p>Total: {{total || calcStat(pokemon.stats.total)}}</p>
+				<p>Total: {{total || calcTotal()}}</p>
 			</li>
 		</ul>
 		<h2>Abilites</h2>
@@ -98,26 +98,32 @@
 				nature: null,
 				total: null,
 				speed: {
+					stat: null,
 					iv: null,
 					ev: null,
 				},
 				hp: {
+					stat: null,
 					iv: null,
 					ev: null,
 				},
 				attack: {
+					stat: null,
 					iv: null,
 					ev: null,
 				},
 				defense: {
+					stat: null,
 					iv: null,
 					ev: null,
 				},
 				specialAttack: {
+					stat: null,
 					iv: null,
 					ev: null,
 				},
 				specialDefense: {
+					stat: null,
 					iv: null,
 					ev: null,
 				},
@@ -134,10 +140,35 @@
 			this.$store.dispatch('setActivePokemon', this.name)
 		},
 		methods: {
-			calcStat(stat, name) {
+			calcStat(stat, iv, ev, name) {
 				// base-stat, IV:0, EV:0, LV:100, Nature:neutral
 				// base-stat, IV:0, EV:0, LV:100
-				return name !== 'hp' ? calc.stat(stat, 0, 0, 100, 1) : calc.hp(stat, 0, 0, 100)
+				const setIV = iv || 0;
+				const setEV = ev || 0;
+				const oddNames = ['special-attack', 'special-defense'];
+				if (oddNames.includes(name)) {
+					const statNameArr = name.split('-')
+					const statName = statNameArr[0] + (statNameArr[1].charAt(0).toUpperCase() + statNameArr[1].slice(1))
+					this[statName].stat = calc.stat(stat, setIV, setEV, 100, 1);
+					return calc.stat(stat, setIV, setEV, 100, 1);
+				} else if (name !== 'hp') {
+					this[name].stat = calc.stat(stat, setIV, setEV, 100, 1)
+					return calc.stat(stat, setIV, setEV, 100, 1)
+				} else {
+					this.hp.stat = calc.hp(stat, setIV, setEV, 100)
+					return calc.hp(stat, setIV, setEV, 100)
+				}
+				// return name !== 'hp' ? calc.stat(stat, setIV, setEV, 100, 1) : calc.hp(stat, setIV, setEV, 100)
+			},
+			calcTotal() {
+				const stats = this.pokemon.stats
+				const attack = this.attack.stat || stats.attack;
+				const defense = this.defense.stat || stats.defense;
+				const hp = this.hp.stat || stats.hp;
+				const speed = this.speed.stat || stats.speed;
+				const specialAttack = this.specialAttack.stat || stats['special-attack'];
+				const specialDefense = this.specialDefense.stat || stats['special-defense'];
+				return attack + defense + hp + speed + specialDefense + specialAttack;
 			},
 			addToTeam(id) {
 				const pokeInfo = {
