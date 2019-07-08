@@ -2,7 +2,7 @@
 	<section class="teams">
 		<button @click="logout">Logout</button>
 		<ul v-if="teams">
-			<li v-for="team in teams">
+			<li v-for="team in teams" :key="team.id">
 				{{team}}
 			</li>
 		</ul>

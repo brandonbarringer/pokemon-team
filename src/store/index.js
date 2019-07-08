@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import firebase from '@/vendor/firebase';
-import PokeApi from '@/services/api/pokemon';
+// import PokeApi from '@/services/api/pokemon';
 import data from '@/data/pokemon.min.json';
 import router from '@/router.js';
 
@@ -118,7 +118,7 @@ const actions = {
 	createNewUser: (uid) => {
 		db.doc.user.set({id: uid});
 	},
-	getUserTeams: async ({commit}, uid) => {
+	getUserTeams: async ({commit}) => {
 		const teamsCollection = db.collection.teams;
 		const weHaveData = await dataExists(teamsCollection);
 		let teamDocs;
@@ -148,9 +148,8 @@ const actions = {
 			dispatch('getUserTeams');
 		});
 	},
-	createNewTeam: async ({commit, state}, name) => {
+	createNewTeam: async ({commit}, name) => {
 		const teamsCollection = db.collection.teams;
-		const weHaveData = await dataExists(teamsCollection);
 		const nameIsUnique = async (name) => {
 			const teamDocs = await teamsCollection.get();
 			const teams = [];

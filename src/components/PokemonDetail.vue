@@ -11,10 +11,10 @@
 			<li v-for="(damage, amounts) in pokemon.damage" :key="amounts">
 				{{amounts}}
 				<ul>
-					<li v-for="(amount, types) in damage">
+					<li v-for="(amount, types) in damage" :key="types">
 						{{types}}
 						<ul>
-							<li v-for="type in amount">{{type}}</li>
+							<li v-for="(type, index) in amount" :key="index">{{type}}</li>
 						</ul>
 					</li>
 				</ul>
@@ -170,7 +170,7 @@
 				const specialDefense = this.specialDefense.stat || stats['special-defense'];
 				return attack + defense + hp + speed + specialDefense + specialAttack;
 			},
-			addToTeam(id) {
+			addToTeam() {
 				const pokeInfo = {
 					name: this.name,
 					lv: null,
