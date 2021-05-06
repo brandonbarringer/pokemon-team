@@ -12,7 +12,7 @@
     "axios": "^0.18.0",
     "color-thief": "https://github.com/null2/color-thief.git",
     "core-js": "^2.6.5",
-    "underscore": "^1.9.1",
+    "underscore": "^1.12.1",
     "velocity-animate": "^1.5.2",
     "vue": "^2.6.10",
     "vue-color-thief": "^0.0.1",
